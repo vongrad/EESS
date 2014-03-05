@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class Manager implements ManagerLocal {
-
+// Its me doing something
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

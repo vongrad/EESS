@@ -18,4 +18,5 @@ public class Manager implements ManagerLocal {
     //dasd
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    //asd
 }

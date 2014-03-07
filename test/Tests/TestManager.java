@@ -37,6 +37,12 @@ public class TestManager {
     @After
     public void tearDown() {
     }
+    
+    public void addElective(){
+        
+        
+        
+    }
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

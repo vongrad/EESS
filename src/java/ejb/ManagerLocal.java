@@ -6,6 +6,10 @@
 
 package ejb;
 
+import com.sun.corba.se.spi.orb.DataCollector;
+import dto.Elective;
+import dummy.IDataController;
+import dummy.IElective;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +18,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface ManagerLocal {
-    
+    public void addElective(Elective elective);
+    public IDataController<IElective> getElectivesDataController();
 }

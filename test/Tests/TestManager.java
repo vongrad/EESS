@@ -6,6 +6,23 @@ package Tests;
  * and open the template in the editor.
  */
 
+import dto.Elective;
+import dummy.IElective;
+import dummy.IDataController;
+import ejb.Manager;
+import ejb.ManagerLocal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import org.jmock.Expectations;
+import static org.jmock.Expectations.returnValue;
+import org.jmock.Mockery;
+import org.jmock.api.Expectation;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,6 +35,8 @@ import static org.junit.Assert.*;
  * @author Stefan
  */
 public class TestManager {
+    
+    ManagerLocal manager;
     
     public TestManager() {
     }
@@ -32,16 +51,49 @@ public class TestManager {
     
     @Before
     public void setUp() {
+        manager = lookupManagerLocal();
     }
     
     @After
     public void tearDown() {
     }
     
+    @Test
     public void addElective(){
         
+        Mockery context = new JUnit4Mockery();
         
+        //final IDataController<IElective> electiveController = context.mock(IDataController.class);
+        final IDataController<IElective> electiveController = manager.getElectivesDataController();
         
+        final IElective elective = new Elective("Game Development", "Here you learn how to develop the best game engines!", new Date(2014, 03, 07));
+        
+//        context.checking(new Expectations(){{
+//            oneOf(electiveController).getSize();
+//            will(returnValue(0));
+//        }});
+        
+        assertEquals(electiveController.getSize(), 0);
+        electiveController.setElement(elective);
+
+//        context.checking(new Expectations(){{
+//            oneOf(electiveController).setElement(elective);
+//        }});
+        
+//        context.checking(new Expectations(){{
+//            oneOf(electiveController).getSize();
+//            will(returnValue(1));
+//        }});
+        
+        assertEquals(electiveController.getSize(), 1);
+ 
+        
+//        context.checking(new Expectations(){{
+//            oneOf(electiveController).getElement(0);
+//            will(returnValue(elective));
+//        }}); 
+        
+        assertEquals(electiveController.getElement(0), elective);
     }
 
     // TODO add test methods here.
@@ -49,4 +101,14 @@ public class TestManager {
     //
     // @Test
     // public void hello() {}
+
+    private ManagerLocal lookupManagerLocal() {
+        try {
+            Context c = new InitialContext();
+            return (ManagerLocal) c.lookup("java:global/EESS_BackEnd/Manager!ejb.ManagerLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 }

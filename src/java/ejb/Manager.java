@@ -6,6 +6,10 @@
 
 package ejb;
 
+import dto.Elective;
+import dummy.DataControllerImp;
+import dummy.IDataController;
+import dummy.IElective;
 import javax.ejb.Stateless;
 
 /**
@@ -14,9 +18,22 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class Manager implements ManagerLocal {
-// Its me doing something
-    //dasd
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-    //asd
+    
+    private DataControllerImp<IElective> electivesController;
+
+    public Manager() {
+        electivesController = new DataControllerImp<IElective>(); 
+    }
+
+    @Override
+    public void addElective(Elective elective) {
+        electivesController.setElement(elective);
+    }
+
+    @Override
+    public IDataController<IElective> getElectivesDataController() {
+        return electivesController;
+    }
+    
+    
 }

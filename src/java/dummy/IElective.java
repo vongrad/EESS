@@ -6,15 +6,14 @@
 
 package dummy;
 
-import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author adamv_000
  */
-public interface ElectiveController {
-    public ArrayList<Elective> getElectives();
-    public void setElectives(Elective elective);
-    public int getSize();
-    
+public interface IElective {
+    public void setTitle(String title);
+    public void setDescription(String description);
+    public void setYear(Date year);
 }

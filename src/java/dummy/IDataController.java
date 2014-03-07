@@ -6,14 +6,17 @@
 
 package dummy;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
  * @author adamv_000
  */
-public interface Elective {
-    public void setTitle(String title);
-    public void setName(String name);
-    public void setYear(Date year);
+public interface IDataController<E> {
+    public Collection<E> getCollection();
+    public void setElement(E element);
+    public E getElement(int index);
+    public int getSize();
+    
 }

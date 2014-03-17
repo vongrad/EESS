@@ -20,4 +20,5 @@ import javax.ejb.Local;
 public interface ManagerLocal {
     public void addElective(Elective elective);
     public IDataController<IElective> getElectivesDataController();
+    public IDataController<IElective> getElectivesController(int round);
 }

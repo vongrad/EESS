@@ -95,6 +95,11 @@ public class TestManager {
         
         assertEquals(electiveController.getElement(0), elective);
     }
+    
+    @Test
+    public void getElectives(int round){
+        
+    }
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

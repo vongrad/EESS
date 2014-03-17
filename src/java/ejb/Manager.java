@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ejb;
 
 import dto.Elective;
@@ -18,11 +17,15 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class Manager implements ManagerLocal {
-    
+
     private DataControllerImp<IElective> electivesController;
+    private DataControllerImp<IElective> firstRoundElectivesController;
+    private DataControllerImp<IElective> secondRoundElectivesController;
 
     public Manager() {
-        electivesController = new DataControllerImp<IElective>(); 
+        electivesController = new DataControllerImp<>();
+        firstRoundElectivesController = new DataControllerImp<>();
+        secondRoundElectivesController = new DataControllerImp<>();
     }
 
     @Override
@@ -34,6 +37,18 @@ public class Manager implements ManagerLocal {
     public IDataController<IElective> getElectivesDataController() {
         return electivesController;
     }
+
+    @Override
+    public IDataController<IElective> getElectivesController(int round) {
+        switch(round){
+            case 1:
+                return firstRoundElectivesController;
+            case 2:
+                return secondRoundElectivesController;
+            default:
+                throw new IllegalArgumentException("There is no election round matching your criteria!");
+        }
+    }
     
-    
+
 }

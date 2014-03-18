@@ -26,7 +26,7 @@ public interface IDataController {
     public int getSecondRndSize();
     public Elective getLastFirstRndEle();
     public ElectiveSecond getLastSecondRndEle();
-    public Collection<Elective> generateFirstRndEle();
-    public Collection<ElectiveSecond> generateSecondRndEle();
+    public void generateFirstRndEle();
+    public void generateSecondRndEle();
     
 }

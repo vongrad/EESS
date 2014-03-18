@@ -88,13 +88,13 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public Collection<Elective> generateFirstRndEle() {
+    public void generateFirstRndEle() {
         firstRound = GenerateDummyData.generateFirstRndEle();
     }
 
     @Override
-    public Collection<ElectiveSecond> generateSecondRndEle() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void generateSecondRndEle() {
+        secondRound = GenerateDummyData.generateSecondRndEle();
     }
 
     

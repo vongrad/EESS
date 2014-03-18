@@ -7,11 +7,8 @@ package Tests;
  */
 
 import dto.Elective;
-import dummy.IElective;
 import dummy.IDataController;
-import ejb.Manager;
 import ejb.ManagerLocal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,53 +56,47 @@ public class TestManager {
     }
     
     @Test
-    public void addElective(){
+    public void addFirstRndEle(){
         
-        Mockery context = new JUnit4Mockery();
+//        Mockery context = new JUnit4Mockery();
         
-        //final IDataController<IElective> electiveController = context.mock(IDataController.class);
-        final IDataController<IElective> electiveController = manager.getElectivesDataController();
+ //       final IDataController electiveController = context.mock(IDataController.class);
+        final IDataController electiveController = manager.getDataController();
         
-        final IElective elective = new Elective("Game Development", "Here you learn how to develop the best game engines!", new Date(2014, 03, 07));
+        final Elective elective = new Elective("Game Development", "Here you learn how to develop the best game engines!", new Date(2014, 03, 07));
         
 //        context.checking(new Expectations(){{
-//            oneOf(electiveController).getSize();
+//            oneOf(electiveController).getFirstRndSize();
 //            will(returnValue(0));
 //        }});
         
-        assertEquals(electiveController.getSize(), 0);
-        electiveController.setElement(elective);
+        assertEquals(electiveController.getFirstRndSize(), 0);
+        electiveController.setFirsttRndEle(elective);
 
 //        context.checking(new Expectations(){{
-//            oneOf(electiveController).setElement(elective);
+//            oneOf(electiveController).setFirsttRndEle(elective);
 //        }});
         
 //        context.checking(new Expectations(){{
-//            oneOf(electiveController).getSize();
+//            oneOf(electiveController).getFirstRndSize();
 //            will(returnValue(1));
 //        }});
         
-        assertEquals(electiveController.getSize(), 1);
+        assertEquals(electiveController.getFirstRndSize(), 1);
  
-        
-//        context.checking(new Expectations(){{
-//            oneOf(electiveController).getElement(0);
+//       context.checking(new Expectations(){{
+//            oneOf(electiveController).getLastFirstRndEle();
 //            will(returnValue(elective));
 //        }}); 
         
-        assertEquals(electiveController.getElement(0), elective);
+        assertEquals(electiveController.getLastFirstRndEle(), elective);
     }
     
     @Test
     public void getElectives(int round){
         
+        
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 
     private ManagerLocal lookupManagerLocal() {
         try {

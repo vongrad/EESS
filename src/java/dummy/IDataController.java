@@ -6,6 +6,8 @@
 
 package dummy;
 
+import dto.Elective;
+import dto.ElectiveSecond;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -13,10 +15,18 @@ import java.util.Collection;
  *
  * @author adamv_000
  */
-public interface IDataController<E> {
-    public Collection<E> getCollection();
-    public void setElement(E element);
-    public E getElement(int index);
-    public int getSize();
+public interface IDataController {
+    public Collection<Elective> getFirstRound();
+    public Collection<ElectiveSecond> getSecondRound();
+    public boolean setFirsttRndEle(Elective element);
+    public boolean setSecondRndEle(ElectiveSecond element);
+    public Elective getFirstRndEle(int index);
+    public ElectiveSecond getSecondRndEle(int index);
+    public int getFirstRndSize();
+    public int getSecondRndSize();
+    public Elective getLastFirstRndEle();
+    public ElectiveSecond getLastSecondRndEle();
+    public Collection<Elective> generateFirstRndEle();
+    public Collection<ElectiveSecond> generateSecondRndEle();
     
 }

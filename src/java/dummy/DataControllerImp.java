@@ -5,6 +5,8 @@
  */
 package dummy;
 
+import dto.Elective;
+import dto.ElectiveSecond;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,35 +14,90 @@ import java.util.Collection;
  *
  * @author adamv_000
  */
-public class DataControllerImp<E> implements IDataController<E> {
-
-    private ArrayList<E> collection;
+public class DataControllerImp implements IDataController {
+    
+    private ArrayList<Elective> firstRound;
+    private ArrayList<ElectiveSecond> secondRound;
 
     public DataControllerImp() {
-        collection = new ArrayList<E>();
+        this.firstRound = new ArrayList<>();
+        this.secondRound = new ArrayList<>();
+    }
+    
+    @Override
+    public ArrayList<Elective> getFirstRound() {
+        return firstRound;
     }
 
     @Override
-    public Collection<E> getCollection() {
-        return collection;
+    public ArrayList<ElectiveSecond> getSecondRound() {
+        return secondRound;
     }
 
     @Override
-    public void setElement(E element) {
-        if (collection.indexOf(element) != -1) {
-            collection.add(element);
+    public boolean setFirsttRndEle(Elective element) {
+        if (!firstRound.contains(element)){
+            return firstRound.add(element);
         }
+        return false;
+        
     }
 
     @Override
-    public E getElement(int index) {
-        return collection.get(index);
+    public boolean setSecondRndEle(ElectiveSecond element) {
+        if (!secondRound.contains(element)){
+            return secondRound.add(element);
+        }
+        return false;
     }
 
     @Override
-    public int getSize() {
-        return collection.size();
+    public Elective getFirstRndEle(int index) {
+        return firstRound.get(index);
     }
+
+    @Override
+    public ElectiveSecond getSecondRndEle(int index) {
+        return secondRound.get(index);
+    }
+
+    @Override
+    public int getFirstRndSize() {
+        return firstRound.size();
+    }
+
+    @Override
+    public int getSecondRndSize() {
+       return secondRound.size();
+    }
+
+    @Override
+    public Elective getLastFirstRndEle() {
+        if (!firstRound.isEmpty()){
+            return firstRound.get(getFirstRndSize() - 1);
+        }
+        return null;
+    }
+
+    @Override
+    public ElectiveSecond getLastSecondRndEle() {
+        if (!secondRound.isEmpty()){
+            return secondRound.get(getSecondRndSize() - 1);
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<Elective> generateFirstRndEle() {
+        firstRound = GenerateDummyData.generateFirstRndEle();
+    }
+
+    @Override
+    public Collection<ElectiveSecond> generateSecondRndEle() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
     
     
 

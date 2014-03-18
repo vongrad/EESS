@@ -6,9 +6,10 @@
 package ejb;
 
 import dto.Elective;
+import dto.ElectiveSecond;
 import dummy.DataControllerImp;
 import dummy.IDataController;
-import dummy.IElective;
+import java.util.Collection;
 import javax.ejb.Stateless;
 
 /**
@@ -18,37 +19,44 @@ import javax.ejb.Stateless;
 @Stateless
 public class Manager implements ManagerLocal {
 
-    private DataControllerImp<IElective> electivesController;
-    private DataControllerImp<IElective> firstRoundElectivesController;
-    private DataControllerImp<IElective> secondRoundElectivesController;
+    private IDataController dataController;
 
     public Manager() {
-        electivesController = new DataControllerImp<>();
-        firstRoundElectivesController = new DataControllerImp<>();
-        secondRoundElectivesController = new DataControllerImp<>();
+        dataController = new DataControllerImp();
     }
 
     @Override
-    public void addElective(Elective elective) {
-        electivesController.setElement(elective);
+    public void addFirstRndEle(Elective elective) {
+        dataController.setFirsttRndEle(elective);
     }
 
     @Override
-    public IDataController<IElective> getElectivesDataController() {
-        return electivesController;
+    public void addSecondRndEle(ElectiveSecond elective) {
+        dataController.setSecondRndEle(elective);
     }
 
     @Override
-    public IDataController<IElective> getElectivesController(int round) {
-        switch(round){
-            case 1:
-                return firstRoundElectivesController;
-            case 2:
-                return secondRoundElectivesController;
-            default:
-                throw new IllegalArgumentException("There is no election round matching your criteria!");
-        }
+    public Collection<Elective> getFirstRound() {
+        return dataController.getFirstRound();
     }
-    
 
+    @Override
+    public Collection<ElectiveSecond> getSecondRound() {
+        return dataController.getSecondRound();
+    }
+
+    @Override
+    public Elective getFirstRndEle(int index) {
+        return dataController.getFirstRndEle(index);
+    }
+
+    @Override
+    public ElectiveSecond getSecondRndEle(int index) {
+        return dataController.getSecondRndEle(index);
+    }
+
+    @Override
+    public IDataController getDataController() {
+        return dataController;
+    }
 }

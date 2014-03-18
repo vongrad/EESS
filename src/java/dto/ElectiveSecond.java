@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package dummy;
+package dto;
 
 import java.util.Date;
 
@@ -12,8 +11,12 @@ import java.util.Date;
  *
  * @author adamv_000
  */
-public interface IElective {
-    public void setTitle(String title);
-    public void setDescription(String description);
-    public void setYear(Date year);
+public class ElectiveSecond extends Elective {
+
+    private String pool;
+
+    public ElectiveSecond(String Title, String Details, Date year, String pool) {
+        super(Title, Details, year);
+        this.pool = pool;
+    }
 }

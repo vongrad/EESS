@@ -311,11 +311,12 @@ public class TestManager {
 
     @Test
     public void checkFirstRoundList() {
-        Collection<Student> studentss = manager.getStudents();
+        Collection<Student> students = manager.getStudents();
         Collection<ElectiveFirst> electives = manager.getFirstRound();
         Collection<FirstRound> firstRoundList = manager.getFirstRoundList();
         for (FirstRound frs : firstRoundList) {
-            checkFirstVoteUnique(frs);
+           checkFirstVoteUnique(frs);
+           checkStudent(frs.getStudent(),students);
         }
     }
 
@@ -325,13 +326,13 @@ public class TestManager {
         assertEquals((fr.getSecondPriority1() != fr.getSecondPriority2()), true);
     }
 
-    public void checkStudent(FirstRound fr, Collection<Student> students) {
+    public void checkStudent(Student student, Collection<Student> students) {
         boolean bol = false;
-        String firstName = fr.getStudent().getFirstName();
-        String lastName= fr.getStudent().getLastName();
-        String cpr=fr.getStudent().getCpr();
+        String firstName = student.getFirstName();
+        String lastName = student.getLastName();
+        String cpr = student.getCpr();
         for (Student st : students) {
-            if (st.getCpr().equals(cpr)&&st.getFirstName().equals(firstName)&&st.getLastName().equals(lastName)) {
+            if (st.getCpr().equals(cpr) && st.getFirstName().equals(firstName) && st.getLastName().equals(lastName)) {
                 bol = true;
             }
 

@@ -7,6 +7,7 @@ package Tests;
  */
 
 import dto.Elective;
+import dto.FirstRound;
 import dummy.IElective;
 import dummy.IDataController;
 import ejb.Manager;
@@ -100,7 +101,10 @@ public class TestManager {
     public void getElectives(int round){
         
     }
-
+    @Test
+    public void checkFristRoundVote(FirstRound fr)
+    {
+    }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //

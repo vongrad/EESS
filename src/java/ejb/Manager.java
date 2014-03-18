@@ -6,10 +6,13 @@
 package ejb;
 
 import dto.Elective;
+import dto.ElectiveFirst;
 import dto.ElectiveSecond;
+import dto.FirstRound;
 import dto.Student;
 import dummy.DataControllerImp;
 import dummy.IDataController;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.ejb.Stateless;
 
@@ -27,7 +30,7 @@ public class Manager implements ManagerLocal {
     }
 
     @Override
-    public void addFirstRndEle(Elective elective) {
+    public void addFirstRndEle(ElectiveFirst elective) {
         dataController.setFirsttRndEle(elective);
     }
 
@@ -37,7 +40,7 @@ public class Manager implements ManagerLocal {
     }
 
     @Override
-    public Collection<Elective> getFirstRound() {
+    public Collection<ElectiveFirst> getFirstRound() {
         return dataController.getFirstRound();
     }
 
@@ -47,7 +50,7 @@ public class Manager implements ManagerLocal {
     }
 
     @Override
-    public Elective getFirstRndEle(int index) {
+    public ElectiveFirst getFirstRndEle(int index) {
         return dataController.getFirstRndEle(index);
     }
 
@@ -63,6 +66,16 @@ public class Manager implements ManagerLocal {
 
     @Override
     public Collection<Student> getStudents() {
-    return dataController.getStudents();
+        return dataController.getStudents();
+    }
+
+    @Override
+    public Collection<Elective> getProposedElectives() {
+        return dataController.getProposedElectives();
+    }
+
+    @Override
+    public Collection<FirstRound> getFirstRoundList() {
+        return dataController.getFirstRoundList((ArrayList<Student>)this.getStudents(),(ArrayList<ElectiveFirst>)this.getFirstRound());
     }
 }

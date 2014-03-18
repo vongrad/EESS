@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package dto;
 
 /**
@@ -11,12 +10,10 @@ package dto;
  * @author Stefan
  */
 public class Student {
+
     private String firstName;
     private String lastName;
     private String cpr;
-    
-    
-   
 
     public Student(String firstName, String lastName, String cpr) {
         this.firstName = firstName;
@@ -35,9 +32,5 @@ public class Student {
     public String getCpr() {
         return cpr;
     }
-    
-  
 
-  
-    
 }

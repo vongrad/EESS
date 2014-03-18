@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ejb;
 
 import dto.Elective;
+import dto.ElectiveFirst;
 import dto.ElectiveSecond;
+import dto.FirstRound;
 import dto.Student;
 import dummy.IDataController;
 import java.util.Collection;
@@ -19,12 +20,25 @@ import javax.ejb.Local;
  */
 @Local
 public interface ManagerLocal {
-    public void addFirstRndEle(Elective elective);
+
+    public void addFirstRndEle(ElectiveFirst elective);
+
     public void addSecondRndEle(ElectiveSecond elective);
-    public Collection<Elective> getFirstRound();
+
+    public Collection<ElectiveFirst> getFirstRound();
+
     public Collection<ElectiveSecond> getSecondRound();
-    public Elective getFirstRndEle(int index);
+    
+    public Collection<Elective> getProposedElectives();
+    
+    public Collection<FirstRound> getFirstRoundList();
+
+    public Collection<Student> getStudents();
+
+    public ElectiveFirst getFirstRndEle(int index);
+
     public ElectiveSecond getSecondRndEle(int index);
+
     public IDataController getDataController();
-    Collection<Student> getStudents();
+
 }

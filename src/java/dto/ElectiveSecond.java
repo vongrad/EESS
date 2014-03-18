@@ -19,4 +19,9 @@ public class ElectiveSecond extends Elective {
         super(Title, Details, year);
         this.pool = pool;
     }
+
+    public String getPool() {
+        return pool;
+    }
+
 }

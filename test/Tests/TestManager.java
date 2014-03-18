@@ -7,9 +7,12 @@ package Tests;
  */
 
 import dto.Elective;
-import dto.FirstRound;
+import dto.FirstRoundVote;
+import dto.Student;
 import dummy.IDataController;
+import ejb.Manager;
 import ejb.ManagerLocal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +52,7 @@ public class TestManager {
     
     @Before
     public void setUp() {
-        manager = lookupManagerLocal();
+       manager = new Manager();
     }
     
     @After
@@ -93,30 +96,17 @@ public class TestManager {
         assertEquals(electiveController.getLastFirstRndEle(), elective);
     }
     
-    @Test
-    public void getElectives(int round){
-        
-        
-    }
+ 
 
-    @Test
-    public void checkFristRoundVote(FirstRound fr)
+    public void checkFristRoundVote(FirstRoundVote fr)
     {
+        assertEquals(manager.getStudents().size()>=5,true);
     }
-    // TODO add test methods here.
+        // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
     // public void hello() {}
 
 
-    private ManagerLocal lookupManagerLocal() {
-        try {
-            Context c = new InitialContext();
-            return (ManagerLocal) c.lookup("java:global/EESS_BackEnd/Manager!ejb.ManagerLocal");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
 }

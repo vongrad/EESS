@@ -8,6 +8,7 @@ package dummy;
 
 import dto.Elective;
 import dto.ElectiveSecond;
+import dto.Student;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,7 +18,22 @@ import java.util.Date;
  * @author adamv_000
  */
 public class GenerateDummyData {
-    
+    public static ArrayList<Student> generateStudents(){
+ArrayList<Student> students= new ArrayList<>();
+Student s1= new Student("Jack","Black","0123-456789");
+Student s2= new Student("Adolf","Ray","0123-456712");
+Student s3= new Student("O'Really","Jack","0423-456789");
+Student s4= new Student("Leo", "Nary","0123-456289");
+Student s5= new Student("Jhon Aron", "Var","0123-456703");
+Student s6= new Student("Lop", "Roy","0123-451239");
+students.add(s1);
+students.add(s2);
+students.add(s3);
+students.add(s4);
+students.add(s5);
+students.add(s6);
+return students;
+}
     public static ArrayList<Elective> generateFirstRndEle(){
         ArrayList<Elective> secondRound = new ArrayList<>();
         Elective el1 = new Elective("C#", "Torban learning C#", new Date());

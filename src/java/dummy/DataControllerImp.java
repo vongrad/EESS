@@ -7,6 +7,7 @@ package dummy;
 
 import dto.Elective;
 import dto.ElectiveSecond;
+import dto.Student;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,10 +19,11 @@ public class DataControllerImp implements IDataController {
     
     private ArrayList<Elective> firstRound;
     private ArrayList<ElectiveSecond> secondRound;
-
+    private ArrayList<Student> students;
     public DataControllerImp() {
         this.firstRound = new ArrayList<>();
         this.secondRound = new ArrayList<>();
+        this.students= new ArrayList<>();
     }
     
     @Override
@@ -96,7 +98,17 @@ public class DataControllerImp implements IDataController {
     public void generateSecondRndEle() {
         secondRound = GenerateDummyData.generateSecondRndEle();
     }
-
+    
+    @Override
+    public Collection<Student> getStudents() {
+        
+        if(students.isEmpty())
+        generateStudents();
+   return students;
+    }
+    private void generateStudents()
+    {students=GenerateDummyData.generateStudents();
+    }
     
     
     

@@ -8,6 +8,7 @@ package ejb;
 
 import dto.Elective;
 import dto.ElectiveSecond;
+import dto.Student;
 import dummy.IDataController;
 import java.util.Collection;
 import javax.ejb.Local;
@@ -25,4 +26,5 @@ public interface ManagerLocal {
     public Elective getFirstRndEle(int index);
     public ElectiveSecond getSecondRndEle(int index);
     public IDataController getDataController();
+    Collection<Student> getStudents();
 }

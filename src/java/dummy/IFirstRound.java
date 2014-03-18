@@ -15,4 +15,5 @@ public interface IFirstRound {
     String getFirstPriority2();
     String getSecondPriority1();
     String getSecondPriority2();
+    String getCpr();
 }

@@ -12,15 +12,18 @@ import dummy.IFirstRound;
  *
  * @author Stefan
  */
-public class FirstRound implements IFirstRound{
+public class FirstRoundVote {
+ 
     private String firstPriority1,firstPriority2,secondPriority1,secondPriority2;
 
-    public FirstRound(String firstPriority1, String firstPriority2, String secondPriority1, String secondPriority2) {
+    public FirstRoundVote(String firstPriority1, String firstPriority2, String secondPriority1, String secondPriority2) {
+        
         this.firstPriority1 = firstPriority1;
         this.firstPriority2 = firstPriority2;
         this.secondPriority1 = secondPriority1;
         this.secondPriority2 = secondPriority2;
     }
+
 
     public String getFirstPriority1() {
         return firstPriority1;

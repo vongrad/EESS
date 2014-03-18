@@ -7,6 +7,7 @@ package ejb;
 
 import dto.Elective;
 import dto.ElectiveSecond;
+import dto.Student;
 import dummy.DataControllerImp;
 import dummy.IDataController;
 import java.util.Collection;
@@ -58,5 +59,10 @@ public class Manager implements ManagerLocal {
     @Override
     public IDataController getDataController() {
         return dataController;
+    }
+
+    @Override
+    public Collection<Student> getStudents() {
+    return dataController.getStudents();
     }
 }

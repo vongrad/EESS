@@ -58,7 +58,7 @@ public class TestManager {
     @Test
     public void addFirstRndEle(){
         
-///        Mockery context = new JUnit4Mockery();
+//        Mockery context = new JUnit4Mockery();
         
  //       final IDataController electiveController = context.mock(IDataController.class);
         final IDataController electiveController = manager.getDataController();

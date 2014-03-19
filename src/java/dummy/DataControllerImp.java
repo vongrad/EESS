@@ -9,6 +9,7 @@ import dto.Elective;
 import dto.ElectiveFirst;
 import dto.ElectiveSecond;
 import dto.FirstRound;
+import dto.SecondRound;
 import dto.Student;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +25,8 @@ public class DataControllerImp implements IDataController {
     private ArrayList<ElectiveSecond> secondRoundEle;
     private ArrayList<FirstRound> firstRoundVote;
     private ArrayList<Student> students;
-    private ArrayList<FirstRound> firstRoundList;
+    private ArrayList<FirstRound> firstRound;
+    private ArrayList<SecondRound> secondRound;
 
     public DataControllerImp() {
         this.firstRoundEle = new ArrayList<>();
@@ -32,8 +34,10 @@ public class DataControllerImp implements IDataController {
         this.students = new ArrayList<>();
         this.proposedElectives = new ArrayList<>();
         this.firstRoundVote = new ArrayList<>();
-        this.firstRoundList=new ArrayList<>();
+        this.firstRound = new ArrayList<>();
+        this.secondRound = new ArrayList<>();
     }
+
     @Override
     public ArrayList<ElectiveFirst> getFirstRound() {
         return firstRoundEle;
@@ -134,7 +138,7 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public int getFirstRoundVoteSize() {
+    public int getFirstRndVoteSize() {
         return firstRoundVote.size();
     }
 
@@ -145,13 +149,44 @@ public class DataControllerImp implements IDataController {
         }
         return null;
     }
- public ArrayList<FirstRound> getFirstRoundList(ArrayList<Student> students, ArrayList<ElectiveFirst> electives){
-     if(firstRoundList.isEmpty())
-         generateFirstRoundList(students,electives);
-     return firstRoundList;
- }
- private void generateFirstRoundList(ArrayList<Student> students, ArrayList<ElectiveFirst> electives){
-     firstRoundList=GenerateDummyData.generateFirstRoundList(students, electives);
- }
+
+    public ArrayList<FirstRound> getFirstRoundList(ArrayList<Student> students, ArrayList<ElectiveFirst> electives) {
+        if (firstRound.isEmpty()) {
+            generateFirstRoundList(students, electives);
+        }
+        return firstRound;
+    }
+
+    private void generateFirstRoundList(ArrayList<Student> students, ArrayList<ElectiveFirst> electives) {
+        firstRound = GenerateDummyData.generateFirstRoundList(students, electives);
+    }
+
+    @Override
+    public void generateSecondRndVote() {
+        secondRound = GenerateDummyData.generateSecondRoundVote();
+    }
+
+    @Override
+    public SecondRound getSecondRndVote(int index) {
+        return secondRound.get(index);
+    }
+
+    @Override
+    public int getSecondRndVoteSize() {
+        return secondRound.size();
+    }
+
+    @Override
+    public SecondRound getLastSecondRoundVote() {
+        if (!secondRound.isEmpty()) {
+            return secondRound.get(secondRound.size() - 1);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean setSecondRndStudentChoice(SecondRound secondRound) {
+        return this.secondRound.add(secondRound);
+    }
 
 }

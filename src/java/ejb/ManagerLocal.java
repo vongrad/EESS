@@ -9,6 +9,7 @@ import dto.Elective;
 import dto.ElectiveFirst;
 import dto.ElectiveSecond;
 import dto.FirstRound;
+import dto.SecondRound;
 import dto.Student;
 import dummy.IDataController;
 import java.util.Collection;
@@ -25,12 +26,14 @@ public interface ManagerLocal {
 
     public void addSecondRndEle(ElectiveSecond elective);
 
+    public boolean addSecondRndStudentChoice(SecondRound secondRound);
+
     public Collection<ElectiveFirst> getFirstRound();
 
     public Collection<ElectiveSecond> getSecondRound();
-    
+
     public Collection<Elective> getProposedElectives();
-    
+
     public Collection<FirstRound> getFirstRoundList();
 
     public Collection<Student> getStudents();

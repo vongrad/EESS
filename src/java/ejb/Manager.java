@@ -9,6 +9,7 @@ import dto.Elective;
 import dto.ElectiveFirst;
 import dto.ElectiveSecond;
 import dto.FirstRound;
+import dto.SecondRound;
 import dto.Student;
 import dummy.DataControllerImp;
 import dummy.IDataController;
@@ -76,6 +77,11 @@ public class Manager implements ManagerLocal {
 
     @Override
     public Collection<FirstRound> getFirstRoundList() {
-        return dataController.getFirstRoundList((ArrayList<Student>)this.getStudents(),(ArrayList<ElectiveFirst>)this.getFirstRound());
+        return dataController.getFirstRoundList((ArrayList<Student>) this.getStudents(), (ArrayList<ElectiveFirst>) this.getFirstRound());
+    }
+
+    @Override
+    public boolean addSecondRndStudentChoice(SecondRound secondRound) {
+        return dataController.setSecondRndStudentChoice(secondRound);
     }
 }

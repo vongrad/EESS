@@ -10,6 +10,7 @@ import dto.Elective;
 import dto.ElectiveFirst;
 import dto.ElectiveSecond;
 import dto.FirstRound;
+import dto.SecondRound;
 import dto.Student;
 import dummy.IDataController;
 import ejb.Manager;
@@ -173,7 +174,7 @@ public class TestManager {
 //                will(returnValue(0));
 //            }
 //        });
-        assertEquals(0, dataController.getFirstRoundVoteSize());
+        assertEquals(0, dataController.getFirstRndVoteSize());
 
 //        context.checking(new Expectations() {
 //            {
@@ -196,7 +197,7 @@ public class TestManager {
 //        });
         dataController.generateFirstRoundVote();
 
-        assertEquals(4, dataController.getFirstRoundVoteSize());
+        assertEquals(4, dataController.getFirstRndVoteSize());
 
 //        context.checking(new Expectations() {
 //            {
@@ -263,6 +264,151 @@ public class TestManager {
 
     }
 
+    @Test
+    public void getSecondRndEle() {
+        Mockery context = new JUnit4Mockery();
+
+        //final IDataController dataController = context.mock(IDataController.class);
+        final IDataController dataController = manager.getDataController();
+
+        final ElectiveSecond el5 = new ElectiveSecond("Python", "Here you learn the basics of Python.", new Date(), "B");
+        final ElectiveSecond el1 = new ElectiveSecond("C#", "Torban learning C#", new Date(), "A");
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getSecondRndSize();
+//            will(returnValue(0));
+//        }});
+        assertEquals(dataController.getSecondRndSize(), 0);
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRndEle();
+//            will(returnValue(null));
+//        }});
+        assertNull(dataController.getLastSecondRndEle());
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).generateSecondRndEle();
+//        }});
+        dataController.generateSecondRndEle();
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getSecondRndSize();
+//            will(returnValue(5));
+//        }});
+        assertEquals(dataController.getSecondRndSize(), 5);
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRndEle();
+//            will(returnValue(el5));
+//        }});
+        assertEquals(dataController.getLastSecondRndEle().getTitle(), el5.getTitle());
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRndEle();
+//            will(returnValue(el5));
+//        }});
+        assertEquals(dataController.getLastSecondRndEle().getDescription(), el5.getDescription());
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRndEle();
+//            will(returnValue(el5));
+//        }});
+        assertEquals(dataController.getLastSecondRndEle().getPool(), el5.getPool());
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRndEle();
+//            will(returnValue(el5));
+//        }});
+        assertNotSame(dataController.getLastSecondRndEle().getTitle(), el1.getTitle());
+
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRndEle();
+//            will(returnValue(el5));
+//        }});
+//        
+        assertNotSame(dataController.getLastSecondRndEle().getDetails(), el1.getDetails());
+    }
+
+    @Test
+    public void addSecondRndStudentChoice() {
+
+        Mockery context = new JUnit4Mockery();
+        
+        //final IDataController dataController = context.mock(IDataController.class);
+        final IDataController dataController = manager.getDataController();
+
+        final Student s3 = new Student("O'Really", "Jack", "0423-456789");
+        final ElectiveSecond el2 = new ElectiveSecond("SW Design", "Here you learn the beauty of code.", new Date(), "A");
+        final ElectiveSecond el3 = new ElectiveSecond("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
+        final ElectiveSecond el4 = new ElectiveSecond("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
+        final ElectiveSecond el5 = new ElectiveSecond("Python", "Here you learn the basics of Python.", new Date(), "B");
+
+        final SecondRound fr1 = new SecondRound(el4, el2, el3, el5, s3);
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getSecondRndVoteSize();
+//            will(returnValue(0));
+//        }});
+        
+        assertEquals(dataController.getSecondRndVoteSize(), 0);
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).generateSecondRndVote();
+//        }});
+        dataController.generateFirstRoundVote();
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getSecondRndVoteSize();
+//            will(returnValue(2));
+//        }});
+        
+        assertEquals(dataController.getSecondRndVoteSize(), 2);
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).setSecondRndStudentChoice(fr1);
+//            will(returnValue(true));
+//        }});
+        
+        assertTrue(dataController.setSecondRndStudentChoice(fr1));
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRoundVote();
+//            will(returnValue(fr1));
+//        }});
+        
+        assertEquals(dataController.getLastSecondRoundVote().getStudent().getCpr(), fr1.getStudent().getCpr());
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRoundVote();
+//            will(returnValue(fr1));
+//        }});
+        
+        assertEquals(dataController.getLastSecondRoundVote().getFirstPriority1().getTitle(), fr1.getFirstPriority1().getTitle());
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRoundVote();
+//            will(returnValue(fr1));
+//        }});
+        
+        assertEquals(dataController.getLastSecondRoundVote().getFirstPriority2().getTitle(), fr1.getFirstPriority2().getTitle());
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRoundVote();
+//            will(returnValue(fr1));
+//        }});
+        
+        assertEquals(dataController.getLastSecondRoundVote().getSecondPriority1().getTitle(), fr1.getSecondPriority1().getTitle());
+        
+//        context.checking(new Expectations(){{
+//            oneOf(dataController).getLastSecondRoundVote();
+//            will(returnValue(fr1));
+//        }});
+        
+        assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
+        
+        assertNotSame(dataController.getSecondRndVote(0).getStudent().getCpr(), dataController.getLastSecondRoundVote().getStudent().getCpr());
+   
+    }
+
     public void checkStudentsList() {
         assertEquals(manager.getStudents().size() >= 1, true);
     }
@@ -315,8 +461,8 @@ public class TestManager {
         Collection<ElectiveFirst> electives = manager.getFirstRound();
         Collection<FirstRound> firstRoundList = manager.getFirstRoundList();
         for (FirstRound frs : firstRoundList) {
-           checkFirstVoteUnique(frs);
-           checkStudent(frs.getStudent(),students);
+            checkFirstVoteUnique(frs);
+            checkStudent(frs.getStudent(), students);
         }
     }
 

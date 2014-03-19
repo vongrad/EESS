@@ -9,6 +9,7 @@ import dto.Elective;
 import dto.ElectiveFirst;
 import dto.ElectiveSecond;
 import dto.FirstRound;
+import dto.SecondRound;
 import dto.Student;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -106,6 +107,33 @@ public class GenerateDummyData {
         firstRound.add(fr4);
 
         return firstRound;
+    }
+    
+    public static ArrayList<SecondRound> generateSecondRoundVote() {
+
+        ArrayList<SecondRound> secondRound = new ArrayList<>();
+
+        ElectiveSecond el1 = new ElectiveSecond("C#", "Torban learning C#", new Date(), "A");
+        ElectiveSecond el2 = new ElectiveSecond("SW Design", "Here you learn the beauty of code.", new Date(), "A");
+        ElectiveSecond el3 = new ElectiveSecond("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
+        ElectiveSecond el4 = new ElectiveSecond("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
+        ElectiveSecond el5 = new ElectiveSecond("Python", "Here you learn the basics of Python.", new Date(), "B");
+
+        Student s1 = new Student("Jack", "Black", "0123-456789");
+        Student s2 = new Student("Adolf", "Ray", "0123-456712");
+        Student s3 = new Student("O'Really", "Jack", "0423-456789");
+        Student s4 = new Student("Leo", "Nary", "0123-456289");
+        Student s5 = new Student("Jhon Aron", "Var", "0123-456703");
+        Student s6 = new Student("Lop", "Roy", "0123-451239");
+
+        SecondRound fr1 = new SecondRound(el1, el2, el3, el2, s5);
+        SecondRound fr2 = new SecondRound(null, null, null, null, s1);
+
+
+        secondRound.add(fr1);
+        secondRound.add(fr2);
+     
+        return secondRound;
     }
 
     public static ArrayList<ElectiveFirst> generateFirstRndEle() {

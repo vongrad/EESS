@@ -9,6 +9,7 @@ import dto.Elective;
 import dto.ElectiveFirst;
 import dto.ElectiveSecond;
 import dto.FirstRound;
+import dto.SecondRound;
 import dto.Student;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +27,8 @@ public interface IDataController {
     public Collection<FirstRound> getFirstRoundVote();
 
     public boolean setFirsttRndEle(ElectiveFirst element);
+    
+    public boolean setSecondRndStudentChoice(SecondRound secondRound);
 
     public boolean setSecondRndEle(ElectiveSecond element);
 
@@ -33,17 +36,23 @@ public interface IDataController {
 
     public ElectiveSecond getSecondRndEle(int index);
 
+    public SecondRound getSecondRndVote(int index);
+
     public int getFirstRndSize();
 
     public int getSecondRndSize();
 
-    public int getFirstRoundVoteSize();
+    public int getFirstRndVoteSize();
+
+    public int getSecondRndVoteSize();
 
     public ElectiveFirst getLastFirstRndEle();
 
     public ElectiveSecond getLastSecondRndEle();
 
     public FirstRound getLastFirstRoundVote();
+
+    public SecondRound getLastSecondRoundVote();
 
     public void generateFirstRndEle();
 
@@ -53,10 +62,11 @@ public interface IDataController {
 
     public void generateFirstRoundVote();
 
+    public void generateSecondRndVote();
+
     public Collection<Elective> getProposedElectives();
 
     public Collection<Student> getStudents();
 
     public ArrayList<FirstRound> getFirstRoundList(ArrayList<Student> students, ArrayList<ElectiveFirst> electives);
-
 }

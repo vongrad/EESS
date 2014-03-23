@@ -5,12 +5,12 @@
  */
 package dummy;
 
-import dto.Elective;
-import dto.ElectiveFirst;
-import dto.ElectiveSecond;
-import dto.FirstRound;
-import dto.SecondRound;
-import dto.Student;
+import dto.ElectiveDTO;
+import dto.ElectiveFirstDTO;
+import dto.ElectiveSecondDTO;
+import dto.FirstRoundDTO;
+import dto.SecondRoundDTO;
+import dto.StudentDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -21,131 +21,152 @@ import java.util.Date;
  */
 public class GenerateDummyData {
 
-    public static ArrayList<Student> generateStudents() {
-        ArrayList<Student> students = new ArrayList<>();
-        Student s1 = new Student("Jack", "Black", "014323-4569");
-        Student s2 = new Student("Adolf", "Ray", "012323-4567");
-        Student s3 = new Student("O'Really", "Jack", "430423-4569");
-        Student s4 = new Student("Leo", "Nary", "012123-4562");
-        Student s5 = new Student("Jhon Aron", "Var", "014323-4563");
-        Student s6 = new Student("Lop", "Roy", "014323-4519");
+    public static ArrayList<StudentDTO> generateStudents() {
+        ArrayList<StudentDTO> students = new ArrayList<>();
+        StudentDTO s1 = new StudentDTO("Bjarke", "Carlsen", "014323-4123");
+        StudentDTO s2 = new StudentDTO("Emil", "Christiansen", "044323-4123");
+        StudentDTO s3 = new StudentDTO("Jesper", "Dahl", "120423-4561");
+        StudentDTO s4 = new StudentDTO("Kenn", "Jacobsen", "123131-2342");
+        StudentDTO s5 = new StudentDTO("Aske", "Rode", "123431-4312");
+        StudentDTO s6 = new StudentDTO("Thor", "Kristen", "124312-1234");
+        StudentDTO s7 = new StudentDTO("Patrick", "Larsen", "432232-2398");
+        StudentDTO s8 = new StudentDTO("Johan", "Leu", "014398-4563");
+        StudentDTO s9 = new StudentDTO("Jesper", "Olsen", "764323-4519");
+        StudentDTO s10 = new StudentDTO("Martin", "Olgenkjær", "014323-4563");
+        StudentDTO s11 = new StudentDTO("Henrik", "Stavnem", "014323-4519");
         students.add(s1);
         students.add(s2);
         students.add(s3);
         students.add(s4);
         students.add(s5);
         students.add(s6);
+        students.add(s7);
+        students.add(s8);
+        students.add(s9);
+        students.add(s10);
+        students.add(s11);
+
         return students;
     }
-//we send the ArrayLists so we would not have to hardcore the dumy data
-    public static ArrayList<FirstRound> generateFirstRoundList( ArrayList<Student> students,ArrayList<ElectiveFirst> electives) {
-        ArrayList<FirstRound> firstVotes = new ArrayList<>();
-        FirstRound fr1;
-        FirstRound fr2;
-        FirstRound fr3;
-        //just be sure we have enough electives, which to pick, and also that we have at least 1 student
-    if (electives.size() >= 4&&students.size()>=1) {
-         fr1 = new FirstRound(students.get(1),electives.get(1),electives.get(2),electives.get(3),electives.get(4));
-       //just be sure that we have enough students
-         if(electives.size() >= 4&&students.size()>=2)
-         fr1 = new FirstRound(students.get(2),electives.get(1),electives.get(2),electives.get(3),electives.get(4));
-          
-    }
-        return firstVotes;
 
-    }
+    public static ArrayList<FirstRoundDTO> generateFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives) 
+        {
+            ArrayList<FirstRoundDTO> firstVotes = new ArrayList<>();
+  
+            FirstRoundDTO fr1= new FirstRoundDTO(students.get(0), electives.get(3), electives.get(2), electives.get(1), electives.get(4));
+            FirstRoundDTO fr2 = new FirstRoundDTO(students.get(8), electives.get(3), electives.get(0), electives.get(2), electives.get(1));
+            FirstRoundDTO fr3 = new FirstRoundDTO(students.get(9), electives.get(7), electives.get(3), electives.get(5), electives.get(6));
+            FirstRoundDTO fr4 = new FirstRoundDTO(students.get(10), electives.get(1), electives.get(7), electives.get(3), electives.get(6));
+            firstVotes.add(fr1);
+            firstVotes.add(fr2);
+            firstVotes.add(fr3);
+            firstVotes.add(fr4);
 
-    public static ArrayList<Elective> generateProposedEle() {
-        ArrayList<Elective> proposedElectives = new ArrayList<>();
-        Elective el1 = new Elective("C#", "Torban learning C#", new Date());
-        Elective el2 = new Elective("Python", "Here you learn the basics of Python.", new Date());
-        Elective el3 = new Elective("Android", "Here you learn how to develop mobile apps.", new Date());
-        Elective el4 = new Elective("SW Design", "Here you learn the beauty of code.", new Date());
-        Elective el5 = new Elective("Games", "Here you learn how to write/use basic game engines.", new Date());
-        Elective el6 = new Elective("Databases", "Here you learn how to persistently store bulks of data.", new Date());
-        Elective el7 = new Elective("Test drived development", "Tests first guys!", new Date());
-        Elective el8 = new Elective("Modern Func languages", "Here you learn recursions etc..", new Date());
-        proposedElectives.add(el1);
-        proposedElectives.add(el2);
-        proposedElectives.add(el3);
-        proposedElectives.add(el4);
-        proposedElectives.add(el5);
-        proposedElectives.add(el6);
-        proposedElectives.add(el7);
-        proposedElectives.add(el8);
-        return proposedElectives;
-    }
+            return firstVotes;
 
-    public static ArrayList<FirstRound> generateFirstRoundVote() {
+        }
+   
 
-        ArrayList<FirstRound> firstRound = new ArrayList<>();
+    public static ArrayList<ElectiveDTO> generateProposedEle() 
+        {
+            ArrayList<ElectiveDTO> proposedElectives = new ArrayList<>();
+            ElectiveDTO el1 = new ElectiveDTO("C#", "Torban learning C#", new Date());
+            ElectiveDTO el2 = new ElectiveDTO("Python", "Here you learn the basics of Python.", new Date());
+            ElectiveDTO el3 = new ElectiveDTO("Android", "Here you learn how to develop mobile apps.", new Date());
+            ElectiveDTO el4 = new ElectiveDTO("SW Design", "Here you learn the beauty of code.", new Date());
+            ElectiveDTO el5 = new ElectiveDTO("Games", "Here you learn how to write/use basic game engines.", new Date());
+            ElectiveDTO el6 = new ElectiveDTO("Databases", "Here you learn how to persistently store bulks of data.", new Date());
+            ElectiveDTO el7 = new ElectiveDTO("Test drived development", "Tests first guys!", new Date());
+            ElectiveDTO el8 = new ElectiveDTO("Modern Func languages", "Here you learn recursions etc..", new Date());
+            proposedElectives.add(el1);
+            proposedElectives.add(el2);
+            proposedElectives.add(el3);
+            proposedElectives.add(el4);
+            proposedElectives.add(el5);
+            proposedElectives.add(el6);
+            proposedElectives.add(el7);
+            proposedElectives.add(el8);
+            return proposedElectives;
+                }
 
-        ElectiveFirst el1 = new ElectiveFirst("C#", "Torban learning C#", new Date(), 1, 1);
-        ElectiveFirst el2 = new ElectiveFirst("Python", "Here you learn the basics of Python.", new Date(), 1, 1);
-        ElectiveFirst el3 = new ElectiveFirst("Android", "Here you learn how to develop mobile apps.", new Date(), 1, 1);
-        ElectiveFirst el4 = new ElectiveFirst("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
-        ElectiveFirst el5 = new ElectiveFirst("Games", "Here you learn how to write/use basic game engines.", new Date(), 1, 0);
-        ElectiveFirst el6 = new ElectiveFirst("Databases", "Here you learn how to persistently store bulks of data.", new Date(), 0, 2);
-        ElectiveFirst el7 = new ElectiveFirst("Test drived development", "Tests first guys!", new Date(), 0, 2);
-        ElectiveFirst el8 = new ElectiveFirst("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
+    
 
-        Student s1 = new Student("Jack", "Black", "0123-456789");
-        Student s2 = new Student("Adolf", "Ray", "0123-456712");
-        Student s3 = new Student("O'Really", "Jack", "0423-456789");
-        Student s4 = new Student("Leo", "Nary", "0123-456289");
-        Student s5 = new Student("Jhon Aron", "Var", "0123-456703");
-        Student s6 = new Student("Lop", "Roy", "0123-451239");
+     
 
-        FirstRound fr1 = new FirstRound(s1, el1, el4, el3, el2);
-        FirstRound fr2 = new FirstRound(s2, el8, el4, el6, el7);
-        FirstRound fr3 = new FirstRound(s3, el3, el5, el1, el6);
-        FirstRound fr4 = new FirstRound(s2, el8, el4, el1, el7);
+    
 
-        firstRound.add(fr1);
-        firstRound.add(fr2);
-        firstRound.add(fr3);
-        firstRound.add(fr4);
+    
+
+    public static ArrayList<FirstRoundDTO> generateFirstRoundVote() {
+
+        ArrayList<FirstRoundDTO> firstRound = new ArrayList<>();
+//
+//        ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
+//        ElectiveFirstDTO el2 = new ElectiveFirstDTO("Python", "Here you learn the basics of Python.", new Date(), 1, 1);
+//        ElectiveFirstDTO el3 = new ElectiveFirstDTO("Android", "Here you learn how to develop mobile apps.", new Date(), 1, 1);
+//        ElectiveFirstDTO el4 = new ElectiveFirstDTO("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
+//        ElectiveFirstDTO el5 = new ElectiveFirstDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), 1, 0);
+//        ElectiveFirstDTO el6 = new ElectiveFirstDTO("Databases", "Here you learn how to persistently store bulks of data.", new Date(), 0, 2);
+//        ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
+//        ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
+//
+//        StudentDTO s1 = new StudentDTO("Jack", "Black", "0123-456789");
+//        StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
+//        StudentDTO s3 = new StudentDTO("O'Really", "Jack", "0423-456789");
+//        StudentDTO s4 = new StudentDTO("Leo", "Nary", "0123-456289");
+//        StudentDTO s5 = new StudentDTO("Jhon Aron", "Var", "0123-456703");
+//        StudentDTO s6 = new StudentDTO("Lop", "Roy", "0123-451239");
+//
+//        FirstRoundDTO fr1 = new FirstRoundDTO(s1, el1, el4, el3, el2);
+//        FirstRoundDTO fr2 = new FirstRoundDTO(s2, el8, el4, el6, el7);
+//        FirstRoundDTO fr3 = new FirstRoundDTO(s3, el3, el5, el1, el6);
+//        FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
+//
+//        firstRound.add(fr1);
+//        firstRound.add(fr2);
+//        firstRound.add(fr3);
+//        firstRound.add(fr4);
 
         return firstRound;
+
     }
-    
-    public static ArrayList<SecondRound> generateSecondRoundVote() {
 
-        ArrayList<SecondRound> secondRound = new ArrayList<>();
+    public static ArrayList<SecondRoundDTO> generateSecondRoundVote() {
 
-        ElectiveSecond el1 = new ElectiveSecond("C#", "Torban learning C#", new Date(), "A");
-        ElectiveSecond el2 = new ElectiveSecond("SW Design", "Here you learn the beauty of code.", new Date(), "A");
-        ElectiveSecond el3 = new ElectiveSecond("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
-        ElectiveSecond el4 = new ElectiveSecond("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
-        ElectiveSecond el5 = new ElectiveSecond("Python", "Here you learn the basics of Python.", new Date(), "B");
+        ArrayList<SecondRoundDTO> secondRound = new ArrayList<>();
 
-        Student s1 = new Student("Jack", "Black", "0123-456789");
-        Student s2 = new Student("Adolf", "Ray", "0123-456712");
-        Student s3 = new Student("O'Really", "Jack", "0423-456789");
-        Student s4 = new Student("Leo", "Nary", "0123-456289");
-        Student s5 = new Student("Jhon Aron", "Var", "0123-456703");
-        Student s6 = new Student("Lop", "Roy", "0123-451239");
+        ElectiveSecondDTO el1 = new ElectiveSecondDTO("C#", "Torban learning C#", new Date(), "A");
+        ElectiveSecondDTO el2 = new ElectiveSecondDTO("SW Design", "Here you learn the beauty of code.", new Date(), "A");
+        ElectiveSecondDTO el3 = new ElectiveSecondDTO("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
+        ElectiveSecondDTO el4 = new ElectiveSecondDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
+        ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
 
-        SecondRound fr1 = new SecondRound(el1, el2, el3, el2, s5);
-        SecondRound fr2 = new SecondRound(null, null, null, null, s1);
+        StudentDTO s1 = new StudentDTO("Jack", "Black", "0123-456789");
+        StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
+        StudentDTO s3 = new StudentDTO("O'Really", "Jack", "0423-456789");
+        StudentDTO s4 = new StudentDTO("Leo", "Nary", "0123-456289");
+        StudentDTO s5 = new StudentDTO("Jhon Aron", "Var", "0123-456703");
+        StudentDTO s6 = new StudentDTO("Lop", "Roy", "0123-451239");
 
+        SecondRoundDTO fr1 = new SecondRoundDTO(el1, el2, el3, el2, s5);
+        SecondRoundDTO fr2 = new SecondRoundDTO(null, null, null, null, s1);
 
         secondRound.add(fr1);
         secondRound.add(fr2);
-     
+
         return secondRound;
     }
 
-    public static ArrayList<ElectiveFirst> generateFirstRndEle() {
-        ArrayList<ElectiveFirst> secondRound = new ArrayList<>();
-        ElectiveFirst el1 = new ElectiveFirst("C#", "Torban learning C#", new Date(), 1, 1);
-        ElectiveFirst el2 = new ElectiveFirst("Python", "Here you learn the basics of Python.", new Date(), 1, 1);
-        ElectiveFirst el3 = new ElectiveFirst("Android", "Here you learn how to develop mobile apps.", new Date(), 1, 1);
-        ElectiveFirst el4 = new ElectiveFirst("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
-        ElectiveFirst el5 = new ElectiveFirst("Games", "Here you learn how to write/use basic game engines.", new Date(), 1, 0);
-        ElectiveFirst el6 = new ElectiveFirst("Databases", "Here you learn how to persistently store bulks of data.", new Date(), 0, 2);
-        ElectiveFirst el7 = new ElectiveFirst("Test drived development", "Tests first guys!", new Date(), 0, 2);
-        ElectiveFirst el8 = new ElectiveFirst("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
+    public static ArrayList<ElectiveFirstDTO> generateFirstRndEle() {
+        ArrayList<ElectiveFirstDTO> secondRound = new ArrayList<>();
+        ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
+        ElectiveFirstDTO el2 = new ElectiveFirstDTO("Python", "Here you learn the basics of Python.", new Date(), 1, 1);
+        ElectiveFirstDTO el3 = new ElectiveFirstDTO("Android", "Here you learn how to develop mobile apps.", new Date(), 1, 1);
+        ElectiveFirstDTO el4 = new ElectiveFirstDTO("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
+        ElectiveFirstDTO el5 = new ElectiveFirstDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), 1, 0);
+        ElectiveFirstDTO el6 = new ElectiveFirstDTO("Databases", "Here you learn how to persistently store bulks of data.", new Date(), 0, 2);
+        ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
+        ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
         secondRound.add(el1);
         secondRound.add(el2);
         secondRound.add(el3);
@@ -157,13 +178,13 @@ public class GenerateDummyData {
         return secondRound;
     }
 
-    public static ArrayList<ElectiveSecond> generateSecondRndEle() {
-        ArrayList<ElectiveSecond> secondRound = new ArrayList<>();
-        ElectiveSecond el1 = new ElectiveSecond("C#", "Torban learning C#", new Date(), "A");
-        ElectiveSecond el2 = new ElectiveSecond("SW Design", "Here you learn the beauty of code.", new Date(), "A");
-        ElectiveSecond el3 = new ElectiveSecond("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
-        ElectiveSecond el4 = new ElectiveSecond("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
-        ElectiveSecond el5 = new ElectiveSecond("Python", "Here you learn the basics of Python.", new Date(), "B");
+    public static ArrayList<ElectiveSecondDTO> generateSecondRndEle() {
+        ArrayList<ElectiveSecondDTO> secondRound = new ArrayList<>();
+        ElectiveSecondDTO el1 = new ElectiveSecondDTO("C#", "Torban learning C#", new Date(), "A");
+        ElectiveSecondDTO el2 = new ElectiveSecondDTO("SW Design", "Here you learn the beauty of code.", new Date(), "A");
+        ElectiveSecondDTO el3 = new ElectiveSecondDTO("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
+        ElectiveSecondDTO el4 = new ElectiveSecondDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
+        ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
         secondRound.add(el1);
         secondRound.add(el2);
         secondRound.add(el3);

@@ -5,12 +5,12 @@
  */
 package dummy;
 
-import dto.Elective;
-import dto.ElectiveFirst;
-import dto.ElectiveSecond;
-import dto.FirstRound;
-import dto.SecondRound;
-import dto.Student;
+import dto.ElectiveDTO;
+import dto.ElectiveFirstDTO;
+import dto.ElectiveSecondDTO;
+import dto.FirstRoundDTO;
+import dto.SecondRoundDTO;
+import dto.StudentDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,23 +20,23 @@ import java.util.Collection;
  */
 public interface IDataController {
 
-    public Collection<ElectiveFirst> getFirstRound();
+    public Collection<ElectiveFirstDTO> getFirstRound();
 
-    public Collection<ElectiveSecond> getSecondRound();
+    public Collection<ElectiveSecondDTO> getSecondRound();
 
-    public Collection<FirstRound> getFirstRoundVote();
+    public Collection<FirstRoundDTO> getFirstRoundVote();
 
-    public boolean setFirsttRndEle(ElectiveFirst element);
-    
-    public boolean setSecondRndStudentChoice(SecondRound secondRound);
+    public boolean setFirsttRndEle(ElectiveFirstDTO element);
 
-    public boolean setSecondRndEle(ElectiveSecond element);
+    public boolean setSecondRndStudentChoice(SecondRoundDTO secondRound);
 
-    public ElectiveFirst getFirstRndEle(int index);
+    public boolean setSecondRndEle(ElectiveSecondDTO element);
 
-    public ElectiveSecond getSecondRndEle(int index);
+    public ElectiveFirstDTO getFirstRndEle(int index);
 
-    public SecondRound getSecondRndVote(int index);
+    public ElectiveSecondDTO getSecondRndEle(int index);
+
+    public SecondRoundDTO getSecondRndVote(int index);
 
     public int getFirstRndSize();
 
@@ -46,13 +46,13 @@ public interface IDataController {
 
     public int getSecondRndVoteSize();
 
-    public ElectiveFirst getLastFirstRndEle();
+    public ElectiveFirstDTO getLastFirstRndEle();
 
-    public ElectiveSecond getLastSecondRndEle();
+    public ElectiveSecondDTO getLastSecondRndEle();
 
-    public FirstRound getLastFirstRoundVote();
+    public FirstRoundDTO getLastFirstRoundVote();
 
-    public SecondRound getLastSecondRoundVote();
+    public SecondRoundDTO getLastSecondRoundVote();
 
     public void generateFirstRndEle();
 
@@ -64,9 +64,9 @@ public interface IDataController {
 
     public void generateSecondRndVote();
 
-    public Collection<Elective> getProposedElectives();
+    public Collection<ElectiveDTO> getProposedElectives();
 
-    public Collection<Student> getStudents();
+    public Collection<StudentDTO> getStudents();
 
-    public ArrayList<FirstRound> getFirstRoundList(ArrayList<Student> students, ArrayList<ElectiveFirst> electives);
+    public ArrayList<FirstRoundDTO> getFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives);
 }

@@ -5,12 +5,17 @@
  */
 package ejb;
 
-import dto.Elective;
-import dto.ElectiveFirst;
-import dto.ElectiveSecond;
-import dto.FirstRound;
-import dto.SecondRound;
-import dto.Student;
+import dto.ElectiveDTO;
+
+import dto.ElectiveFirstDTO;
+
+import dto.ElectiveSecondDTO;
+
+import dto.FirstRoundDTO;
+
+import dto.SecondRoundDTO;
+
+import dto.StudentDTO;
 import dummy.IDataController;
 import java.util.Collection;
 import javax.ejb.Local;
@@ -22,25 +27,25 @@ import javax.ejb.Local;
 @Local
 public interface ManagerLocal {
 
-    public void addFirstRndEle(ElectiveFirst elective);
+    public void addFirstRndEle(ElectiveFirstDTO elective);
 
-    public void addSecondRndEle(ElectiveSecond elective);
+    public void addSecondRndEle(ElectiveSecondDTO elective);
 
-    public boolean addSecondRndStudentChoice(SecondRound secondRound);
+    public boolean addSecondRndStudentChoice(SecondRoundDTO secondRound);
 
-    public Collection<ElectiveFirst> getFirstRound();
+    public Collection<ElectiveFirstDTO> getFirstRound();
 
-    public Collection<ElectiveSecond> getSecondRound();
+    public Collection<ElectiveSecondDTO> getSecondRound();
 
-    public Collection<Elective> getProposedElectives();
+    public Collection<ElectiveDTO> getProposedElectives();
 
-    public Collection<FirstRound> getFirstRoundList();
+    public Collection<FirstRoundDTO> getFirstRoundList();
 
-    public Collection<Student> getStudents();
+    public Collection<StudentDTO> getStudents();
 
-    public ElectiveFirst getFirstRndEle(int index);
+    public ElectiveFirstDTO getFirstRndEle(int index);
 
-    public ElectiveSecond getSecondRndEle(int index);
+    public ElectiveSecondDTO getSecondRndEle(int index);
 
     public IDataController getDataController();
 

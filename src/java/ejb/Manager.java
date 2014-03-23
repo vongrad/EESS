@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ejb;
 
-import dto.Elective;
-import dto.ElectiveFirst;
-import dto.ElectiveSecond;
-import dto.FirstRound;
-import dto.SecondRound;
-import dto.Student;
+import dto.ElectiveDTO;
+import dto.ElectiveFirstDTO;
+import dto.ElectiveSecondDTO;
+import dto.FirstRoundDTO;
+import dto.SecondRoundDTO;
+import dto.StudentDTO;
 import dummy.DataControllerImp;
 import dummy.IDataController;
 import java.util.ArrayList;
@@ -31,32 +26,32 @@ public class Manager implements ManagerLocal {
     }
 
     @Override
-    public void addFirstRndEle(ElectiveFirst elective) {
+    public void addFirstRndEle(ElectiveFirstDTO elective) {
         dataController.setFirsttRndEle(elective);
     }
 
     @Override
-    public void addSecondRndEle(ElectiveSecond elective) {
+    public void addSecondRndEle(ElectiveSecondDTO elective) {
         dataController.setSecondRndEle(elective);
     }
 
     @Override
-    public Collection<ElectiveFirst> getFirstRound() {
+    public Collection<ElectiveFirstDTO> getFirstRound() {
         return dataController.getFirstRound();
     }
 
     @Override
-    public Collection<ElectiveSecond> getSecondRound() {
+    public Collection<ElectiveSecondDTO> getSecondRound() {
         return dataController.getSecondRound();
     }
 
     @Override
-    public ElectiveFirst getFirstRndEle(int index) {
+    public ElectiveFirstDTO getFirstRndEle(int index) {
         return dataController.getFirstRndEle(index);
     }
 
     @Override
-    public ElectiveSecond getSecondRndEle(int index) {
+    public ElectiveSecondDTO getSecondRndEle(int index) {
         return dataController.getSecondRndEle(index);
     }
 
@@ -66,22 +61,22 @@ public class Manager implements ManagerLocal {
     }
 
     @Override
-    public Collection<Student> getStudents() {
+    public Collection<StudentDTO> getStudents() {
         return dataController.getStudents();
     }
 
     @Override
-    public Collection<Elective> getProposedElectives() {
+    public Collection<ElectiveDTO> getProposedElectives() {
         return dataController.getProposedElectives();
     }
 
     @Override
-    public Collection<FirstRound> getFirstRoundList() {
-        return dataController.getFirstRoundList((ArrayList<Student>) this.getStudents(), (ArrayList<ElectiveFirst>) this.getFirstRound());
+    public Collection<FirstRoundDTO> getFirstRoundList() {
+        return dataController.getFirstRoundList((ArrayList<StudentDTO>) this.getStudents(), (ArrayList<ElectiveDTO>) this.getProposedElectives());
     }
 
     @Override
-    public boolean addSecondRndStudentChoice(SecondRound secondRound) {
+    public boolean addSecondRndStudentChoice(SecondRoundDTO secondRound) {
         return dataController.setSecondRndStudentChoice(secondRound);
     }
 }

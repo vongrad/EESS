@@ -36,11 +36,11 @@ public interface ManagerLocal {
     public Collection<ElectiveFirstDTO> getFirstRound();
 
     public Collection<ElectiveSecondDTO> getSecondRound();
-
+//implemented in DB Manager
     public Collection<ElectiveDTO> getProposedElectives();
 
     public Collection<FirstRoundDTO> getFirstRoundList();
-
+// implemented in DB Manager
     public Collection<StudentDTO> getStudents();
 
     public ElectiveFirstDTO getFirstRndEle(int index);

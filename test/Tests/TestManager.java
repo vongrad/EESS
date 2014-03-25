@@ -47,7 +47,7 @@ public class TestManager {
 public void NR()
 {
     DBManager dbm = new DBManager();
-    dbm.addStudents();
+ 
 }
     public TestManager() {
     }

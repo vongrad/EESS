@@ -5,11 +5,13 @@
  */
 package dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Stefan
  */
-public class FirstRoundDTO {
+public class FirstRoundDTO implements Serializable{
 
     private ElectiveDTO firstPriority1;
     private ElectiveDTO firstPriority2;

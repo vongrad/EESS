@@ -6,11 +6,13 @@
 
 package dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author adamv_000
  */
-public class SecondRoundDTO{
+public class SecondRoundDTO implements Serializable{
 
     private ElectiveSecondDTO firstPriority1;
     private ElectiveSecondDTO firstPriority2;

@@ -76,15 +76,15 @@ public class DBManager implements DBManagerRemote {
     @Override
     public Collection<ElectiveFirstDTO> getFirstElectives() {
         ArrayList< ElectiveFirstDTO> electiveDTOs = new ArrayList<>();
-//        Query query = entityManager.createNamedQuery("Elective.findAll");
-//        List<Elective> electives = query.getResultList();
-//        int cfp;
-//        int csp;
-//        for (Elective e : electives) {
-//            cfp= ((Number)entityManager.createNamedQuery("Elective.countFirstPriority").getSingleResult()).intValue();
-//                    // e.setCountFirstPriority(countFirstPriority);
-//                    //  electiveDTOs.add(new ElectiveFirstDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
-//        }
+        Query query = entityManager.createNamedQuery("Elective.findAll");
+        List<Elective> electives = query.getResultList();
+        int cfp;
+        int csp;
+        for (Elective e : electives) {
+            cfp= ((Number)entityManager.createNamedQuery("Elective.countFirstPriority").getSingleResult()).intValue();
+                    // e.setCountFirstPriority(countFirstPriority);
+                    //  electiveDTOs.add(new ElectiveFirstDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
+        }
        return electiveDTOs;
     }
 

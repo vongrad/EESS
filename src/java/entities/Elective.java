@@ -62,10 +62,7 @@ public class Elective implements Serializable {
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    private int countFirstPriority=0;
-    private int countSecondPriority=0;
 
-    
 
     public Elective() {
     }
@@ -86,21 +83,6 @@ public class Elective implements Serializable {
         this.discription = discription;
     }
 
-    public int getCountFirstPriority() {
-        return countFirstPriority;
-    }
-
-    public int getCountSecondPriority() {
-        return countSecondPriority;
-    }
-
-    public void setCountFirstPriority(int countFirstPriority) {
-        this.countFirstPriority = countFirstPriority;
-    }
-
-    public void setCountSecondPriority(int countSecondPriority) {
-        this.countSecondPriority = countSecondPriority;
-    }
     public String getTitle() {
         return title;
     }

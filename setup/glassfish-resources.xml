@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:oracle:thin:@datdb.cphbusiness.dk:1521:dat"/>
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="jdbc/DBEESS" object-type="user" pool-name="oracle-thin_dat_cphsp12Pool"/>
+    <jdbc-resource enabled="true" jndi-name="jdbc/adamisawsome2" object-type="user" pool-name="oracle-thin_dat_cphsp12Pool"/>
 </resources>

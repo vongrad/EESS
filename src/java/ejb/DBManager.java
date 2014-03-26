@@ -33,15 +33,15 @@ import javax.persistence.Query;
  */
 @Stateless
 public class DBManager implements DBManagerRemote {
-
+    
     @PersistenceContext(unitName = "EESS_BackEndPU")
     private EntityManager entityManager;
 
     @Override
     public void addThings() {
         ManagerLocal manager = new Manager();
-       // Collection<ElectiveDTO> els = manager.getProposedElectives();
-      //  ElectiveSecond els = new ElectiveSecond("lala","sdasda",new Date(),"A");
+        // Collection<ElectiveDTO> els = manager.getProposedElectives();
+        //  ElectiveSecond els = new ElectiveSecond("lala","sdasda",new Date(),"A");
 //        for (ElectiveDTO e : els) {
 //            
 //           Elective el= new Elective(e.getTitle(),e.getDetails(),e.getDate());
@@ -61,34 +61,40 @@ public class DBManager implements DBManagerRemote {
         return studentDTOs;
     }
 
+    //Returns all the electives proposed by students and teachears!
     @Override
     public Collection<ElectiveDTO> getProposedElectives() {
         ArrayList< ElectiveDTO> electiveDTOs = new ArrayList<>();
         Query query = entityManager.createNamedQuery("Elective.findAll");
         List<Elective> electives = query.getResultList();
         for (Elective e : electives) {
-            if (e.getProposed() != null) {
-                if (e.getProposed().equalsIgnoreCase("true")) {
-                    electiveDTOs.add(new ElectiveDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
-                }
-            }
+            electiveDTOs.add(new ElectiveDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
         }
         return electiveDTOs;
     }
 
+    //Returns electives that has been approved by the head of program to go for the first round
     @Override
     public Collection<ElectiveFirstDTO> getFirstElectives() {
-        ArrayList< ElectiveFirstDTO> electiveDTOs = new ArrayList<>();
-        Query query = entityManager.createNamedQuery("Elective.findAll");
+
+        ArrayList<ElectiveFirstDTO> electiveDTOs = new ArrayList<>();
+        Query query = entityManager.createNamedQuery("Elective.findByProposed");
+        query.setParameter("proposed", "1");
         List<Elective> electives = query.getResultList();
-        int cfp;
-        int csp;
+        
+        int firstPriorityCount;
+        int secondPriorityCount;
+
         for (Elective e : electives) {
-            cfp= ((Number)entityManager.createNamedQuery("Elective.countFirstPriority").getSingleResult()).intValue();
-                    // e.setCountFirstPriority(countFirstPriority);
-                    //  electiveDTOs.add(new ElectiveFirstDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
+            firstPriorityCount = (int) entityManager.createQuery("select FIRST_PRIORITY_1, FIRST_PRIORITY_2, count(*) from CPHSP12.FIRST_ROUND_VOTE WHERE FIRST_PRIORITY_1 = '" + e.getElectiveID() + "' AND FIRST_PRIORITY_2 = '" + e.getElectiveID() + "' GROUP BY FIRST_PRIORITY_1, FIRST_PRIORITY_2;").getSingleResult();
+            secondPriorityCount = (int) entityManager.createQuery("select SECOND_PRIORITY_1, SECOND_PRIORITY_2, count(*) from CPHSP12.FIRST_ROUND_VOTE WHERE SECOND_PRIORITY_1 = '" + e.getElectiveID() + "' AND SECOND_PRIORITY_2 = '" + e.getElectiveID() + "' GROUP BY SECOND_PRIORITY_1, SECOND_PRIORITY_2;").getSingleResult();
+            electiveDTOs.add(new ElectiveFirstDTO(e.getTitle(), e.getDiscription(), e.getCreationDate(), e.getProposed(), firstPriorityCount, secondPriorityCount));
         }
-       return electiveDTOs;
+        
+        for (ElectiveFirstDTO elective : electiveDTOs) {
+            System.out.println("Title: " + elective.getTitle() + "FPC: " + elective.getCountFirstpriority() + "SPC: " + elective.getCountSecondPriority());
+        }
+        return electiveDTOs;
     }
 
     @Override
@@ -146,6 +152,10 @@ public class DBManager implements DBManagerRemote {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public void persist(Object object) {
+        entityManager.persist(object);
     }
 
 }

@@ -111,6 +111,14 @@ public class Elective implements Serializable {
         this.proposed = proposed;
     }
 
+    public String getElectiveID() {
+        return electiveID;
+    }
+
+    public void setElectiveID(String electiveID) {
+        this.electiveID = electiveID;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

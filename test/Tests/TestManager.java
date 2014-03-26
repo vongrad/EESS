@@ -43,12 +43,14 @@ import static org.junit.Assert.*;
 public class TestManager {
 
     ManagerLocal manager;
-@Test
-public void NR()
-{
-    DBManager dbm = new DBManager();
- 
-}
+    DBManager dbm;
+
+    @Test
+    public void NR() {
+        //DBManager dbm = new DBManager();
+
+    }
+
     public TestManager() {
     }
 
@@ -63,6 +65,7 @@ public void NR()
     @Before
     public void setUp() {
         manager = new Manager();
+        dbm = new DBManager();
     }
 
     @After
@@ -173,7 +176,6 @@ public void NR()
         StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
 
        // final FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
-
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getFirstRoundVoteSize();
@@ -203,15 +205,12 @@ public void NR()
 //        });
         dataController.generateFirstRoundVote();
 
-      
-
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getLastFirstRoundVote();
 //                will(returnValue(fr4));
 //            }
 //        });
-    
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getLastFirstRoundVote();
@@ -339,7 +338,7 @@ public void NR()
     public void addSecondRndStudentChoice() {
 
         Mockery context = new JUnit4Mockery();
-        
+
         //final IDataController dataController = context.mock(IDataController.class);
         final IDataController dataController = manager.getDataController();
 
@@ -350,14 +349,13 @@ public void NR()
         final ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
 
         final SecondRoundDTO fr1 = new SecondRoundDTO(el4, el2, el3, el5, s3);
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getSecondRndVoteSize();
 //            will(returnValue(0));
 //        }});
-        
         assertEquals(dataController.getSecondRndVoteSize(), 0);
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).generateSecondRndVote();
 //        }});
@@ -366,53 +364,47 @@ public void NR()
 //            oneOf(dataController).getSecondRndVoteSize();
 //            will(returnValue(2));
 //        }});
-        
+
         assertEquals(dataController.getSecondRndVoteSize(), 2);
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).setSecondRndStudentChoice(fr1);
 //            will(returnValue(true));
 //        }});
-        
         assertTrue(dataController.setSecondRndStudentChoice(fr1));
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-        
         assertEquals(dataController.getLastSecondRoundVote().getStudent().getCpr(), fr1.getStudent().getCpr());
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-        
         assertEquals(dataController.getLastSecondRoundVote().getFirstPriority1().getTitle(), fr1.getFirstPriority1().getTitle());
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-        
         assertEquals(dataController.getLastSecondRoundVote().getFirstPriority2().getTitle(), fr1.getFirstPriority2().getTitle());
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-        
         assertEquals(dataController.getLastSecondRoundVote().getSecondPriority1().getTitle(), fr1.getSecondPriority1().getTitle());
-        
+
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-        
         assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
-        
+
         assertNotSame(dataController.getSecondRndVote(0).getStudent().getCpr(), dataController.getLastSecondRoundVote().getStudent().getCpr());
-   
+
     }
 
     public void checkStudentsList() {
@@ -438,7 +430,7 @@ public void NR()
     }
 
     public void checkStudent(StudentDTO s) {
-         String checkFirstName = "[A-ZæåÅÆØø][a-zA-Z'æåÅÆØø]{1}[a-zA-Z, æåÅÆØø]{0,30}";
+        String checkFirstName = "[A-ZæåÅÆØø][a-zA-Z'æåÅÆØø]{1}[a-zA-Z, æåÅÆØø]{0,30}";
         String checkLastName = "[A-ZæåÅÆØø][a-zA-Z'æåÅÆØø]{1}[a-zA-Z, æåÅÆØø]{0,15}";
         String checkCpr = "[0-9]{6}-[0-9]{4}";
         assertEquals(s.getFirstName().matches(checkFirstName), true);
@@ -490,5 +482,10 @@ public void NR()
 
         }
         assertEquals(bol, true);
+    }
+
+    @Test
+    public void testFirstRoundEle() {
+        dbm.getFirstElectives();
     }
 }

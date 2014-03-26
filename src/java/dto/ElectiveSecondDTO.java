@@ -15,8 +15,8 @@ public class ElectiveSecondDTO extends ElectiveDTO {
 
     private String pool;
 
-    public ElectiveSecondDTO(String Title, String Details, Date year, String pool) {
-        super(Title, Details, year);
+    public ElectiveSecondDTO(String Title, String Details, Date year, String proposed, String pool) {
+        super(Title, Details, year, proposed);
         this.pool = pool;
     }
 

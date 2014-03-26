@@ -16,11 +16,20 @@ public class ElectiveDTO implements Serializable{
 
     private String title;
     private String description;
-    private  Date date;
-    public ElectiveDTO(String Title, String Details, Date year) {
+    private Date date;
+    private String proposed;
+    
+    public ElectiveDTO(String Title, String Details, Date year, String proposed) {
         this.title = Title;
         this.description = Details;
         this.date=year;
+        this.proposed = proposed;
+    }
+
+    public ElectiveDTO(String title, String description, Date date) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
     }
 
  
@@ -49,6 +58,10 @@ public class ElectiveDTO implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getProposed() {
+        return proposed;
     }
 
     @Override

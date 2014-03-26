@@ -39,42 +39,36 @@ public class SecondRoundVote implements Serializable {
     @Size(min = 1, max = 11)
     @Column(name = "CPR")
     private String cpr;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 11)
-    @Column(name = "FIRST_PRIORITY_1")
-    private String firstPriority1;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 11)
-    @Column(name = "FIRST_PRIORITY_2")
-    private String firstPriority2;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 11)
-    @Column(name = "SECOND_PRIORITY_1")
-    private String secondPriority1;
-    
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 11)
-    @Column(name = "SECOND_PRIORITY_2")
-    private String secondPriority2;
+    @JoinColumn(name = "CPR", referencedColumnName = "CPR", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Student student;
+    @JoinColumn(name = "FIRST_PRIORITY_2", referencedColumnName = "TITLE")
+    @ManyToOne(optional = false)
+    private Elective firstPriority2;
+    @JoinColumn(name = "FIRST_PRIORITY_1", referencedColumnName = "TITLE")
+    @ManyToOne(optional = false)
+    private Elective firstPriority1;
+    @JoinColumn(name = "SECOND_PRIORITY_2", referencedColumnName = "TITLE")
+    @ManyToOne(optional = false)
+    private Elective secondPriority2;
+    @JoinColumn(name = "SECOND_PRIORITY_1", referencedColumnName = "TITLE")
+    @ManyToOne(optional = false)
+    private Elective secondPriority1;
+
+    public SecondRoundVote(String cpr, Student student, Elective firstPriority2, Elective firstPriority1, Elective secondPriority2, Elective secondPriority1) {
+        this.cpr = cpr;
+        this.student = student;
+        this.firstPriority2 = firstPriority2;
+        this.firstPriority1 = firstPriority1;
+        this.secondPriority2 = secondPriority2;
+        this.secondPriority1 = secondPriority1;
+    }
+
     public SecondRoundVote() {
     }
 
     public SecondRoundVote(String cpr) {
         this.cpr = cpr;
-    }
-    public SecondRoundVote(String cpr, String firstPriority1, String firstPriority2, String secondPriority1, String secondPriority2) {
-        this.cpr = cpr;
-        this.firstPriority1 = firstPriority1;
-        this.firstPriority2 = firstPriority2;
-        this.secondPriority1 = secondPriority1;
-        this.secondPriority2 = secondPriority2;
     }
 
     public String getCpr() {
@@ -85,26 +79,45 @@ public class SecondRoundVote implements Serializable {
         this.cpr = cpr;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public Student getStudent() {
+        return student;
     }
 
-    public String getFirstPriority1() {
-        return firstPriority1;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public String getFirstPriority2() {
+    public Elective getFirstPriority2() {
         return firstPriority2;
     }
 
-    public String getSecondPriority1() {
-        return secondPriority1;
+    public void setFirstPriority2(Elective firstPriority2) {
+        this.firstPriority2 = firstPriority2;
     }
 
-    public String getSecondPriority2() {
+    public Elective getFirstPriority1() {
+        return firstPriority1;
+    }
+
+    public void setFirstPriority1(Elective firstPriority1) {
+        this.firstPriority1 = firstPriority1;
+    }
+
+    public Elective getSecondPriority2() {
         return secondPriority2;
     }
 
+    public void setSecondPriority2(Elective secondPriority2) {
+        this.secondPriority2 = secondPriority2;
+    }
+
+    public Elective getSecondPriority1() {
+        return secondPriority1;
+    }
+
+    public void setSecondPriority1(Elective secondPriority1) {
+        this.secondPriority1 = secondPriority1;
+    }
 
     @Override
     public int hashCode() {

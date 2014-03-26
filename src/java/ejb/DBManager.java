@@ -64,9 +64,28 @@ public class DBManager implements DBManagerRemote {
         Query query = entityManager.createNamedQuery("Elective.findAll");
         List<Elective> electives = query.getResultList();
         for (Elective e : electives) {
-            electiveDTOs.add(new ElectiveDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
+            if (e.getProposed() != null) {
+                if (e.getProposed().equalsIgnoreCase("true")) {
+                    electiveDTOs.add(new ElectiveDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
+                }
+            }
         }
         return electiveDTOs;
+    }
+
+    @Override
+    public Collection<ElectiveFirstDTO> getFirstElectives() {
+        ArrayList< ElectiveFirstDTO> electiveDTOs = new ArrayList<>();
+//        Query query = entityManager.createNamedQuery("Elective.findAll");
+//        List<Elective> electives = query.getResultList();
+//        int cfp;
+//        int csp;
+//        for (Elective e : electives) {
+//            cfp= ((Number)entityManager.createNamedQuery("Elective.countFirstPriority").getSingleResult()).intValue();
+//                    // e.setCountFirstPriority(countFirstPriority);
+//                    //  electiveDTOs.add(new ElectiveFirstDTO(e.getTitle(), e.getDiscription(), e.getCreationDate()));
+//        }
+       return electiveDTOs;
     }
 
     @Override
@@ -77,37 +96,53 @@ public class DBManager implements DBManagerRemote {
     @Override
     public boolean addSecondRndStudentChoice(SecondRoundDTO s) {
         try {
-            SecondRoundVote srv = new SecondRoundVote(s.getStudent().getCpr(), s.getFirstPriority1().getTitle(), s.getFirstPriority2().getTitle(), s.getSecondPriority1().getTitle(), s.getSecondPriority2().getTitle());
-            entityManager.persist(srv);
+            Elective e1, e2, e3, e4;
+            Query query = entityManager.createNamedQuery("Elective.findByTitle");
+            query.setParameter("title", s.getFirstPriority1().getTitle());
+            e1 = (Elective) query.getSingleResult();
+            query.setParameter("title", s.getFirstPriority2().getTitle());
+            e2 = (Elective) query.getSingleResult();
+            query.setParameter("title", s.getSecondPriority1().getTitle());
+            e3 = (Elective) query.getSingleResult();
+            query.setParameter("title", s.getSecondPriority2().getTitle());
+            e4 = (Elective) query.getSingleResult();
+            query = entityManager.createNamedQuery("Student.findByCpr");
+            query.setParameter("cpr", s.getStudent().getCpr());
+            Student st = (Student) query.getSingleResult();
+            SecondRoundVote frv = new SecondRoundVote(st.getCpr(), st, e1, e2, e3, e4);
+
+            entityManager.persist(frv);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
     @Override
     public boolean addFirstRndStudentChoice(FirstRoundDTO f) {
-       // try {
-        Elective e1,e2,e3,e4;
-            Query query =entityManager.createNamedQuery("Elective.findByTitle");
+        try {
+            Elective e1, e2, e3, e4;
+            Query query = entityManager.createNamedQuery("Elective.findByTitle");
             query.setParameter("title", f.getFirstPriority1().getTitle());
             e1 = (Elective) query.getSingleResult();
-             query.setParameter("title", f.getFirstPriority2().getTitle());
+            query.setParameter("title", f.getFirstPriority2().getTitle());
             e2 = (Elective) query.getSingleResult();
-             query.setParameter("title", f.getSecondPriority1().getTitle());
+            query.setParameter("title", f.getSecondPriority1().getTitle());
             e3 = (Elective) query.getSingleResult();
-             query.setParameter("title", f.getSecondPriority2().getTitle());
+            query.setParameter("title", f.getSecondPriority2().getTitle());
             e4 = (Elective) query.getSingleResult();
-              query =entityManager.createNamedQuery("Student.findByCpr");
+            query = entityManager.createNamedQuery("Student.findByCpr");
             query.setParameter("cpr", f.getStudent().getCpr());
-            Student s = (Student) query.getSingleResult();
-         FirstRoundVote frv= new FirstRoundVote(s.getCpr(),s,e1,e2,e3,e4);
-           
-           entityManager.persist(frv);
+            Student st = (Student) query.getSingleResult();
+            FirstRoundVote frv = new FirstRoundVote(st.getCpr(), st, e1, e2, e3, e4);
+
+            entityManager.persist(frv);
             return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
 }

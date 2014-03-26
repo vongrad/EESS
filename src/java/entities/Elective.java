@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Elective.findByPool", query = "SELECT e FROM Elective e WHERE e.pool = :pool"),
     @NamedQuery(name = "Elective.findByCreationDate", query = "SELECT e FROM Elective e WHERE e.creationDate = :creationDate")})
 public class Elective implements Serializable {
+    @Size(max = 5)
+    @Column(name = "PROPOSED")
+    private String proposed;
    
         
       private static final long serialVersionUID = 1L;
@@ -59,9 +62,14 @@ public class Elective implements Serializable {
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
+    private int countFirstPriority=0;
+    private int countSecondPriority=0;
+
+    
 
     public Elective() {
     }
+
 
     public Elective(String title) {
         this.title = title;
@@ -78,6 +86,21 @@ public class Elective implements Serializable {
         this.discription = discription;
     }
 
+    public int getCountFirstPriority() {
+        return countFirstPriority;
+    }
+
+    public int getCountSecondPriority() {
+        return countSecondPriority;
+    }
+
+    public void setCountFirstPriority(int countFirstPriority) {
+        this.countFirstPriority = countFirstPriority;
+    }
+
+    public void setCountSecondPriority(int countSecondPriority) {
+        this.countSecondPriority = countSecondPriority;
+    }
     public String getTitle() {
         return title;
     }
@@ -133,6 +156,14 @@ public class Elective implements Serializable {
     @Override
     public String toString() {
         return "entities.Electives[ title=" + title + " ]";
+    }
+
+    public String getProposed() {
+        return proposed;
+    }
+
+    public void setProposed(String proposed) {
+        this.proposed = proposed;
     }
 
 

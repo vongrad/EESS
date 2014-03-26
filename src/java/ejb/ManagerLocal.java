@@ -30,7 +30,7 @@ public interface ManagerLocal {
     public void addFirstRndEle(ElectiveFirstDTO elective);
 
     public void addSecondRndEle(ElectiveSecondDTO elective);
-
+    //done
     public boolean addSecondRndStudentChoice(SecondRoundDTO secondRound);
 
     public Collection<ElectiveFirstDTO> getFirstRound();

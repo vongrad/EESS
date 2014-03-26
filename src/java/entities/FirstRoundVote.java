@@ -52,16 +52,16 @@ public class FirstRoundVote implements Serializable {
     @JoinColumn(name = "CPR", referencedColumnName = "CPR", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Student student;
-    @JoinColumn(name = "FIRST_PRIORITY_2", referencedColumnName = "TITLE")
+    @JoinColumn(name = "FIRST_PRIORITY_2", referencedColumnName = "ELECTIVE_ID")
     @ManyToOne(optional = false)
     private Elective firstPriority2;
-    @JoinColumn(name = "FIRST_PRIORITY_1", referencedColumnName = "TITLE")
+    @JoinColumn(name = "FIRST_PRIORITY_1", referencedColumnName = "ELECTIVE_ID")
     @ManyToOne(optional = false)
     private Elective firstPriority1;
-    @JoinColumn(name = "SECOND_PRIORITY_2", referencedColumnName = "TITLE")
+    @JoinColumn(name = "SECOND_PRIORITY_2", referencedColumnName = "ELECTIVE_ID")
     @ManyToOne(optional = false)
     private Elective secondPriority2;
-    @JoinColumn(name = "SECOND_PRIORITY_1", referencedColumnName = "TITLE")
+    @JoinColumn(name = "SECOND_PRIORITY_1", referencedColumnName = "ELECTIVE_ID")
     @ManyToOne(optional = false)
     private Elective secondPriority1;
 

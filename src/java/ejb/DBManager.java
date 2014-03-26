@@ -13,11 +13,13 @@ import dto.SecondRoundDTO;
 import dto.StudentDTO;
 import dummy.IDataController;
 import entities.Elective;
+import entities.ElectiveSecond;
 import entities.FirstRoundVote;
 import entities.SecondRoundVote;
 import entities.Student;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
@@ -38,7 +40,8 @@ public class DBManager implements DBManagerRemote {
     @Override
     public void addThings() {
         ManagerLocal manager = new Manager();
-        Collection<ElectiveDTO> els = manager.getProposedElectives();
+       // Collection<ElectiveDTO> els = manager.getProposedElectives();
+      //  ElectiveSecond els = new ElectiveSecond("lala","sdasda",new Date(),"A");
 //        for (ElectiveDTO e : els) {
 //            
 //           Elective el= new Elective(e.getTitle(),e.getDetails(),e.getDate());

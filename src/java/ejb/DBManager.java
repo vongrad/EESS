@@ -5,6 +5,7 @@
  */
 package ejb;
 
+import data_assembler.VoteAssembler;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
 import dto.ElectiveSecondDTO;
@@ -69,7 +70,7 @@ public class DBManager implements DBManagerRemote {
         List<Elective> electives = query.getResultList();
         for (Elective e : electives) {
             if (e.getProposed().equals("0")) {
-                electiveDTOs.add(new ElectiveDTO(e.getElectiveID(),e.getTitle(), e.getDescription(), e.getCreationDate(),e.getProposed()));
+                electiveDTOs.add(new ElectiveDTO(e.getElectiveID(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed()));
             }
         }
         return electiveDTOs;
@@ -89,27 +90,27 @@ public class DBManager implements DBManagerRemote {
         int secondPriorityCount;
 
         for (Elective e : electives) {
-           if(e.getPool()==null)
-            { q1 = entityManager.createNamedQuery("FirstRoundVote.count_priority1");
-            q1.setParameter("elective", e);
-            firstPriorityCount = Integer.parseInt(q1.getSingleResult().toString());
-            
-            q2 = entityManager.createNamedQuery("FirstRoundVote.count_priority2");
-            q2.setParameter("elective", e);
-           secondPriorityCount = Integer.parseInt(q2.getSingleResult().toString());
-           electiveDTOs.add(new ElectiveFirstDTO(e.getElectiveID(),e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), firstPriorityCount, secondPriorityCount));
+            if (e.getPool() == null) {
+                q1 = entityManager.createNamedQuery("FirstRoundVote.count_priority1");
+                q1.setParameter("elective", e);
+                firstPriorityCount = Integer.parseInt(q1.getSingleResult().toString());
+
+                q2 = entityManager.createNamedQuery("FirstRoundVote.count_priority2");
+                q2.setParameter("elective", e);
+                secondPriorityCount = Integer.parseInt(q2.getSingleResult().toString());
+                electiveDTOs.add(new ElectiveFirstDTO(e.getElectiveID(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), firstPriorityCount, secondPriorityCount));
             }
         }
-
         return electiveDTOs;
     }
 
     @Override
     public void addFirstRndEle(ElectiveFirstDTO e) {
-      Elective el= new Elective(e.getElectiveId(),e.getTitle(),e.getDescription(),e.getDate(),e.getProposed());
-    entityManager.merge(el);
+        Elective el = new Elective(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getDate(), e.getProposed());
+        entityManager.merge(el);
     }
 
+    //INCREDIBLY terrible design
     @Override
     public boolean addSecondRndStudentChoice(SecondRoundDTO s) {
         try {
@@ -135,7 +136,8 @@ public class DBManager implements DBManagerRemote {
             return false;
         }
     }
-
+    
+    //INCREDIBLY terrible design
     @Override
     public boolean addFirstRndStudentChoice(FirstRoundDTO f) {
         try {
@@ -164,6 +166,11 @@ public class DBManager implements DBManagerRemote {
 
     public void persist(Object object) {
         entityManager.persist(object);
+    }
+
+    @Override
+    public Collection<SecondRoundDTO> getSecondRoundVote() {
+        return VoteAssembler.assembleElectiveSecond(entityManager.createNamedQuery("SecondRoundVote.findAll").getResultList());
     }
 
 }

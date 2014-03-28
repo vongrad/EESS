@@ -12,13 +12,14 @@ import java.util.Date;
  * @author adamv_000
  */
 public class ElectiveSecondDTO extends ElectiveDTO {
-      private String electiveId;
+
+    private String electiveId;
     private String pool;
 
-    public ElectiveSecondDTO(String electiveId,String Title, String Details, Date year, String proposed, String pool) {
+    public ElectiveSecondDTO(String electiveId, String Title, String Details, Date year, String proposed, String pool) {
         super(Title, Details, year, proposed);
         this.pool = pool;
-        this.electiveId=electiveId;
+        this.electiveId = electiveId;
     }
 
     public String getPool() {

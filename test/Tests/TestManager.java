@@ -485,7 +485,8 @@ public class TestManager {
     }
 
     @Test
-    public void testFirstRoundEle() {
-        dbm.getFirstElectives();
+    public void testSecondRoundVote() {
+        Collection<SecondRoundDTO> secondRound = dbm.getSecondRoundVote();
+        
     }
 }

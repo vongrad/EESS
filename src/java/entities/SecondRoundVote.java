@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entities;
 
 import java.io.Serializable;
@@ -32,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SecondRoundVote.findAll", query = "SELECT s FROM SecondRoundVote s"),
     @NamedQuery(name = "SecondRoundVote.findByCpr", query = "SELECT s FROM SecondRoundVote s WHERE s.cpr = :cpr")})
 public class SecondRoundVote implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -143,5 +143,5 @@ public class SecondRoundVote implements Serializable {
     public String toString() {
         return "entities.SecondRoundVote[ cpr=" + cpr + " ]";
     }
-    
+
 }

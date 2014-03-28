@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "FirstRoundVote.findAll", query = "SELECT f FROM FirstRoundVote f"),
     @NamedQuery(name = "FirstRoundVote.count_priority1", query = "SELECT count(f) FROM FirstRoundVote f where f.firstPriority1 = :elective or f.firstPriority2 = :elective"),
-        @NamedQuery(name = "FirstRoundVote.count_priority2", query = "SELECT count(f) FROM FirstRoundVote f where f.secondPriority1 = :elective or f.secondPriority2 = :elective"),
+    @NamedQuery(name = "FirstRoundVote.count_priority2", query = "SELECT count(f) FROM FirstRoundVote f where f.secondPriority1 = :elective or f.secondPriority2 = :elective"),
     @NamedQuery(name = "FirstRoundVote.findByCpr", query = "SELECT f FROM FirstRoundVote f WHERE f.cpr = :cpr")})
 public class FirstRoundVote implements Serializable {
 

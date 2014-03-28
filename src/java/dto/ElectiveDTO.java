@@ -13,16 +13,27 @@ import java.util.Date;
  * @author adamv_000
  */
 public class ElectiveDTO implements Serializable{
-
+    private String electiveID;
     private String title;
     private String description;
     private Date date;
     private String proposed;
-    
-    public ElectiveDTO(String Title, String Details, Date year, String proposed) {
-        this.title = Title;
-        this.description = Details;
-        this.date=year;
+
+    public ElectiveDTO() {
+    }
+// for when Object is in the DB
+    public ElectiveDTO(String electiveID, String title, String description, Date date, String proposed) {
+        this.electiveID = electiveID;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.proposed = proposed;
+    }
+// for when Object is not in the DB
+    public ElectiveDTO(String title, String description, Date date, String proposed) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
         this.proposed = proposed;
     }
 
@@ -31,6 +42,11 @@ public class ElectiveDTO implements Serializable{
         this.description = description;
         this.date = date;
     }
+
+    public String getElectiveID() {
+        return electiveID;
+    }
+   
 
  
     public Date getDate() {

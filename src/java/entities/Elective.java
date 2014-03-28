@@ -32,14 +32,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "ELECTIVE")
-@Inheritance(strategy = InheritanceType.JOINED)
-
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Elective.findAll", query = "SELECT e FROM Elective e"),
     @NamedQuery(name = "Elective.findByElectiveID", query = "SELECT e FROM Elective e WHERE e.electiveID = :electiveID"),
     @NamedQuery(name = "Elective.findByTitle", query = "SELECT e FROM Elective e WHERE e.title = :title"),
-    @NamedQuery(name = "Elective.findByDiscription", query = "SELECT e FROM Elective e WHERE e.discription = :discription"),
+    @NamedQuery(name = "Elective.findByDiscription", query = "SELECT e FROM Elective e WHERE e.description = :description"),
     @NamedQuery(name = "Elective.findByCreationDate", query = "SELECT e FROM Elective e WHERE e.creationDate = :creationDate"),
     @NamedQuery(name = "Elective.findByProposed", query = "SELECT e FROM Elective e WHERE e.proposed = :proposed")})
 public class Elective implements Serializable {
@@ -58,21 +56,43 @@ public class Elective implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "DISCRIPTION")
-    private String discription;
+    @Column(name = "DeSCRIPTION")
+    private String description;
+    @NotNull
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Size(max = 5)
     @Column(name = "PROPOSED")
     private String proposed;
+    @Basic(optional = false)
+    @Size(min = 1, max = 1)
+    @Column(name = "POOL")
+    private String pool;
+
+    public void setPool(String pool) {
+        this.pool = pool;
+    }
+
+    public String getPool() {
+        return pool;
+    }
 
     public Elective() {
     }
-
-    public Elective(String title, String discription) {
+///Proposed
+    public Elective(String title, String discription,Date date) {
         this.title = title;
-        this.discription = discription;
+        this.description = discription;
+        this.creationDate=date;
+    }
+//First Election
+    public Elective(String electiveID, String title, String description, Date creationDate, String proposed) {
+        this.electiveID = electiveID;
+        this.title = title;
+        this.description = description;
+        this.creationDate = creationDate;
+        this.proposed = proposed;
     }
 
     public Elective(String title) {
@@ -87,12 +107,12 @@ public class Elective implements Serializable {
         this.title = title;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String discription) {
+        this.description = discription;
     }
 
     public Date getCreationDate() {

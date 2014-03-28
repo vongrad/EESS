@@ -89,7 +89,8 @@ public class DBManager implements DBManagerRemote {
         int secondPriorityCount;
 
         for (Elective e : electives) {
-            q1 = entityManager.createNamedQuery("FirstRoundVote.count_priority1");
+           if(e.getPool()==null)
+            { q1 = entityManager.createNamedQuery("FirstRoundVote.count_priority1");
             q1.setParameter("elective", e);
             firstPriorityCount = Integer.parseInt(q1.getSingleResult().toString());
             
@@ -97,7 +98,7 @@ public class DBManager implements DBManagerRemote {
             q2.setParameter("elective", e);
            secondPriorityCount = Integer.parseInt(q2.getSingleResult().toString());
            electiveDTOs.add(new ElectiveFirstDTO(e.getElectiveID(),e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), firstPriorityCount, secondPriorityCount));
-        
+            }
         }
 
         return electiveDTOs;

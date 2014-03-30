@@ -65,7 +65,7 @@ public class Elective implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ELECTIVE_ID")
-    private Integer electiveId;
+    private int electiveId;
     @JoinColumn(name = "TEACHER", referencedColumnName = "CPR")
     @ManyToOne
     private Teacher teacher;
@@ -137,11 +137,11 @@ public class Elective implements Serializable {
         this.title = title;
     }
 
-    public Integer getElectiveId() {
+    public int getElectiveId() {
         return electiveId;
     }
 
-    public void setElectiveId(Integer electiveId) {
+    public void setElectiveId(int electiveId) {
         this.electiveId = electiveId;
     }
 
@@ -173,25 +173,8 @@ public class Elective implements Serializable {
         this.studentCollection1 = studentCollection1;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (electiveId != null ? electiveId.hashCode() : 0);
-        return hash;
-    }
+    
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Elective)) {
-            return false;
-        }
-        Elective other = (Elective) object;
-        if ((this.electiveId == null && other.electiveId != null) || (this.electiveId != null && !this.electiveId.equals(other.electiveId))) {
-            return false;
-        }
-        return true;
-    }
 
     @Override
     public String toString() {

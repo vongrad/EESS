@@ -784,9 +784,15 @@ exists or setup the property manually. For example like this:
         <ant antfile="${project.EESS_Shared_Contract}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
+        <ant antfile="${project.EESS_Shared_Contract-1}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
     </target>
     <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps">
         <ant antfile="${project.EESS_Shared_Contract}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.EESS_Shared_Contract-1}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
     </target>
@@ -806,7 +812,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.jmock-2.6.0.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.jmock-junit4-2.6.0.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${reference.EESS_Shared_Contract.jar}" todir="${build.classes.dir}"/>
-        <copyfiles files="${file.reference.ojdbc7.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${reference.EESS_Shared_Contract-1.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.ojdbc7_g.jar}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
@@ -815,7 +821,7 @@ exists or setup the property manually. For example like this:
         <basename file="${file.reference.jmock-2.6.0.jar}" property="manifest.file.reference.jmock-2.6.0.jar"/>
         <basename file="${file.reference.jmock-junit4-2.6.0.jar}" property="manifest.file.reference.jmock-junit4-2.6.0.jar"/>
         <basename file="${reference.EESS_Shared_Contract.jar}" property="manifest.reference.EESS_Shared_Contract.jar"/>
-        <basename file="${file.reference.ojdbc7.jar}" property="manifest.file.reference.ojdbc7.jar"/>
+        <basename file="${reference.EESS_Shared_Contract-1.jar}" property="manifest.reference.EESS_Shared_Contract-1.jar"/>
         <basename file="${file.reference.ojdbc7_g.jar}" property="manifest.file.reference.ojdbc7_g.jar"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
             <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 "/>
@@ -824,7 +830,7 @@ exists or setup the property manually. For example like this:
             <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.jmock-2.6.0.jar}"/>
             <attribute name="jar-4-Extension-Name" value="${manifest.file.reference.jmock-junit4-2.6.0.jar}"/>
             <attribute name="jar-5-Extension-Name" value="${manifest.reference.EESS_Shared_Contract.jar}"/>
-            <attribute name="jar-6-Extension-Name" value="${manifest.file.reference.ojdbc7.jar}"/>
+            <attribute name="jar-6-Extension-Name" value="${manifest.reference.EESS_Shared_Contract-1.jar}"/>
             <attribute name="jar-7-Extension-Name" value="${manifest.file.reference.ojdbc7_g.jar}"/>
         </manifest>
     </target>
@@ -834,7 +840,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.jmock-2.6.0.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jmock-junit4-2.6.0.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.EESS_Shared_Contract.jar}" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.ojdbc7.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.EESS_Shared_Contract-1.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.ojdbc7_g.jar}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1220,6 +1226,7 @@ exists or setup the property manually. For example like this:
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
         <ant antfile="${project.EESS_Shared_Contract}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.EESS_Shared_Contract-1}/build.xml" inheritall="false" target="clean"/>
     </target>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>

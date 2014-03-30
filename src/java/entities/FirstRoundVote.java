@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entities;
 
 import java.io.Serializable;
@@ -29,11 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FirstRoundVote.findAll", query = "SELECT f FROM FirstRoundVote f"),
-    @NamedQuery(name = "FirstRoundVote.count_priority1", query = "SELECT count(f) FROM FirstRoundVote f where f.firstPriority1 = :elective or f.firstPriority2 = :elective"),
+     @NamedQuery(name = "FirstRoundVote.count_priority1", query = "SELECT count(f) FROM FirstRoundVote f where f.firstPriority1 = :elective or f.firstPriority2 = :elective"),
     @NamedQuery(name = "FirstRoundVote.count_priority2", query = "SELECT count(f) FROM FirstRoundVote f where f.secondPriority1 = :elective or f.secondPriority2 = :elective"),
+   
     @NamedQuery(name = "FirstRoundVote.findByCpr", query = "SELECT f FROM FirstRoundVote f WHERE f.cpr = :cpr")})
 public class FirstRoundVote implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -41,45 +42,41 @@ public class FirstRoundVote implements Serializable {
     @Size(min = 1, max = 11)
     @Column(name = "CPR")
     private String cpr;
-
     @JoinColumn(name = "CPR", referencedColumnName = "CPR", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Student student;
-
-    @JoinColumn(name = "FIRST_PRIORITY_2", referencedColumnName = "ELECTIVE_ID")
-    @ManyToOne(optional = false)
-    private Elective firstPriority2;
-
     @JoinColumn(name = "FIRST_PRIORITY_1", referencedColumnName = "ELECTIVE_ID")
     @ManyToOne(optional = false)
     private Elective firstPriority1;
-
+    @JoinColumn(name = "FIRST_PRIORITY_2", referencedColumnName = "ELECTIVE_ID")
+    @ManyToOne(optional = false)
+    private Elective firstPriority2;
+    @JoinColumn(name = "SECOND_PRIORITY_1", referencedColumnName = "ELECTIVE_ID")
+    @ManyToOne(optional = false)
+    private Elective secondPriority1;
     @JoinColumn(name = "SECOND_PRIORITY_2", referencedColumnName = "ELECTIVE_ID")
     @ManyToOne(optional = false)
     private Elective secondPriority2;
 
-    @JoinColumn(name = "SECOND_PRIORITY_1", referencedColumnName = "ELECTIVE_ID")
-    @ManyToOne(optional = false)
-    private Elective secondPriority1;
-
-    public FirstRoundVote(String cpr, Student student, Elective firstPriority2, Elective firstPriority1, Elective secondPriority2, Elective secondPriority1) {
+    public FirstRoundVote(String cpr, Student student, Elective firstPriority1, Elective firstPriority2, Elective secondPriority1) {
         this.cpr = cpr;
         this.student = student;
-        this.firstPriority2 = firstPriority2;
         this.firstPriority1 = firstPriority1;
-        this.secondPriority2 = secondPriority2;
+        this.firstPriority2 = firstPriority2;
         this.secondPriority1 = secondPriority1;
     }
 
-    public FirstRoundVote() {
-    }
-
-    public FirstRoundVote(Student student, Elective firstPriority2, Elective firstPriority1, Elective secondPriority2, Elective secondPriority1) {
+    public FirstRoundVote(String cpr, Student student, Elective firstPriority1, Elective firstPriority2, Elective secondPriority1, Elective secondPriority2) {
+        this.cpr = cpr;
         this.student = student;
-        this.firstPriority2 = firstPriority2;
         this.firstPriority1 = firstPriority1;
-        this.secondPriority2 = secondPriority2;
+        this.firstPriority2 = firstPriority2;
         this.secondPriority1 = secondPriority1;
+        this.secondPriority2 = secondPriority2;
+    }
+
+ 
+    public FirstRoundVote() {
     }
 
     public FirstRoundVote(String cpr) {
@@ -102,14 +99,6 @@ public class FirstRoundVote implements Serializable {
         this.student = student;
     }
 
-    public Elective getFirstPriority2() {
-        return firstPriority2;
-    }
-
-    public void setFirstPriority2(Elective firstPriority2) {
-        this.firstPriority2 = firstPriority2;
-    }
-
     public Elective getFirstPriority1() {
         return firstPriority1;
     }
@@ -118,12 +107,12 @@ public class FirstRoundVote implements Serializable {
         this.firstPriority1 = firstPriority1;
     }
 
-    public Elective getSecondPriority2() {
-        return secondPriority2;
+    public Elective getFirstPriority2() {
+        return firstPriority2;
     }
 
-    public void setSecondPriority2(Elective secondPriority2) {
-        this.secondPriority2 = secondPriority2;
+    public void setFirstPriority2(Elective firstPriority2) {
+        this.firstPriority2 = firstPriority2;
     }
 
     public Elective getSecondPriority1() {
@@ -132,6 +121,14 @@ public class FirstRoundVote implements Serializable {
 
     public void setSecondPriority1(Elective secondPriority1) {
         this.secondPriority1 = secondPriority1;
+    }
+
+    public Elective getSecondPriority2() {
+        return secondPriority2;
+    }
+
+    public void setSecondPriority2(Elective secondPriority2) {
+        this.secondPriority2 = secondPriority2;
     }
 
     @Override
@@ -158,5 +155,5 @@ public class FirstRoundVote implements Serializable {
     public String toString() {
         return "entities.FirstRoundVote[ cpr=" + cpr + " ]";
     }
-
+    
 }

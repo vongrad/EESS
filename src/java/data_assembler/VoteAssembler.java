@@ -19,7 +19,7 @@ import java.util.Collection;
 public class VoteAssembler {
 
     public static ElectiveSecondDTO assembleEleSecond(Elective elective) {
-        return new ElectiveSecondDTO(elective.getElectiveID(), elective.getTitle(), elective.getDescription(), elective.getCreationDate(), elective.getProposed(), elective.getPool());
+        return new ElectiveSecondDTO(elective.getElectiveId(), elective.getTitle(), elective.getDescription(), elective.getCreationDate(), elective.getProposed(), elective.getPool());
     }
 
     public static Collection<SecondRoundDTO> assembleElectiveSecond(Collection<SecondRoundVote> electives) {

@@ -41,11 +41,11 @@ public class DBManager implements DBManagerRemote {
     @Override
     public void addThings() {
         ManagerLocal manager = new Manager();
-        Collection<StudentDTO> els = manager.getStudents();
+        Collection<ElectiveDTO> els = manager.getProposedElectives();
 
-        for (StudentDTO s : els) {
+        for (ElectiveDTO s : els) {
             System.out.println(1);
-            Student el = new Student(s.getFirstName(), s.getLastName(), s.getCpr());
+            Elective el = new Elective(s.getTitle(),s.getDescription(),s.getDate(),""+s.getProposed());
 
             entityManager.persist(el);
         }
@@ -70,7 +70,7 @@ public class DBManager implements DBManagerRemote {
         List<Elective> electives = query.getResultList();
         for (Elective e : electives) {
             if (e.getProposed().equals("0")) {
-                electiveDTOs.add(new ElectiveDTO(e.getElectiveID(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed()));
+                electiveDTOs.add(new ElectiveDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed()));
             }
         }
         return electiveDTOs;
@@ -98,7 +98,7 @@ public class DBManager implements DBManagerRemote {
                 q2 = entityManager.createNamedQuery("FirstRoundVote.count_priority2");
                 q2.setParameter("elective", e);
                 secondPriorityCount = Integer.parseInt(q2.getSingleResult().toString());
-                electiveDTOs.add(new ElectiveFirstDTO(e.getElectiveID(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), firstPriorityCount, secondPriorityCount));
+                electiveDTOs.add(new ElectiveFirstDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), firstPriorityCount, secondPriorityCount));
             }
         }
         return electiveDTOs;
@@ -154,7 +154,7 @@ public class DBManager implements DBManagerRemote {
             query = entityManager.createNamedQuery("Student.findByCpr");
             query.setParameter("cpr", f.getStudent().getCpr());
             Student st = (Student) query.getSingleResult();
-            FirstRoundVote frv = new FirstRoundVote(st.getCpr(), st, e1, e2, e3, e4);
+         FirstRoundVote frv = new FirstRoundVote(st.getCpr(), st, e1, e2, e3, e4);
 
             entityManager.persist(frv);
             return true;

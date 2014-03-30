@@ -13,7 +13,7 @@ import java.util.Date;
  * @author adamv_000
  */
 public class ElectiveDTO implements Serializable{
-    private String electiveID;
+    private Integer electiveID;
     private String title;
     private String description;
     private Date date;
@@ -22,7 +22,7 @@ public class ElectiveDTO implements Serializable{
     public ElectiveDTO() {
     }
 // for when Object is in the DB
-    public ElectiveDTO(String electiveID, String title, String description, Date date, String proposed) {
+    public ElectiveDTO(Integer electiveID, String title, String description, Date date, String proposed) {
         this.electiveID = electiveID;
         this.title = title;
         this.description = description;
@@ -43,7 +43,7 @@ public class ElectiveDTO implements Serializable{
         this.date = date;
     }
 
-    public String getElectiveID() {
+    public Integer getElectiveID() {
         return electiveID;
     }
    

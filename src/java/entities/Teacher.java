@@ -7,65 +7,72 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Stefan
  */
 @Entity
-@Table(name = "STUDENT")
+@Table(name = "TEACHER")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
-    @NamedQuery(name = "Student.findByCpr", query = "SELECT s FROM Student s WHERE s.cpr = :cpr"),
-    @NamedQuery(name = "Student.findByFirstName", query = "SELECT s FROM Student s WHERE s.firstName = :firstName"),
-    @NamedQuery(name = "Student.findByLastName", query = "SELECT s FROM Student s WHERE s.lastName = :lastName")})
-public class Student implements Serializable {
+    @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t"),
+    @NamedQuery(name = "Teacher.findByCpr", query = "SELECT t FROM Teacher t WHERE t.cpr = :cpr"),
+    @NamedQuery(name = "Teacher.findByFirstName", query = "SELECT t FROM Teacher t WHERE t.firstName = :firstName"),
+    @NamedQuery(name = "Teacher.findByLastName", query = "SELECT t FROM Teacher t WHERE t.lastName = :lastName")})
+public class Teacher implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 11)
     @Column(name = "CPR")
     private String cpr;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
     @Column(name = "FIRST_NAME")
     private String firstName;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
     @Column(name = "LAST_NAME")
     private String lastName;
-    @JoinColumn(name = "SECONDARY_ELECTIVE", referencedColumnName = "ELECTIVE_ID")
-    @ManyToOne
-    private Elective secondaryElective;
-    @JoinColumn(name = "PRIMARY_ELECTIVE", referencedColumnName = "ELECTIVE_ID")
-    @ManyToOne
-    private Elective primaryElective;
+    @JoinTable(name = "TEACHER_SKILL", joinColumns = {
+        @JoinColumn(name = "CPR", referencedColumnName = "CPR")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID", referencedColumnName = "ID")})
+    @ManyToMany
+    private Collection<Skill> skillCollection;
+    @OneToMany(mappedBy = "teacher")
+    private Collection<Elective> electiveCollection;
 
-    public Student() {
+    public Teacher() {
     }
 
-    public Student(String cpr, String firstName, String lastName) {
+    public Teacher(String cpr) {
+        this.cpr = cpr;
+    }
+
+    public Teacher(String cpr, String firstName, String lastName) {
         this.cpr = cpr;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public Student(String cpr) {
-        this.cpr = cpr;
     }
 
     public String getCpr() {
@@ -92,21 +99,22 @@ public class Student implements Serializable {
         this.lastName = lastName;
     }
 
-    
-    public Elective getSecondaryElective() {
-        return secondaryElective;
+    @XmlTransient
+    public Collection<Skill> getSkillCollection() {
+        return skillCollection;
     }
 
-    public void setSecondaryElective(Elective secondaryElective) {
-        this.secondaryElective = secondaryElective;
+    public void setSkillCollection(Collection<Skill> skillCollection) {
+        this.skillCollection = skillCollection;
     }
 
-    public Elective getPrimaryElective() {
-        return primaryElective;
+    @XmlTransient
+    public Collection<Elective> getElectiveCollection() {
+        return electiveCollection;
     }
 
-    public void setPrimaryElective(Elective primaryElective) {
-        this.primaryElective = primaryElective;
+    public void setElectiveCollection(Collection<Elective> electiveCollection) {
+        this.electiveCollection = electiveCollection;
     }
 
     @Override
@@ -119,10 +127,10 @@ public class Student implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Student)) {
+        if (!(object instanceof Teacher)) {
             return false;
         }
-        Student other = (Student) object;
+        Teacher other = (Teacher) object;
         if ((this.cpr == null && other.cpr != null) || (this.cpr != null && !this.cpr.equals(other.cpr))) {
             return false;
         }
@@ -131,7 +139,7 @@ public class Student implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Student[ cpr=" + cpr + " ]";
+        return "entities.Teacher[ cpr=" + cpr + " ]";
     }
     
 }

@@ -12,21 +12,26 @@ import dto.ElectiveSecondDTO;
 import dto.FirstRoundDTO;
 import dto.SecondRoundDTO;
 import dto.StudentDTO;
+import dto.StudentElectiveDTO;
 import dummy.IDataController;
 import entities.Elective;
 import entities.FirstRoundVote;
 import entities.SecondRoundVote;
 import entities.Student;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.RollbackException;
+import javax.persistence.TransactionRequiredException;
 
 /**
  *
@@ -45,7 +50,7 @@ public class DBManager implements DBManagerRemote {
 
         for (ElectiveDTO s : els) {
             System.out.println(1);
-            Elective el = new Elective(s.getTitle(),s.getDescription(),s.getDate(),""+s.getProposed());
+            Elective el = new Elective(s.getTitle(), s.getDescription(), s.getDate(), "" + s.getProposed());
 
             entityManager.persist(el);
         }
@@ -136,7 +141,7 @@ public class DBManager implements DBManagerRemote {
             return false;
         }
     }
-    
+
     //INCREDIBLY terrible design
     @Override
     public boolean addFirstRndStudentChoice(FirstRoundDTO f) {
@@ -154,7 +159,7 @@ public class DBManager implements DBManagerRemote {
             query = entityManager.createNamedQuery("Student.findByCpr");
             query.setParameter("cpr", f.getStudent().getCpr());
             Student st = (Student) query.getSingleResult();
-         FirstRoundVote frv = new FirstRoundVote(st.getCpr(), st, e1, e2, e3, e4);
+            FirstRoundVote frv = new FirstRoundVote(st.getCpr(), st, e1, e2, e3, e4);
 
             entityManager.persist(frv);
             return true;
@@ -171,6 +176,52 @@ public class DBManager implements DBManagerRemote {
     @Override
     public Collection<SecondRoundDTO> getSecondRoundVote() {
         return VoteAssembler.assembleElectiveSecond(entityManager.createNamedQuery("SecondRoundVote.findAll").getResultList());
+    }
+
+    //STEFAN!N!N!N!
+    @Override
+    public boolean setTaughtElectives(int[] electiveId) {
+
+        //entityManager.getTransaction().begin();
+        for (int i : electiveId) {
+            Elective ele = entityManager.find(Elective.class, i);
+            ele.setTaught((short) 1);
+            try {
+                entityManager.persist(ele);
+            } catch (EntityExistsException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
+            } catch (TransactionRequiredException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+//        try {
+//            entityManager.getTransaction().commit();
+//        } catch (RollbackException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+        return true;
+    }
+
+    @Override
+    public boolean assignStudentElectives(Collection<StudentElectiveDTO> studentElective) {
+
+        for (StudentElectiveDTO studentElectiveDTO : studentElective) {
+            Student student = entityManager.find(Student.class, studentElectiveDTO.getCPR());
+            Elective elective = entityManager.find(Elective.class, studentElectiveDTO.getElective_id());
+            student.addElective(elective);
+            elective.addStudent(student);
+            entityManager.persist(elective);
+            entityManager.persist(student);
+        }
+
+        return true;
     }
 
 }

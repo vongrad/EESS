@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Student.findByFirstName", query = "SELECT s FROM Student s WHERE s.firstName = :firstName"),
     @NamedQuery(name = "Student.findByLastName", query = "SELECT s FROM Student s WHERE s.lastName = :lastName")})
 public class Student implements Serializable {
+
+    @ManyToMany(mappedBy = "studentCollection")
+    private Collection<Elective> electiveCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -88,11 +93,14 @@ public class Student implements Serializable {
         return lastName;
     }
 
+    public boolean addElective(Elective elective) {
+        return electiveCollection.add(elective);
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    
     public Elective getSecondaryElective() {
         return secondaryElective;
     }
@@ -133,5 +141,14 @@ public class Student implements Serializable {
     public String toString() {
         return "entities.Student[ cpr=" + cpr + " ]";
     }
-    
+
+    @XmlTransient
+    public Collection<Elective> getElectiveCollection() {
+        return electiveCollection;
+    }
+
+    public void setElectiveCollection(Collection<Elective> electiveCollection) {
+        this.electiveCollection = electiveCollection;
+    }
+
 }

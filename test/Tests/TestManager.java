@@ -12,8 +12,10 @@ import dto.ElectiveSecondDTO;
 import dto.FirstRoundDTO;
 import dto.SecondRoundDTO;
 import dto.StudentDTO;
+import dto.StudentElectiveDTO;
 import dummy.IDataController;
 import ejb.DBManager;
+import ejb.DBManagerRemote;
 import ejb.Manager;
 import ejb.ManagerLocal;
 import java.util.ArrayList;
@@ -41,9 +43,10 @@ import static org.junit.Assert.*;
  * @author Stefan
  */
 public class TestManager {
+    DBManagerRemote dbm = lookupDBManagerRemote();
 
     ManagerLocal manager;
-    DBManager dbm;
+  
 
     @Test
     public void NR() {
@@ -65,7 +68,7 @@ public class TestManager {
     @Before
     public void setUp() {
         manager = new Manager();
-        dbm = new DBManager();
+      
     }
 
     @After
@@ -81,7 +84,6 @@ public class TestManager {
         final IDataController dataController = manager.getDataController();
 
 //        final ElectiveFirstDTO elective = new ElectiveFirstDTO("Game Development", "Here you learn how to develop the best game engines!", new Date(2014, 03, 07), 1, 5);
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getFirstRndSize();
 //            will(returnValue(0));
@@ -93,7 +95,6 @@ public class TestManager {
 //            will(returnValue(true));
 //        }});
 //        assertTrue(dataController.setFirsttRndEle(elective));
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getFirstRndSize();
 //            will(returnValue(1));
@@ -115,7 +116,7 @@ public class TestManager {
         //final IDataController dataController = context.mock(IDataController.class);
         final IDataController dataController = manager.getDataController();
     //    final ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
-     //   final ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
+        //   final ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
 
 //        context.checking(new Expectations() {
 //            {
@@ -147,17 +148,16 @@ public class TestManager {
 //            }
 //        });
 //        assertNotSame(el1, dataController.getLastFirstRndEle());
-
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getLastFirstRndEle();
 //                will(returnValue(el8));
 //            }
 //        });
-     //   assertEquals(el8.getTitle(), dataController.getLastFirstRndEle().getTitle());
-     //   assertEquals(el8.getDescription(), dataController.getLastFirstRndEle().getDescription());
-     //   assertEquals(el8.getCountFirstpriority(), dataController.getLastFirstRndEle().getCountFirstpriority());
-      //  assertEquals(el8.getCountSecondPriority(), dataController.getLastFirstRndEle().getCountSecondPriority());
+        //   assertEquals(el8.getTitle(), dataController.getLastFirstRndEle().getTitle());
+        //   assertEquals(el8.getDescription(), dataController.getLastFirstRndEle().getDescription());
+        //   assertEquals(el8.getCountFirstpriority(), dataController.getLastFirstRndEle().getCountFirstpriority());
+        //  assertEquals(el8.getCountSecondPriority(), dataController.getLastFirstRndEle().getCountSecondPriority());
     }
 
     @Test
@@ -169,13 +169,12 @@ public class TestManager {
         IDataController dataController = manager.getDataController();
 
 //        ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
-      //  ElectiveFirstDTO el4 = new ElectiveFirstDTO("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
-      //  ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
-      //  ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
-
+        //  ElectiveFirstDTO el4 = new ElectiveFirstDTO("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
+        //  ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
+        //  ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
         StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
 
-       // final FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
+        // final FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getFirstRoundVoteSize();
@@ -254,7 +253,6 @@ public class TestManager {
 //            will(returnValue(true));
 //        }});
 //        assertEquals(dataController.setSecondRndEle(el5), true);
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getSecondRndSize();
 //            will(returnValue(6));
@@ -265,8 +263,7 @@ public class TestManager {
 //            oneOf(dataController).getLastSecondRndEle();
 //            will(returnValue(el5));
 //        }});
-    //    assertEquals(el5.getPool(), dataController.getLastSecondRndEle().getPool());
-
+        //    assertEquals(el5.getPool(), dataController.getLastSecondRndEle().getPool());
     }
 
     @Test
@@ -278,7 +275,6 @@ public class TestManager {
 
 //        final ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
 //        final ElectiveSecondDTO el1 = new ElectiveSecondDTO("C#", "Torban learning C#", new Date(), "A");
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getSecondRndSize();
 //            will(returnValue(0));
@@ -307,31 +303,27 @@ public class TestManager {
 //            will(returnValue(el5));
 //        }});
 //        assertEquals(dataController.getLastSecondRndEle().getTitle(), el5.getTitle());
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRndEle();
 //            will(returnValue(el5));
 //        }});
-    //    assertEquals(dataController.getLastSecondRndEle().getDescription(), el5.getDescription());
-
+        //    assertEquals(dataController.getLastSecondRndEle().getDescription(), el5.getDescription());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRndEle();
 //            will(returnValue(el5));
 //        }});
-   //     assertEquals(dataController.getLastSecondRndEle().getPool(), el5.getPool());
-
+        //     assertEquals(dataController.getLastSecondRndEle().getPool(), el5.getPool());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRndEle();
 //            will(returnValue(el5));
 //        }});
-    //    assertNotSame(dataController.getLastSecondRndEle().getTitle(), el1.getTitle());
-
+        //    assertNotSame(dataController.getLastSecondRndEle().getTitle(), el1.getTitle());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRndEle();
 //            will(returnValue(el5));
 //        }});
 //        
-    //    assertNotSame(dataController.getLastSecondRndEle().getDetails(), el1.getDetails());
+        //    assertNotSame(dataController.getLastSecondRndEle().getDetails(), el1.getDetails());
     }
 
     @Test
@@ -347,9 +339,7 @@ public class TestManager {
 //        final ElectiveSecondDTO el3 = new ElectiveSecondDTO("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
 //        final ElectiveSecondDTO el4 = new ElectiveSecondDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
 //        final ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
-
      //   final SecondRoundDTO fr1 = new SecondRoundDTO(el4, el2, el3, el5, s3);
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getSecondRndVoteSize();
 //            will(returnValue(0));
@@ -372,39 +362,32 @@ public class TestManager {
 //            will(returnValue(true));
 //        }});
 //        assertTrue(dataController.setSecondRndStudentChoice(fr1));
-
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
- //       assertEquals(dataController.getLastSecondRoundVote().getStudent().getCpr(), fr1.getStudent().getCpr());
-
+        //       assertEquals(dataController.getLastSecondRoundVote().getStudent().getCpr(), fr1.getStudent().getCpr());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-     //   assertEquals(dataController.getLastSecondRoundVote().getFirstPriority1().getTitle(), fr1.getFirstPriority1().getTitle());
-
+        //   assertEquals(dataController.getLastSecondRoundVote().getFirstPriority1().getTitle(), fr1.getFirstPriority1().getTitle());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-    ///    assertEquals(dataController.getLastSecondRoundVote().getFirstPriority2().getTitle(), fr1.getFirstPriority2().getTitle());
-
+        ///    assertEquals(dataController.getLastSecondRoundVote().getFirstPriority2().getTitle(), fr1.getFirstPriority2().getTitle());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-      //  assertEquals(dataController.getLastSecondRoundVote().getSecondPriority1().getTitle(), fr1.getSecondPriority1().getTitle());
-
+        //  assertEquals(dataController.getLastSecondRoundVote().getSecondPriority1().getTitle(), fr1.getSecondPriority1().getTitle());
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRoundVote();
 //            will(returnValue(fr1));
 //        }});
-     //   assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
-
+        //   assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
      //   assertNotSame(dataController.getSecondRndVote(0).getStudent().getCpr(), dataController.getLastSecondRoundVote().getStudent().getCpr());
-
     }
 
     public void checkStudentsList() {
@@ -487,6 +470,30 @@ public class TestManager {
     @Test
     public void testSecondRoundVote() {
         Collection<SecondRoundDTO> secondRound = dbm.getSecondRoundVote();
-        
+    }
+    
+    @Test
+    public void updateTaught(){
+        boolean result = dbm.setTaughtElectives(new int[] {54, 55});
+        assertEquals(true, result);
+    }
+    
+    @Test
+    public void addStudentEle(){
+        Collection<StudentElectiveDTO> studentEle = new ArrayList<>();
+        studentEle.add(new StudentElectiveDTO(55, "764323-4519"));
+        studentEle.add(new StudentElectiveDTO(54, "764323-4519"));
+        boolean result = dbm.assignStudentElectives(studentEle);
+        assertEquals(true, result);
+    }
+
+    private DBManagerRemote lookupDBManagerRemote() {
+        try {
+            Context c = new InitialContext();
+            return (DBManagerRemote) c.lookup("java:global/EESS_BackEnd/DBManager!ejb.DBManagerRemote");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
     }
 }

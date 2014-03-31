@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entities;
 
 import java.io.Serializable;
@@ -16,6 +15,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,6 +45,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Elective.findByTitle", query = "SELECT e FROM Elective e WHERE e.title = :title"),
     @NamedQuery(name = "Elective.findByElectiveId", query = "SELECT e FROM Elective e WHERE e.electiveId = :electiveId")})
 public class Elective implements Serializable {
+
+    @JoinTable(name = "STUDEN_ELECTIVE", joinColumns = {
+        @JoinColumn(name = "ELECTIVE_ID", referencedColumnName = "ELECTIVE_ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "CPR", referencedColumnName = "CPR")})
+    @ManyToMany
+    private Collection<Student> studentCollection;
+
     private static final long serialVersionUID = 1L;
     @Column(name = "CREATION_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -57,6 +65,8 @@ public class Elective implements Serializable {
     @Size(max = 255)
     @Column(name = "PROPOSED")
     private String proposed;
+    @Column(name = "TAUGHT")
+    private Short taught;
     @Size(max = 255)
     @Column(name = "TITLE")
     private String title;
@@ -69,14 +79,8 @@ public class Elective implements Serializable {
     @JoinColumn(name = "TEACHER", referencedColumnName = "CPR")
     @ManyToOne
     private Teacher teacher;
-    
 
-    @OneToMany(mappedBy = "secondaryElective")
-    private Collection<Student> studentCollection;
-    @OneToMany(mappedBy = "primaryElective")
-    private Collection<Student> studentCollection1;
-
-    public Elective( Integer electiveId, String title, String description, Date creationDate, String proposed) {
+    public Elective(Integer electiveId, String title, String description, Date creationDate, String proposed) {
         this.creationDate = creationDate;
         this.description = description;
         this.proposed = proposed;
@@ -153,8 +157,6 @@ public class Elective implements Serializable {
         this.teacher = teacher;
     }
 
-
-
     @XmlTransient
     public Collection<Student> getStudentCollection() {
         return studentCollection;
@@ -163,22 +165,22 @@ public class Elective implements Serializable {
     public void setStudentCollection(Collection<Student> studentCollection) {
         this.studentCollection = studentCollection;
     }
-
-    @XmlTransient
-    public Collection<Student> getStudentCollection1() {
-        return studentCollection1;
-    }
-
-    public void setStudentCollection1(Collection<Student> studentCollection1) {
-        this.studentCollection1 = studentCollection1;
-    }
-
     
+    public boolean addStudent(Student student){
+        return studentCollection.add(student);
+    }
 
+    public Short getTaught() {
+        return taught;
+    }
+
+    public void setTaught(Short taught) {
+        this.taught = taught;
+    }
 
     @Override
     public String toString() {
         return "entities.Elective[ electiveId=" + electiveId + " ]";
     }
-    
+
 }

@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author Stefan
  */
 public class StudentDTO implements Serializable{
+    
 
     private String firstName;
     private String lastName;

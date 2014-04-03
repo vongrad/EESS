@@ -224,4 +224,32 @@ public class DBManager implements DBManagerRemote {
         return true;
     }
 
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    @Override
+    public boolean isTaught(int electiveId) {
+        
+        try{
+            Elective elective = entityManager.find(Elective.class, electiveId);
+            return (elective != null && elective.getTaught() != null && elective.getTaught() == 1) ? true : false;
+        }
+        catch(IllegalArgumentException e){
+           e.printStackTrace();
+           return false;
+        } 
+    }
+
+    @Override
+    public boolean objectExistsInDb(Class c, Object id) {
+        try{
+            return entityManager.find(c, id) != null;
+        }
+        catch (IllegalArgumentException e){
+            return false;
+        }
+    }
+
+   
 }

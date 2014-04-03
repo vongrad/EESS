@@ -18,6 +18,7 @@ import ejb.DBManager;
 import ejb.DBManagerRemote;
 import ejb.Manager;
 import ejb.ManagerLocal;
+import entities.Elective;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -50,7 +51,7 @@ public class TestManager {
 
     @Test
     public void NR() {
-        //DBManager dbm = new DBManager();
+        ///DBManager dbm = new DBManager();
 
     }
 
@@ -173,6 +174,7 @@ public class TestManager {
         //  ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
         //  ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
         StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
+        
 
         // final FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
 //        context.checking(new Expectations() {
@@ -474,8 +476,30 @@ public class TestManager {
     
     @Test
     public void updateTaught(){
-        boolean result = dbm.setTaughtElectives(new int[] {54, 55});
-        assertEquals(true, result);
+        
+        int[] electiveTaughtIds = new int[] {54, 55, 53};
+        int[] electiveNotTaughtIds = new int[] {51, 52, 56, 57, 58};
+        int electiveNotExistId = 40;
+        
+        //returns true if ALL Elective has been updated
+        boolean result = dbm.setTaughtElectives(electiveTaughtIds);
+        assertTrue(result);
+        
+        //
+        for (int id : electiveTaughtIds) {
+            //returns true if Elective exists in the Database
+            assertTrue(dbm.objectExistsInDb(Elective.class, id));
+            //returns true if Elective has "taught" attribute set to true
+            assertTrue(dbm.isTaught(id));
+        }
+        
+        for (int id : electiveNotTaughtIds) {
+            assertTrue(dbm.objectExistsInDb(Elective.class, id));
+            assertFalse(dbm.isTaught(id));
+        }
+        
+        assertFalse(dbm.objectExistsInDb(Elective.class, electiveNotExistId));
+        assertFalse(dbm.isTaught(electiveNotExistId));  
     }
     
     @Test

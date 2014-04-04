@@ -6,6 +6,7 @@
 package data_assembler;
 
 import dto.ElectiveDTO;
+import dto.ElectiveSecondDTO;
 import entities.Elective;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +19,10 @@ public class ElectiveAssembler {
 
     public static ElectiveDTO assembleElectiveDTO(Elective e) {
         return new ElectiveDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed());
+    }
+
+    public static ElectiveSecondDTO assembleEleSecond(Elective elective) {
+        return new ElectiveSecondDTO(elective.getElectiveId(), elective.getTitle(), elective.getDescription(), elective.getCreationDate(), elective.getProposed(), elective.getPool());
     }
 
     public static Collection<ElectiveDTO> assembleElectiveDTO(Collection<Elective> es) {

@@ -9,9 +9,8 @@ import data_assembler.ElectiveAssembler;
 import data_assembler.VoteAssembler;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
-import dto.ElectiveSecondDTO;
-import dto.FirstRoundDTO;
-import dto.SecondRoundDTO;
+import dto.FirstVoteDTO;
+import dto.SecondVoteDTO;
 import dto.StudentDTO;
 import dto.StudentElectiveDTO;
 import dummy.IDataController;
@@ -68,23 +67,22 @@ public class DBManager implements DBManagerRemote {
         return studentDTOs;
     }
 
-    //Returns all the electives proposed by students and teachears!
-    @Override
-    public Collection<ElectiveDTO> getProposedElectives() {
-        ArrayList< ElectiveDTO> electiveDTOs = new ArrayList<>();
-        Query query = entityManager.createNamedQuery("Elective.findAll");
-        List<Elective> electives = query.getResultList();
-        for (Elective e : electives) {
-            if (e.getProposed().equals("0")) {
-                electiveDTOs.add(new ElectiveDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed()));
-            }
-        }
-        return electiveDTOs;
-    }
-
+//    //Returns all the electives proposed by students and teachears!
+//    @Override
+//    public Collection<ElectiveDTO> getProposedElectives() {
+//        ArrayList< ElectiveDTO> electiveDTOs = new ArrayList<>();
+//        Query query = entityManager.createNamedQuery("Elective.findAll");
+//        List<Elective> electives = query.getResultList();
+//        for (Elective e : electives) {
+//            if (e.getProposed().equals("0")) {
+//                electiveDTOs.add(new ElectiveDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed()));
+//            }
+//        }
+//        return electiveDTOs;
+//    }
     //Returns electives that has been approved by the head of program to go for the first round
     @Override
-    public Collection<ElectiveFirstDTO> getFirstElectives() {
+    public Collection<ElectiveFirstDTO> getFirstRndElectives() {
 
         ArrayList<ElectiveFirstDTO> electiveDTOs = new ArrayList<>();
         Query query = entityManager.createNamedQuery("Elective.findByProposed");
@@ -111,28 +109,36 @@ public class DBManager implements DBManagerRemote {
     }
 
     @Override
-    public void addFirstRndEle(ElectiveFirstDTO e) {
-        Elective el = new Elective(e.getElectiveID(), e.getTitle(), e.getDescription(), e.getDate(), e.getProposed());
-        entityManager.merge(el);
+    public boolean addElective(ElectiveDTO e) {
+
+        Elective el = new Elective(e.getElectiveID(), e.getTitle(), e.getDescription(), new Date(), e.getProposed());
+
+        try {
+            entityManager.persist(el);
+        } catch (EntityExistsException ex) {
+            ex.printStackTrace();
+            return false;
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+            return false;
+        } catch (TransactionRequiredException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
-    //INCREDIBLY terrible design
     @Override
-    public boolean addSecondRndStudentChoice(SecondRoundDTO s) {
+    public boolean addSecondRndStudentChoice(SecondVoteDTO secondVote) {
         try {
             Elective e1, e2, e3, e4;
-            Query query = entityManager.createNamedQuery("Elective.findByTitle");
-            query.setParameter("title", s.getFirstPriority1().getTitle());
-            e1 = (Elective) query.getSingleResult();
-            query.setParameter("title", s.getFirstPriority2().getTitle());
-            e2 = (Elective) query.getSingleResult();
-            query.setParameter("title", s.getSecondPriority1().getTitle());
-            e3 = (Elective) query.getSingleResult();
-            query.setParameter("title", s.getSecondPriority2().getTitle());
-            e4 = (Elective) query.getSingleResult();
-            query = entityManager.createNamedQuery("Student.findByCpr");
-            query.setParameter("cpr", s.getStudent().getCpr());
-            Student st = (Student) query.getSingleResult();
+
+            e1 = findElectiveById(secondVote.getFirstPriority1().getElectiveID());
+            e2 = findElectiveById(secondVote.getFirstPriority2().getElectiveID());
+            e3 = findElectiveById(secondVote.getSecondPriority1().getElectiveID());
+            e4 = findElectiveById(secondVote.getSecondPriority2().getElectiveID());
+
+            Student st = findStudentById(secondVote.getStudent().getCpr());
             SecondRoundVote frv = new SecondRoundVote(st.getCpr(), st, e1, e2, e3, e4);
 
             entityManager.persist(frv);
@@ -143,23 +149,17 @@ public class DBManager implements DBManagerRemote {
         }
     }
 
-    //INCREDIBLY terrible design
     @Override
-    public boolean addFirstRndStudentChoice(FirstRoundDTO f) {
+    public boolean addFirstRndStudentChoice(FirstVoteDTO firstVote) {
         try {
             Elective e1, e2, e3, e4;
-            Query query = entityManager.createNamedQuery("Elective.findByTitle");
-            query.setParameter("title", f.getFirstPriority1().getTitle());
-            e1 = (Elective) query.getSingleResult();
-            query.setParameter("title", f.getFirstPriority2().getTitle());
-            e2 = (Elective) query.getSingleResult();
-            query.setParameter("title", f.getSecondPriority1().getTitle());
-            e3 = (Elective) query.getSingleResult();
-            query.setParameter("title", f.getSecondPriority2().getTitle());
-            e4 = (Elective) query.getSingleResult();
-            query = entityManager.createNamedQuery("Student.findByCpr");
-            query.setParameter("cpr", f.getStudent().getCpr());
-            Student st = (Student) query.getSingleResult();
+
+            e1 = findElectiveById(firstVote.getFirstPriority1().getElectiveID());
+            e2 = findElectiveById(firstVote.getFirstPriority2().getElectiveID());
+            e3 = findElectiveById(firstVote.getSecondPriority1().getElectiveID());
+            e4 = findElectiveById(firstVote.getSecondPriority2().getElectiveID());
+
+            Student st = findStudentById(firstVote.getStudent().getCpr());
             FirstRoundVote frv = new FirstRoundVote(st.getCpr(), st, e1, e2, e3, e4);
 
             entityManager.persist(frv);
@@ -170,16 +170,28 @@ public class DBManager implements DBManagerRemote {
         }
     }
 
+    public Elective findElectiveById(int electiveId) {
+        return entityManager.find(Elective.class, electiveId);
+    }
+
+    public Student findStudentById(String CPR) {
+        return entityManager.find(Student.class, CPR);
+    }
+
     public void persist(Object object) {
         entityManager.persist(object);
     }
 
     @Override
-    public Collection<SecondRoundDTO> getSecondRoundVote() {
-        return VoteAssembler.assembleElectiveSecond(entityManager.createNamedQuery("SecondRoundVote.findAll").getResultList());
+    public Collection<SecondVoteDTO> getSecondRoundVote() {
+        return VoteAssembler.assembleSecondVote(entityManager.createNamedQuery("SecondRoundVote.findAll").getResultList());
     }
 
-    //STEFAN!N!N!N!
+    @Override
+    public Collection<FirstVoteDTO> getFirstRoundVote() {
+        return VoteAssembler.assembleFirstVote(entityManager.createNamedQuery("FirstRoundVote.findAll").getResultList());
+    }
+
     @Override
     public boolean setTaughtElectives(int[] electiveId) {
 
@@ -284,6 +296,7 @@ public class DBManager implements DBManagerRemote {
         return entityManager.find(Elective.class, electiveId).getProposed().equals("1");
     }
 
+    //returns true if elective exists in the database
     @Override
     public boolean isElective(int id) {
         try {
@@ -293,4 +306,36 @@ public class DBManager implements DBManagerRemote {
             return false;
         }
     }
+
+    @Override
+    public boolean removeElective(int electiveId) {
+
+        try {
+            Elective elective = entityManager.find(Elective.class, electiveId);
+
+            if (elective != null) {
+                entityManager.remove(elective);
+                entityManager.flush();
+
+                return true;
+            }
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+            return false;
+        } catch (TransactionRequiredException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public void restoreVoteTables() {
+        Query query1 = entityManager.createQuery("DELETE * FROM FIRST_ROUND_VOTE");
+        Query query2 = entityManager.createQuery("DELETE * FROM SECOND_ROUND_VOTE");
+        
+        query1.executeUpdate();
+        query2.executeUpdate();
+    }
+
 }

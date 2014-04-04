@@ -7,10 +7,8 @@ package Tests;
  */
 import com.sun.corba.se.spi.orb.DataCollector;
 import dto.ElectiveDTO;
-import dto.ElectiveFirstDTO;
-import dto.ElectiveSecondDTO;
-import dto.FirstRoundDTO;
-import dto.SecondRoundDTO;
+import dto.FirstVoteDTO;
+import dto.SecondVoteDTO;
 import dto.StudentDTO;
 import dto.StudentElectiveDTO;
 import dummy.IDataController;
@@ -81,6 +79,7 @@ public class TestManager {
     @Before
     public void setUp() {
         manager = new Manager();
+        //dbm.restoreVoteTables();
 
     }
 
@@ -89,19 +88,20 @@ public class TestManager {
     }
 
     @Test
-    public void addFirstRndEle() {
+    public void addElective() {
 
-        Mockery context = new JUnit4Mockery();
+        int electiveId = 100;
+        ElectiveDTO elective = new ElectiveDTO(electiveId, "Test", "Test", new Date(), "Test");
 
+        //Mockery context = new JUnit4Mockery();
         //final IDataController dataController = context.mock(IDataController.class);
-        final IDataController dataController = manager.getDataController();
-
+        //final IDataController dataController = manager.getDataController();
 //        final ElectiveFirstDTO elective = new ElectiveFirstDTO("Game Development", "Here you learn how to develop the best game engines!", new Date(2014, 03, 07), 1, 5);
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getFirstRndSize();
 //            will(returnValue(0));
 //        }});
-        assertEquals(dataController.getFirstRndSize(), 0);
+        assertEquals(dbm.getSuggestedElectives().size(), 8);
 
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).setFirsttRndEle(elective);
@@ -112,7 +112,9 @@ public class TestManager {
 //            oneOf(dataController).getFirstRndSize();
 //            will(returnValue(1));
 //        }});
-        assertEquals(dataController.getFirstRndSize(), 1);
+        assertTrue(dbm.addElective(elective));
+        assertEquals(dbm.getSuggestedElectives().size(), 9);
+        assertTrue(dbm.isElective(100));
 
 //       context.checking(new Expectations(){{
 //            oneOf(dataController).getLastFirstRndEle();
@@ -122,23 +124,30 @@ public class TestManager {
     }
 
     @Test
+    public void removeElective() {
+        int electiveId = 100;
+
+        assertEquals(dbm.getSuggestedElectives().size(), 9);
+        assertTrue(dbm.removeElective(electiveId));
+        assertFalse(dbm.isElective(electiveId));
+        assertEquals(dbm.getSuggestedElectives().size(), 8);
+    }
+
+    @Test
     public void getFirstRoundEle() {
 
-        Mockery context = new JUnit4Mockery();
-
+        // Mockery context = new JUnit4Mockery();
         //final IDataController dataController = context.mock(IDataController.class);
-        final IDataController dataController = manager.getDataController();
+        //final IDataController dataController = manager.getDataController();
         //    final ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
         //   final ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
-
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getFirstRndSize();
 //                will(returnValue(0));
 //            }
 //        });
-        assertEquals(0, dataController.getFirstRndSize());
-
+        //assertEquals(0, dataController.getFirstRndSize());
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).generateFirstRndEle();
@@ -150,9 +159,7 @@ public class TestManager {
 //                will(returnValue(8));
 //            }
 //        });
-        dataController.generateFirstRndEle();
-
-        assertEquals(8, dataController.getFirstRndSize());
+        assertEquals(8, dbm.getSuggestedElectives().size());
 
 //        context.checking(new Expectations() {
 //            {
@@ -176,17 +183,15 @@ public class TestManager {
     @Test
     public void getFirstRoundVote() {
 
-        Mockery context = new JUnit4Mockery();
-
+        //Mockery context = new JUnit4Mockery();
         //final IDataController dataController = context.mock(IDataController.class);
-        IDataController dataController = manager.getDataController();
-
+        //IDataController dataController = manager.getDataController();
 //        ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
         //  ElectiveFirstDTO el4 = new ElectiveFirstDTO("SW Design", "Here you learn the beauty of code.", new Date(), 2, 1);
         //  ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
         //  ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
-        StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
-
+        //StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
+        //assertEquals(dbm.get, this);
         // final FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
 //        context.checking(new Expectations() {
 //            {
@@ -194,16 +199,14 @@ public class TestManager {
 //                will(returnValue(0));
 //            }
 //        });
-        assertEquals(0, dataController.getFirstRndVoteSize());
-
+        //assertEquals(0, dataController.getFirstRndVoteSize());
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getLastFirstRoundVote();
 //                will(returnValue(null));
 //            }
 //        });
-        assertNull(dataController.getLastFirstRoundVote());
-
+        //assertNull(dataController.getLastFirstRoundVote());
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).generateFirstRoundVote();
@@ -215,8 +218,7 @@ public class TestManager {
 //                will(returnValue(4));
 //            }
 //        });
-        dataController.generateFirstRoundVote();
-
+        // dataController.generateFirstRoundVote();
 //        context.checking(new Expectations() {
 //            {
 //                oneOf(dataController).getLastFirstRoundVote();
@@ -270,8 +272,7 @@ public class TestManager {
 //            oneOf(dataController).getSecondRndSize();
 //            will(returnValue(6));
 //        }});
-        assertEquals(dataController.getSecondRndSize(), 6);
-
+//        assertEquals(dataController.getSecondRndSize(), 6);
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).getLastSecondRndEle();
 //            will(returnValue(el5));
@@ -340,10 +341,38 @@ public class TestManager {
     }
 
     @Test
+    public void addFirstRoundStudentChoice() {
+        ElectiveDTO e1 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+        ElectiveDTO e2 = new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1");
+        ElectiveDTO e3 = new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "1");
+        ElectiveDTO e4 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+
+        StudentDTO s = new StudentDTO("Adam", "Vongrej", "120423-4561");
+
+        FirstVoteDTO firstVote = new FirstVoteDTO(s, e1, e2, e3, e4);
+
+        assertEquals(0, dbm.getFirstRoundVote().size());
+        assertTrue(dbm.addFirstRndStudentChoice(firstVote));
+        assertEquals(1, dbm.getFirstRoundVote().size());
+    }
+
+    @Test
     public void addSecondRndStudentChoice() {
 
-        Mockery context = new JUnit4Mockery();
+        ElectiveDTO e1 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+        ElectiveDTO e2 = new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1");
+        ElectiveDTO e3 = new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "1");
+        ElectiveDTO e4 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
 
+        StudentDTO s = new StudentDTO("Adam", "Vongrej", "120423-4561");
+
+        SecondVoteDTO secondVote = new SecondVoteDTO(e1, e2, e3, e4, s);
+
+        assertEquals(0, dbm.getSecondRoundVote().size());
+        assertTrue(dbm.addSecondRndStudentChoice(secondVote));
+        assertEquals(1, dbm.getSecondRoundVote().size());
+
+//        Mockery context = new JUnit4Mockery();
 ////        //final IDataController dataController = context.mock(IDataController.class);
 ////        final IDataController dataController = manager.getDataController();
 ////
@@ -401,7 +430,7 @@ public class TestManager {
 //////        }});
 ////        //   assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
 ////        //   assertNotSame(dataController.getSecondRndVote(0).getStudent().getCpr(), dataController.getLastSecondRoundVote().getStudent().getCpr());
-   }
+    }
 
     public void checkStudentsList() {
         assertEquals(manager.getStudents().size() >= 1, true);
@@ -453,14 +482,14 @@ public class TestManager {
     public void checkFirstRoundList() {
         Collection<StudentDTO> students = manager.getStudents();
         Collection<ElectiveDTO> electives = manager.getProposedElectives();
-        Collection<FirstRoundDTO> firstRoundList = manager.getFirstRoundList();
-        for (FirstRoundDTO frs : firstRoundList) {
+        Collection<FirstVoteDTO> firstRoundList = manager.getFirstRoundList();
+        for (FirstVoteDTO frs : firstRoundList) {
             checkFirstVoteUnique(frs);
             checkStudent(frs.getStudent(), students);
         }
     }
 
-    public void checkFirstVoteUnique(FirstRoundDTO fr) {
+    public void checkFirstVoteUnique(FirstVoteDTO fr) {
         assertEquals(fr.getFirstPriority1() != fr.getFirstPriority2() && fr.getFirstPriority1() != fr.getSecondPriority1() && fr.getFirstPriority1() != fr.getSecondPriority2(), true);
         assertEquals((fr.getFirstPriority2() != fr.getSecondPriority1() && fr.getFirstPriority2() != fr.getSecondPriority2()), true);
         assertEquals((fr.getSecondPriority1() != fr.getSecondPriority2()), true);
@@ -482,7 +511,7 @@ public class TestManager {
 
     @Test
     public void testSecondRoundVote() {
-        Collection<SecondRoundDTO> secondRound = dbm.getSecondRoundVote();
+        Collection<SecondVoteDTO> secondRound = dbm.getSecondRoundVote();
     }
 
     @Test

@@ -8,8 +8,8 @@ package dummy;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
 import dto.ElectiveSecondDTO;
-import dto.FirstRoundDTO;
-import dto.SecondRoundDTO;
+import dto.FirstVoteDTO;
+import dto.SecondVoteDTO;
 import dto.StudentDTO;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,10 +23,10 @@ public class DataControllerImp implements IDataController {
     private ArrayList<ElectiveDTO> proposedElectives;
     private ArrayList<ElectiveFirstDTO> firstRoundEle;
     private ArrayList<ElectiveSecondDTO> secondRoundEle;
-    private ArrayList<FirstRoundDTO> firstRoundVote;
+    private ArrayList<FirstVoteDTO> firstRoundVote;
     private ArrayList<StudentDTO> students;
-    private ArrayList<FirstRoundDTO> firstRound;
-    private ArrayList<SecondRoundDTO> secondRound;
+    private ArrayList<FirstVoteDTO> firstRound;
+    private ArrayList<SecondVoteDTO> secondRound;
 
     public DataControllerImp() {
         this.firstRoundEle = new ArrayList<>();
@@ -134,7 +134,7 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public Collection<FirstRoundDTO> getFirstRoundVote() {
+    public Collection<FirstVoteDTO> getFirstRoundVote() {
         return firstRoundVote;
     }
 
@@ -144,14 +144,14 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public FirstRoundDTO getLastFirstRoundVote() {
+    public FirstVoteDTO getLastFirstRoundVote() {
         if (!firstRoundVote.isEmpty()) {
             return firstRoundVote.get(firstRoundVote.size() - 1);
         }
         return null;
     }
 
-    public ArrayList<FirstRoundDTO> getFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives) {
+    public ArrayList<FirstVoteDTO> getFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives) {
         if (firstRound.isEmpty()) {
             generateFirstRoundList(students, electives);
         }
@@ -168,7 +168,7 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public SecondRoundDTO getSecondRndVote(int index) {
+    public SecondVoteDTO getSecondRndVote(int index) {
         return secondRound.get(index);
     }
 
@@ -178,7 +178,7 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public SecondRoundDTO getLastSecondRoundVote() {
+    public SecondVoteDTO getLastSecondRoundVote() {
         if (!secondRound.isEmpty()) {
             return secondRound.get(secondRound.size() - 1);
         }
@@ -186,7 +186,7 @@ public class DataControllerImp implements IDataController {
     }
 
     @Override
-    public boolean setSecondRndStudentChoice(SecondRoundDTO secondRound) {
+    public boolean setSecondRndStudentChoice(SecondVoteDTO secondRound) {
         return this.secondRound.add(secondRound);
     }
 

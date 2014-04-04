@@ -6,15 +6,10 @@
 package ejb;
 
 import dto.ElectiveDTO;
-
 import dto.ElectiveFirstDTO;
-
 import dto.ElectiveSecondDTO;
-
-import dto.FirstRoundDTO;
-
-import dto.SecondRoundDTO;
-
+import dto.FirstVoteDTO;
+import dto.SecondVoteDTO;
 import dto.StudentDTO;
 import dummy.IDataController;
 import java.util.Collection;
@@ -31,7 +26,7 @@ public interface ManagerLocal {
 
     public void addSecondRndEle(ElectiveSecondDTO elective);
     //done
-    public boolean addSecondRndStudentChoice(SecondRoundDTO secondRound);
+    public boolean addSecondRndStudentChoice(SecondVoteDTO secondRound);
 
     public Collection<ElectiveFirstDTO> getFirstRound();
 
@@ -39,7 +34,7 @@ public interface ManagerLocal {
 //implemented in DB Manager
     public Collection<ElectiveDTO> getProposedElectives();
 
-    public Collection<FirstRoundDTO> getFirstRoundList();
+    public Collection<FirstVoteDTO> getFirstRoundList();
 // implemented in DB Manager
     public Collection<StudentDTO> getStudents();
 

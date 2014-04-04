@@ -8,8 +8,8 @@ package dummy;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
 import dto.ElectiveSecondDTO;
-import dto.FirstRoundDTO;
-import dto.SecondRoundDTO;
+import dto.FirstVoteDTO;
+import dto.SecondVoteDTO;
 import dto.StudentDTO;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,13 +49,13 @@ public class GenerateDummyData {
         return students;
     }
 
-    public static ArrayList<FirstRoundDTO> generateFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives) {
-        ArrayList<FirstRoundDTO> firstVotes = new ArrayList<>();
+    public static ArrayList<FirstVoteDTO> generateFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives) {
+        ArrayList<FirstVoteDTO> firstVotes = new ArrayList<>();
 
-        FirstRoundDTO fr1 = new FirstRoundDTO(students.get(0), electives.get(3), electives.get(2), electives.get(1), electives.get(4));
-        FirstRoundDTO fr2 = new FirstRoundDTO(students.get(8), electives.get(3), electives.get(0), electives.get(2), electives.get(1));
-        FirstRoundDTO fr3 = new FirstRoundDTO(students.get(9), electives.get(7), electives.get(3), electives.get(5), electives.get(6));
-        FirstRoundDTO fr4 = new FirstRoundDTO(students.get(10), electives.get(1), electives.get(7), electives.get(3), electives.get(6));
+        FirstVoteDTO fr1 = new FirstVoteDTO(students.get(0), electives.get(3), electives.get(2), electives.get(1), electives.get(4));
+        FirstVoteDTO fr2 = new FirstVoteDTO(students.get(8), electives.get(3), electives.get(0), electives.get(2), electives.get(1));
+        FirstVoteDTO fr3 = new FirstVoteDTO(students.get(9), electives.get(7), electives.get(3), electives.get(5), electives.get(6));
+        FirstVoteDTO fr4 = new FirstVoteDTO(students.get(10), electives.get(1), electives.get(7), electives.get(3), electives.get(6));
         firstVotes.add(fr1);
         firstVotes.add(fr2);
         firstVotes.add(fr3);
@@ -86,9 +86,9 @@ public class GenerateDummyData {
         return proposedElectives;
     }
 
-    public static ArrayList<FirstRoundDTO> generateFirstRoundVote() {
+    public static ArrayList<FirstVoteDTO> generateFirstRoundVote() {
 
-        ArrayList<FirstRoundDTO> firstRound = new ArrayList<>();
+        ArrayList<FirstVoteDTO> firstRound = new ArrayList<>();
 //
 //        ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
 //        ElectiveFirstDTO el2 = new ElectiveFirstDTO("Python", "Here you learn the basics of Python.", new Date(), 1, 1);
@@ -120,9 +120,9 @@ public class GenerateDummyData {
 
     }
 
-    public static ArrayList<SecondRoundDTO> generateSecondRoundVote() {
+    public static ArrayList<SecondVoteDTO> generateSecondRoundVote() {
 
-        ArrayList<SecondRoundDTO> secondRound = new ArrayList<>();
+        ArrayList<SecondVoteDTO> secondRound = new ArrayList<>();
 
         ElectiveSecondDTO el1 = new ElectiveSecondDTO(1,"C#", "Torban learning C#", new Date(), "1", "A");
         ElectiveSecondDTO el2 = new ElectiveSecondDTO(2,"SW Design", "Here you learn the beauty of code.", new Date(), "1", "A");
@@ -137,8 +137,8 @@ public class GenerateDummyData {
         StudentDTO s5 = new StudentDTO("Jhon Aron", "Var", "0123-456703");
         StudentDTO s6 = new StudentDTO("Lop", "Roy", "0123-451239");
 
-        SecondRoundDTO fr1 = new SecondRoundDTO(el1, el2, el3, el2, s5);
-        SecondRoundDTO fr2 = new SecondRoundDTO(null, null, null, null, s1);
+        SecondVoteDTO fr1 = new SecondVoteDTO(el1, el2, el3, el2, s5);
+        SecondVoteDTO fr2 = new SecondVoteDTO(null, null, null, null, s1);
 
         secondRound.add(fr1);
         secondRound.add(fr2);

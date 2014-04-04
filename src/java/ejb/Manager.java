@@ -3,8 +3,8 @@ package ejb;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
 import dto.ElectiveSecondDTO;
-import dto.FirstRoundDTO;
-import dto.SecondRoundDTO;
+import dto.FirstVoteDTO;
+import dto.SecondVoteDTO;
 import dto.StudentDTO;
 import dummy.DataControllerImp;
 import dummy.IDataController;
@@ -71,12 +71,12 @@ public class Manager implements ManagerLocal {
     }
 
     @Override
-    public Collection<FirstRoundDTO> getFirstRoundList() {
+    public Collection<FirstVoteDTO> getFirstRoundList() {
         return dataController.getFirstRoundList((ArrayList<StudentDTO>) this.getStudents(), (ArrayList<ElectiveDTO>) this.getProposedElectives());
     }
 
     @Override
-    public boolean addSecondRndStudentChoice(SecondRoundDTO secondRound) {
+    public boolean addSecondRndStudentChoice(SecondVoteDTO secondRound) {
         return dataController.setSecondRndStudentChoice(secondRound);
     }
 }

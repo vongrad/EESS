@@ -21,10 +21,6 @@ public class ElectiveAssembler {
         return new ElectiveDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed());
     }
 
-    public static ElectiveSecondDTO assembleEleSecond(Elective elective) {
-        return new ElectiveSecondDTO(elective.getElectiveId(), elective.getTitle(), elective.getDescription(), elective.getCreationDate(), elective.getProposed(), elective.getPool());
-    }
-
     public static Collection<ElectiveDTO> assembleElectiveDTO(Collection<Elective> es) {
         Collection<ElectiveDTO> electives = new ArrayList<>();
 

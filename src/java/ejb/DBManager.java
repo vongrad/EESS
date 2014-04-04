@@ -333,7 +333,7 @@ public class DBManager implements DBManagerRemote {
     public void restoreVoteTables() {
         Query query1 = entityManager.createQuery("DELETE * FROM FIRST_ROUND_VOTE");
         Query query2 = entityManager.createQuery("DELETE * FROM SECOND_ROUND_VOTE");
-        
+
         query1.executeUpdate();
         query2.executeUpdate();
     }

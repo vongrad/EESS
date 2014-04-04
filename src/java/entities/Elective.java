@@ -94,6 +94,15 @@ public class Elective implements Serializable {
         this.electiveId = electiveId;
     }
 
+    public Elective(String description, String proposed, String title, int electiveId) {
+        this.description = description;
+        this.proposed = proposed;
+        this.title = title;
+        this.electiveId = electiveId;
+    }
+    
+    
+
     public Elective() {
     }
 

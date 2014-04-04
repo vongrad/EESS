@@ -20,8 +20,10 @@ import ejb.Manager;
 import ejb.ManagerLocal;
 import entities.Elective;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;
@@ -44,10 +46,20 @@ import static org.junit.Assert.*;
  * @author Stefan
  */
 public class TestManager {
+
     DBManagerRemote dbm = lookupDBManagerRemote();
 
     ManagerLocal manager;
-  
+
+    private DBManagerRemote lookupDBManagerRemote() {
+        try {
+            Context c = new InitialContext();
+            return (DBManagerRemote) c.lookup("java:global/EESS_BackEnd/DBManager!ejb.DBManagerRemote");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
 
     @Test
     public void NR() {
@@ -69,7 +81,7 @@ public class TestManager {
     @Before
     public void setUp() {
         manager = new Manager();
-      
+
     }
 
     @After
@@ -116,7 +128,7 @@ public class TestManager {
 
         //final IDataController dataController = context.mock(IDataController.class);
         final IDataController dataController = manager.getDataController();
-    //    final ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
+        //    final ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
         //   final ElectiveFirstDTO el1 = new ElectiveFirstDTO("C#", "Torban learning C#", new Date(), 1, 1);
 
 //        context.checking(new Expectations() {
@@ -174,7 +186,6 @@ public class TestManager {
         //  ElectiveFirstDTO el7 = new ElectiveFirstDTO("Test drived development", "Tests first guys!", new Date(), 0, 2);
         //  ElectiveFirstDTO el8 = new ElectiveFirstDTO("Modern Func languages", "Here you learn recursions etc..", new Date(), 2, 0);
         StudentDTO s2 = new StudentDTO("Adolf", "Ray", "0123-456712");
-        
 
         // final FirstRoundDTO fr4 = new FirstRoundDTO(s2, el8, el4, el1, el7);
 //        context.checking(new Expectations() {
@@ -333,64 +344,64 @@ public class TestManager {
 
         Mockery context = new JUnit4Mockery();
 
-        //final IDataController dataController = context.mock(IDataController.class);
-        final IDataController dataController = manager.getDataController();
-
-//        final StudentDTO s3 = new StudentDTO("O'Really", "Jack", "0423-456789");
-//        final ElectiveSecondDTO el2 = new ElectiveSecondDTO("SW Design", "Here you learn the beauty of code.", new Date(), "A");
-//        final ElectiveSecondDTO el3 = new ElectiveSecondDTO("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
-//        final ElectiveSecondDTO el4 = new ElectiveSecondDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
-//        final ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
-     //   final SecondRoundDTO fr1 = new SecondRoundDTO(el4, el2, el3, el5, s3);
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getSecondRndVoteSize();
-//            will(returnValue(0));
-//        }});
-        assertEquals(dataController.getSecondRndVoteSize(), 0);
-
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).generateSecondRndVote();
-//        }});
-        dataController.generateFirstRoundVote();
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getSecondRndVoteSize();
-//            will(returnValue(2));
-//        }});
-
-        assertEquals(dataController.getSecondRndVoteSize(), 2);
-
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).setSecondRndStudentChoice(fr1);
-//            will(returnValue(true));
-//        }});
-//        assertTrue(dataController.setSecondRndStudentChoice(fr1));
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getLastSecondRoundVote();
-//            will(returnValue(fr1));
-//        }});
-        //       assertEquals(dataController.getLastSecondRoundVote().getStudent().getCpr(), fr1.getStudent().getCpr());
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getLastSecondRoundVote();
-//            will(returnValue(fr1));
-//        }});
-        //   assertEquals(dataController.getLastSecondRoundVote().getFirstPriority1().getTitle(), fr1.getFirstPriority1().getTitle());
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getLastSecondRoundVote();
-//            will(returnValue(fr1));
-//        }});
-        ///    assertEquals(dataController.getLastSecondRoundVote().getFirstPriority2().getTitle(), fr1.getFirstPriority2().getTitle());
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getLastSecondRoundVote();
-//            will(returnValue(fr1));
-//        }});
-        //  assertEquals(dataController.getLastSecondRoundVote().getSecondPriority1().getTitle(), fr1.getSecondPriority1().getTitle());
-//        context.checking(new Expectations(){{
-//            oneOf(dataController).getLastSecondRoundVote();
-//            will(returnValue(fr1));
-//        }});
-        //   assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
-     //   assertNotSame(dataController.getSecondRndVote(0).getStudent().getCpr(), dataController.getLastSecondRoundVote().getStudent().getCpr());
-    }
+////        //final IDataController dataController = context.mock(IDataController.class);
+////        final IDataController dataController = manager.getDataController();
+////
+//////        final StudentDTO s3 = new StudentDTO("O'Really", "Jack", "0423-456789");
+//////        final ElectiveSecondDTO el2 = new ElectiveSecondDTO("SW Design", "Here you learn the beauty of code.", new Date(), "A");
+//////        final ElectiveSecondDTO el3 = new ElectiveSecondDTO("Android", "Here you learn how to develop mobile apps.", new Date(), "B");
+//////        final ElectiveSecondDTO el4 = new ElectiveSecondDTO("Games", "Here you learn how to write/use basic game engines.", new Date(), "B");
+//////        final ElectiveSecondDTO el5 = new ElectiveSecondDTO("Python", "Here you learn the basics of Python.", new Date(), "B");
+////        //   final SecondRoundDTO fr1 = new SecondRoundDTO(el4, el2, el3, el5, s3);
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getSecondRndVoteSize();
+//////            will(returnValue(0));
+//////        }});
+////        assertEquals(dataController.getSecondRndVoteSize(), 0);
+////
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).generateSecondRndVote();
+//////        }});
+////        dataController.generateFirstRoundVote();
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getSecondRndVoteSize();
+//////            will(returnValue(2));
+//////        }});
+////
+////        assertEquals(dataController.getSecondRndVoteSize(), 2);
+////
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).setSecondRndStudentChoice(fr1);
+//////            will(returnValue(true));
+//////        }});
+//////        assertTrue(dataController.setSecondRndStudentChoice(fr1));
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getLastSecondRoundVote();
+//////            will(returnValue(fr1));
+//////        }});
+////        //       assertEquals(dataController.getLastSecondRoundVote().getStudent().getCpr(), fr1.getStudent().getCpr());
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getLastSecondRoundVote();
+//////            will(returnValue(fr1));
+//////        }});
+////        //   assertEquals(dataController.getLastSecondRoundVote().getFirstPriority1().getTitle(), fr1.getFirstPriority1().getTitle());
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getLastSecondRoundVote();
+//////            will(returnValue(fr1));
+//////        }});
+////        ///    assertEquals(dataController.getLastSecondRoundVote().getFirstPriority2().getTitle(), fr1.getFirstPriority2().getTitle());
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getLastSecondRoundVote();
+//////            will(returnValue(fr1));
+//////        }});
+////        //  assertEquals(dataController.getLastSecondRoundVote().getSecondPriority1().getTitle(), fr1.getSecondPriority1().getTitle());
+//////        context.checking(new Expectations(){{
+//////            oneOf(dataController).getLastSecondRoundVote();
+//////            will(returnValue(fr1));
+//////        }});
+////        //   assertEquals(dataController.getLastSecondRoundVote().getSecondPriority2().getTitle(), fr1.getSecondPriority2().getTitle());
+////        //   assertNotSame(dataController.getSecondRndVote(0).getStudent().getCpr(), dataController.getLastSecondRoundVote().getStudent().getCpr());
+   }
 
     public void checkStudentsList() {
         assertEquals(manager.getStudents().size() >= 1, true);
@@ -473,18 +484,18 @@ public class TestManager {
     public void testSecondRoundVote() {
         Collection<SecondRoundDTO> secondRound = dbm.getSecondRoundVote();
     }
-    
+
     @Test
-    public void updateTaught(){
-        
-        int[] electiveTaughtIds = new int[] {54, 55, 53};
-        int[] electiveNotTaughtIds = new int[] {51, 52, 56, 57, 58};
+    public void updateTaught() {
+
+        int[] electiveTaughtIds = new int[]{54, 55, 53};
+        int[] electiveNotTaughtIds = new int[]{51, 52, 56, 57, 58};
         int electiveNotExistId = 40;
-        
+
         //returns true if ALL Elective has been updated
         boolean result = dbm.setTaughtElectives(electiveTaughtIds);
         assertTrue(result);
-        
+
         //
         for (int id : electiveTaughtIds) {
             //returns true if Elective exists in the Database
@@ -492,18 +503,18 @@ public class TestManager {
             //returns true if Elective has "taught" attribute set to true
             assertTrue(dbm.isTaught(id));
         }
-        
+
         for (int id : electiveNotTaughtIds) {
             assertTrue(dbm.objectExistsInDb(Elective.class, id));
             assertFalse(dbm.isTaught(id));
         }
-        
+
         assertFalse(dbm.objectExistsInDb(Elective.class, electiveNotExistId));
-        assertFalse(dbm.isTaught(electiveNotExistId));  
+        assertFalse(dbm.isTaught(electiveNotExistId));
     }
-    
+
     @Test
-    public void addStudentEle(){
+    public void addStudentEle() {
         Collection<StudentElectiveDTO> studentEle = new ArrayList<>();
         studentEle.add(new StudentElectiveDTO(55, "764323-4519"));
         studentEle.add(new StudentElectiveDTO(54, "764323-4519"));
@@ -511,13 +522,44 @@ public class TestManager {
         assertEquals(true, result);
     }
 
-    private DBManagerRemote lookupDBManagerRemote() {
-        try {
-            Context c = new InitialContext();
-            return (DBManagerRemote) c.lookup("java:global/EESS_BackEnd/DBManager!ejb.DBManagerRemote");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
+    @Test
+    public void getSuggestedElectives() {
+
+        ArrayList<ElectiveDTO> electives = (ArrayList<ElectiveDTO>) dbm.getSuggestedElectives();
+
+        ElectiveDTO expectedFirst = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+        ElectiveDTO expectedLast = new ElectiveDTO(57, "Test drived development", "Tests first guys!", "1");
+
+        assertEquals(8, electives.size());
+        assertEquals(expectedFirst.getElectiveID(), electives.get(0).getElectiveID());
+        assertEquals(expectedFirst.getTitle(), electives.get(0).getTitle());
+        assertEquals(expectedFirst.getDescription(), electives.get(0).getDescription());
+
+        assertEquals(expectedLast.getElectiveID(), electives.get(electives.size() - 1).getElectiveID());
+        assertEquals(expectedLast.getTitle(), electives.get(electives.size() - 1).getTitle());
+        assertEquals(expectedLast.getDescription(), electives.get(electives.size() - 1).getDescription());
     }
+
+    @Test
+    public void approveElective() {
+
+        int[] electiveApprovedIds = new int[]{54, 55, 53};
+        int[] electiveNotApprovedIds = new int[]{51, 52, 56, 57, 58};
+        int electiveNotExistId = 40;
+
+        assertTrue(dbm.approveElective(electiveApprovedIds));
+
+        for (int id : electiveApprovedIds) {
+            assertTrue(dbm.isElective(id));
+            assertTrue(dbm.isApproved(id));
+        }
+
+        for (int id : electiveNotApprovedIds) {
+            assertTrue(dbm.isElective(id));
+            assertFalse(dbm.isApproved(id));
+
+        }
+        assertFalse(dbm.isElective(electiveNotExistId));
+    }
+
 }

@@ -5,6 +5,7 @@
  */
 package ejb;
 
+import data_assembler.ElectiveAssembler;
 import data_assembler.VoteAssembler;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
@@ -111,7 +112,7 @@ public class DBManager implements DBManagerRemote {
 
     @Override
     public void addFirstRndEle(ElectiveFirstDTO e) {
-        Elective el = new Elective(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getDate(), e.getProposed());
+        Elective el = new Elective(e.getElectiveID(), e.getTitle(), e.getDescription(), e.getDate(), e.getProposed());
         entityManager.merge(el);
     }
 
@@ -230,26 +231,66 @@ public class DBManager implements DBManagerRemote {
 
     @Override
     public boolean isTaught(int electiveId) {
-        
-        try{
+
+        try {
             Elective elective = entityManager.find(Elective.class, electiveId);
             return (elective != null && elective.getTaught() != null && elective.getTaught() == 1) ? true : false;
-        }
-        catch(IllegalArgumentException e){
-           e.printStackTrace();
-           return false;
-        } 
-    }
-
-    @Override
-    public boolean objectExistsInDb(Class c, Object id) {
-        try{
-            return entityManager.find(c, id) != null;
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
             return false;
         }
     }
 
-   
+    @Override
+    public boolean objectExistsInDb(Class c, Object id) {
+        try {
+            return entityManager.find(c, id) != null;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean approveElective(int[] electiveIds) {
+        try {
+            for (int id : electiveIds) {
+                Elective elective = entityManager.find(Elective.class, id);
+                elective.setProposed("1");
+                entityManager.persist(elective);
+            }
+        } catch (EntityExistsException e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        } catch (TransactionRequiredException e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Collection<ElectiveDTO> getSuggestedElectives() {
+        return ElectiveAssembler.assembleElectiveDTO(entityManager.createNamedQuery("Elective.findAll").getResultList());
+    }
+
+    @Override
+    public boolean isApproved(int electiveId) {
+        return entityManager.find(Elective.class, electiveId).getProposed().equals("1");
+    }
+
+    @Override
+    public boolean isElective(int id) {
+        try {
+            return entityManager.find(Elective.class, id) != null;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

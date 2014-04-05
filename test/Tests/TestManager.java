@@ -49,16 +49,6 @@ public class TestManager {
 
     ManagerLocal manager;
 
-    private DBManagerRemote lookupDBManagerRemote() {
-        try {
-            Context c = new InitialContext();
-            return (DBManagerRemote) c.lookup("java:global/EESS_BackEnd/DBManager!ejb.DBManagerRemote");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
     @Test
     public void NR() {
         ///DBManager dbm = new DBManager();
@@ -589,6 +579,16 @@ public class TestManager {
 
         }
         assertFalse(dbm.isElective(electiveNotExistId));
+    }
+
+    private DBManagerRemote lookupDBManagerRemote() {
+        try {
+            Context c = new InitialContext();
+            return (DBManagerRemote) c.lookup("java:global/EESS_BackEnd/DBManager!ejb.DBManagerRemote");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
     }
 
 }

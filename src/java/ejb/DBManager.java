@@ -9,6 +9,7 @@ import data_assembler.ElectiveAssembler;
 import data_assembler.VoteAssembler;
 import dto.ElectiveDTO;
 import dto.ElectiveFirstDTO;
+import dto.ElectiveSecondDTO;
 import dto.FirstVoteDTO;
 import dto.SecondVoteDTO;
 import dto.StudentDTO;
@@ -106,6 +107,36 @@ public class DBManager implements DBManagerRemote {
             }
         }
         return electiveDTOs;
+    }
+    
+    @Override
+    public Collection<ElectiveSecondDTO> getSecondRndElectivesA(){
+        
+        ArrayList<ElectiveSecondDTO> electiveDTOsA = new ArrayList<>();
+        Query query = entityManager.createNamedQuery("Elective.findByPoolA");
+        List<Elective> electives = query.getResultList();
+        
+        for (Elective e : electives){
+            electiveDTOsA.add(new ElectiveSecondDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), e.getPool()));
+        }
+        
+        return electiveDTOsA;
+        
+    }
+    
+    @Override
+    public Collection<ElectiveSecondDTO> getSecondRndElectivesB(){
+        
+        ArrayList<ElectiveSecondDTO> electiveDTOsB = new ArrayList<>();
+        Query query = entityManager.createNamedQuery("Elective.findByPoolB");
+        List<Elective> electives = query.getResultList();
+        
+        for (Elective e : electives){
+            electiveDTOsB.add(new ElectiveSecondDTO(e.getElectiveId(), e.getTitle(), e.getDescription(), e.getCreationDate(), e.getProposed(), e.getPool()));
+        }
+        
+        return electiveDTOsB;
+        
     }
 
     @Override

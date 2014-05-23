@@ -12,13 +12,17 @@ import dto.ElectiveFirstDTO;
 import dto.ElectiveSecondDTO;
 import dto.FirstVoteDTO;
 import dto.SecondVoteDTO;
+import dto.SkillDTO;
 import dto.StudentDTO;
 import dto.StudentElectiveDTO;
+import dto.TeacherDTO;
 import dummy.IDataController;
 import entities.Elective;
 import entities.FirstRoundVote;
 import entities.SecondRoundVote;
+import entities.Skill;
 import entities.Student;
+import entities.Teacher;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +71,25 @@ public class DBManager implements DBManagerRemote {
         }
         return studentDTOs;
     }
+    
+    @Override
+    public Collection<TeacherDTO> getTeachers() {
+        ArrayList<TeacherDTO> teacherDTOs = new ArrayList<>();
+        Query query = entityManager.createNamedQuery("Teacher.findAll");
+        List<Teacher> teachers = query.getResultList();
+        query = entityManager.createNamedQuery("Skill.findAll");
+        List<Skill> skills = query.getResultList();
+        ArrayList<SkillDTO> skillsDTO = new ArrayList<>();
+        
+        for (Skill s : skills){
+            skillsDTO.add(new SkillDTO(s.getId().intValue(), s.getSkillName()));
+        }
+        
+        for (Teacher t : teachers) {
+            teacherDTOs.add(new TeacherDTO(t.getFirstName(), t.getLastName(), t.getCpr(), skillsDTO));
+        }
+        return teacherDTOs;
+    }
 
 //    //Returns all the electives proposed by students and teachears!
 //    @Override
@@ -113,7 +136,8 @@ public class DBManager implements DBManagerRemote {
     public Collection<ElectiveSecondDTO> getSecondRndElectivesA(){
         
         ArrayList<ElectiveSecondDTO> electiveDTOsA = new ArrayList<>();
-        Query query = entityManager.createNamedQuery("Elective.findByPoolA");
+        Query query = entityManager.createNamedQuery("Elective.findByPool");
+        query.setParameter("pool", "a");
         List<Elective> electives = query.getResultList();
         
         for (Elective e : electives){
@@ -128,7 +152,8 @@ public class DBManager implements DBManagerRemote {
     public Collection<ElectiveSecondDTO> getSecondRndElectivesB(){
         
         ArrayList<ElectiveSecondDTO> electiveDTOsB = new ArrayList<>();
-        Query query = entityManager.createNamedQuery("Elective.findByPoolB");
+        Query query = entityManager.createNamedQuery("Elective.findByPool");
+        query.setParameter("pool", "b");
         List<Elective> electives = query.getResultList();
         
         for (Elective e : electives){

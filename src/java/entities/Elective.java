@@ -13,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -75,6 +77,7 @@ public class Elective implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ELECTIVE_ID")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int electiveId;
     @JoinColumn(name = "TEACHER", referencedColumnName = "CPR")
     @ManyToOne
@@ -89,6 +92,7 @@ public class Elective implements Serializable {
     }
 
     public Elective(String title, String description, Date creationDate, String proposed) {
+        this.title = title;
         this.creationDate = creationDate;
         this.description = description;
         this.electiveId = electiveId;

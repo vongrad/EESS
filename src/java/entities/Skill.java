@@ -8,6 +8,7 @@ package entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -32,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Skill.findAll", query = "SELECT s FROM Skill s"),
     @NamedQuery(name = "Skill.findById", query = "SELECT s FROM Skill s WHERE s.id = :id"),
+    @NamedQuery(name = "Skill.deleteAll", query = "DELETE FROM Skill"),
     @NamedQuery(name = "Skill.findBySkillName", query = "SELECT s FROM Skill s WHERE s.skillName = :skillName")})
 public class Skill implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -104,6 +106,14 @@ public class Skill implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public void addTeacher(Teacher teacher){
+        if (teacherCollection == null){
+            teacherCollection = new ArrayList<>();
+        }
+        
+        teacherCollection.add(teacher);
     }
 
     @Override

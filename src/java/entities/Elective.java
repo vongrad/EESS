@@ -45,13 +45,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Elective.findByPool", query = "SELECT e FROM Elective e WHERE e.pool = :pool"),
     @NamedQuery(name = "Elective.findByProposed", query = "SELECT e FROM Elective e WHERE e.proposed = :proposed"),
     @NamedQuery(name = "Elective.findByTitle", query = "SELECT e FROM Elective e WHERE e.title = :title"),
+    @NamedQuery(name = "Elective.deleteAll", query = "DELETE FROM Elective"),
     @NamedQuery(name = "Elective.findByElectiveId", query = "SELECT e FROM Elective e WHERE e.electiveId = :electiveId")})
 public class Elective implements Serializable {
-
+   
     @JoinTable(name = "STUDEN_ELECTIVE", joinColumns = {
         @JoinColumn(name = "ELECTIVE_ID", referencedColumnName = "ELECTIVE_ID")}, inverseJoinColumns = {
         @JoinColumn(name = "CPR", referencedColumnName = "CPR")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<Student> studentCollection;
 
     private static final long serialVersionUID = 1L;
@@ -80,13 +81,21 @@ public class Elective implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int electiveId;
     @JoinColumn(name = "TEACHER", referencedColumnName = "CPR")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    
     private Teacher teacher;
 
     public Elective(Integer electiveId, String title, String description, Date creationDate, String proposed) {
         this.creationDate = creationDate;
         this.description = description;
         this.proposed = proposed;
+        this.title = title;
+        this.electiveId = electiveId;
+    }
+    
+     public Elective(Integer electiveId, String title, String description, Date creationDate) {
+        this.creationDate = creationDate;
+        this.description = description;
         this.title = title;
         this.electiveId = electiveId;
     }
@@ -97,6 +106,7 @@ public class Elective implements Serializable {
         this.description = description;
         this.electiveId = electiveId;
     }
+    
 
     public Elective(String description, String proposed, String title, int electiveId) {
         this.description = description;

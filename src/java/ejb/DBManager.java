@@ -16,6 +16,7 @@ import dto.SkillDTO;
 import dto.StudentDTO;
 import dto.StudentElectiveDTO;
 import dto.TeacherDTO;
+import dummy.GenerateDummyData;
 import dummy.IDataController;
 import entities.Elective;
 import entities.FirstRoundVote;
@@ -320,9 +321,13 @@ public class DBManager implements DBManagerRemote {
 
     @Override
     public boolean approveElective(int[] electiveIds) {
+        
         try {
             for (int id : electiveIds) {
                 Elective elective = entityManager.find(Elective.class, id);
+                if (elective == null){
+                    return false;
+                }
                 elective.setProposed("1");
                 entityManager.persist(elective);
             }
@@ -392,6 +397,83 @@ public class DBManager implements DBManagerRemote {
 
         query1.executeUpdate();
         query2.executeUpdate();
+    }
+
+    @Override
+    public void restoreDatabase() {
+        
+        Query deleteStudents = entityManager.createNamedQuery("Student.deleteAll");
+        deleteStudents.executeUpdate();
+        List<StudentDTO> studentDTO = GenerateDummyData.generateStudents();
+        
+        for (StudentDTO stDTO : studentDTO) {
+            Student student = new Student(stDTO.getCpr(), stDTO.getFirstName(), stDTO.getLastName());
+            entityManager.persist(student);
+        }
+        
+        
+//        Query deleteElectives = entityManager.createNamedQuery("Elective.deleteAll");
+//        deleteElectives.executeUpdate();
+//        
+//        List<ElectiveDTO> electiveDTO = GenerateDummyData.generateProposedEle();
+//        
+//        for (int i = 0; i < electiveDTO.size(); i++) {
+//            Elective elective = new Elective(i, electiveDTO.get(i).getTitle(), electiveDTO.get(i).getDescription(), electiveDTO.get(i).getDate());
+//            entityManager.persist(elective);
+//        }
+        
+        
+        
+        
+        
+    }
+    
+    private void generateTeacherSkill(ArrayList<Teacher> teachers, ArrayList<Skill> skills){
+        
+        teachers.get(0).addSkill(skills.get(0));
+        skills.get(0).addTeacher(teachers.get(0));
+        
+        teachers.get(1).addSkill(skills.get(1));
+        skills.get(1).addTeacher(teachers.get(1));
+        
+        teachers.get(2).addSkill(skills.get(2));
+        skills.get(2).addTeacher(teachers.get(2));
+        
+        teachers.get(3).addSkill(skills.get(1));
+        skills.get(1).addTeacher(teachers.get(3));
+        
+        for (Skill skill : skills) {
+            entityManager.persist(skill);
+        }
+        
+        for (Teacher teacher : teachers) {
+            entityManager.persist(teacher);
+        }
+    }
+
+    @Override
+    public boolean disapproveElective(int[] electiveIds) {
+
+        try {
+            for (int id : electiveIds) {
+                Elective elective = entityManager.find(Elective.class, id);
+                elective.setProposed("0");
+                entityManager.persist(elective);
+            }
+        } catch (EntityExistsException e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        } catch (TransactionRequiredException e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        return true;
     }
 
 }

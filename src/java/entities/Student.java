@@ -35,10 +35,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
     @NamedQuery(name = "Student.findByCpr", query = "SELECT s FROM Student s WHERE s.cpr = :cpr"),
     @NamedQuery(name = "Student.findByFirstName", query = "SELECT s FROM Student s WHERE s.firstName = :firstName"),
+    @NamedQuery(name = "Student.deleteAll", query = "DELETE FROM Student"),
     @NamedQuery(name = "Student.findByLastName", query = "SELECT s FROM Student s WHERE s.lastName = :lastName")})
 public class Student implements Serializable {
 
-    @ManyToMany(mappedBy = "studentCollection")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentCollection")
     private Collection<Elective> electiveCollection;
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,10 +55,10 @@ public class Student implements Serializable {
     @Column(name = "LAST_NAME")
     private String lastName;
     @JoinColumn(name = "SECONDARY_ELECTIVE", referencedColumnName = "ELECTIVE_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Elective secondaryElective;
     @JoinColumn(name = "PRIMARY_ELECTIVE", referencedColumnName = "ELECTIVE_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Elective primaryElective;
 
     public Student() {

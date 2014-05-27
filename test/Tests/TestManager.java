@@ -7,6 +7,7 @@ package Tests;
  */
 import com.sun.corba.se.spi.orb.DataCollector;
 import dto.ElectiveDTO;
+import dto.ElectiveFirstDTO;
 import dto.FirstVoteDTO;
 import dto.SecondVoteDTO;
 import dto.StudentDTO;
@@ -17,6 +18,7 @@ import ejb.DBManagerRemote;
 import ejb.Manager;
 import ejb.ManagerLocal;
 import entities.Elective;
+import entities.FirstRoundVote;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -34,10 +36,10 @@ import org.jmock.api.Expectation;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -71,6 +73,8 @@ public class TestManager {
         manager = new Manager();
         //dbm.restoreVoteTables();
 
+      
+
     }
 
     @After
@@ -81,6 +85,11 @@ public class TestManager {
     public void addElective() {
 
         int electiveId = 100;
+        
+        if (dbm.isElective(electiveId)){
+            assertTrue(dbm.removeElective(electiveId));
+        }
+        
         ElectiveDTO elective = new ElectiveDTO(electiveId, "Test", "Test", new Date(), "Test");
 
         //Mockery context = new JUnit4Mockery();
@@ -91,7 +100,7 @@ public class TestManager {
 //            oneOf(dataController).getFirstRndSize();
 //            will(returnValue(0));
 //        }});
-        assertEquals(dbm.getSuggestedElectives().size(), 8);
+        int size = dbm.getSuggestedElectives().size();
 
 //        context.checking(new Expectations(){{
 //            oneOf(dataController).setFirsttRndEle(elective);
@@ -103,29 +112,37 @@ public class TestManager {
 //            will(returnValue(1));
 //        }});
         assertTrue(dbm.addElective(elective));
-        assertEquals(dbm.getSuggestedElectives().size(), 9);
+        assertEquals(dbm.getSuggestedElectives().size(), size + 1);
         assertTrue(dbm.isElective(100));
+        assertTrue(dbm.removeElective(electiveId));
 
 //       context.checking(new Expectations(){{
 //            oneOf(dataController).getLastFirstRndEle();
 //            will(returnValue(elective));
 //        }}); 
 //        assertEquals(dataController.getLastFirstRndEle(), elective);
-    }
-
-    @Test
-    public void removeElective() {
-        int electiveId = 100;
-
-        assertEquals(dbm.getSuggestedElectives().size(), 9);
-        assertTrue(dbm.removeElective(electiveId));
-        assertFalse(dbm.isElective(electiveId));
-        assertEquals(dbm.getSuggestedElectives().size(), 8);
+        
     }
 
     @Test
     public void getFirstRoundEle() {
+        
+        ArrayList<ElectiveDTO> static_firstRoundElective = new ArrayList<>();
+        //static_firstRoundElective.add(new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(53, "Android", "Here you learn how to develop mobile apps.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(999, "Math", "Algorythms and stuff", "1"));
 
+        ArrayList<ElectiveFirstDTO> retrieved_firstRoundElective = (ArrayList<ElectiveFirstDTO>)dbm.getFirstRndElectives();
+        assertEquals(static_firstRoundElective.size(), retrieved_firstRoundElective.size());
+        
+        for (int i = 0; i < static_firstRoundElective.size(); i++) {
+            assertEquals(static_firstRoundElective.get(i).getElectiveID(), retrieved_firstRoundElective.get(i).getElectiveID());
+            assertEquals(static_firstRoundElective.get(i).getTitle(), retrieved_firstRoundElective.get(i).getTitle());
+            assertEquals(static_firstRoundElective.get(i).getDescription(), retrieved_firstRoundElective.get(i).getDescription());
+            assertEquals(static_firstRoundElective.get(i).getProposed(), retrieved_firstRoundElective.get(i).getProposed());
+        }
+        
         // Mockery context = new JUnit4Mockery();
         //final IDataController dataController = context.mock(IDataController.class);
         //final IDataController dataController = manager.getDataController();
@@ -149,7 +166,6 @@ public class TestManager {
 //                will(returnValue(8));
 //            }
 //        });
-        assertEquals(8, dbm.getSuggestedElectives().size());
 
 //        context.checking(new Expectations() {
 //            {
@@ -172,7 +188,23 @@ public class TestManager {
 
     @Test
     public void getFirstRoundVote() {
+        
+        ArrayList<ElectiveDTO> static_firstRoundElective = new ArrayList<>();
+        static_firstRoundElective.add(new ElectiveDTO(53, "Android", "Here you learn how to develop mobile apps.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(999, "Math", "Algorythms and stuff", "1"));
 
+
+        ArrayList<ElectiveFirstDTO> retrieved_firstRoundElective = (ArrayList<ElectiveFirstDTO>)dbm.getFirstRndElectives();
+        assertEquals(static_firstRoundElective.size(), retrieved_firstRoundElective.size());
+        
+        for (int i = 0; i < static_firstRoundElective.size(); i++) {
+            assertEquals(static_firstRoundElective.get(i).getElectiveID(), retrieved_firstRoundElective.get(i).getElectiveID());
+            assertEquals(static_firstRoundElective.get(i).getTitle(), retrieved_firstRoundElective.get(i).getTitle());
+            assertEquals(static_firstRoundElective.get(i).getDescription(), retrieved_firstRoundElective.get(i).getDescription());
+            assertEquals(static_firstRoundElective.get(i).getProposed(), retrieved_firstRoundElective.get(i).getProposed());
+        }
+        
         //Mockery context = new JUnit4Mockery();
         //final IDataController dataController = context.mock(IDataController.class);
         //IDataController dataController = manager.getDataController();
@@ -332,35 +364,35 @@ public class TestManager {
 
     @Test
     public void addFirstRoundStudentChoice() {
-        ElectiveDTO e1 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
-        ElectiveDTO e2 = new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1");
-        ElectiveDTO e3 = new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "1");
-        ElectiveDTO e4 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
-
-        StudentDTO s = new StudentDTO("Adam", "Vongrej", "120423-4561");
-
-        FirstVoteDTO firstVote = new FirstVoteDTO(s, e1, e2, e3, e4);
-
-        assertEquals(0, dbm.getFirstRoundVote().size());
-        assertTrue(dbm.addFirstRndStudentChoice(firstVote));
-        assertEquals(1, dbm.getFirstRoundVote().size());
+//        ElectiveDTO e1 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+//        ElectiveDTO e2 = new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1");
+//        ElectiveDTO e3 = new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "1");
+//        ElectiveDTO e4 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+//
+//        StudentDTO s = new StudentDTO("Adam", "Vongrej", "120423-4561");
+//
+//        FirstVoteDTO firstVote = new FirstVoteDTO(s, e1, e2, e3, e4);
+//
+//        int previousSize = dbm.getFirstRoundVote().size();
+//        assertTrue(dbm.addFirstRndStudentChoice(firstVote));
+//        assertEquals(previousSize + 1, dbm.getFirstRoundVote().size());
     }
 
     @Test
     public void addSecondRndStudentChoice() {
-
-        ElectiveDTO e1 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
-        ElectiveDTO e2 = new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1");
-        ElectiveDTO e3 = new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "1");
-        ElectiveDTO e4 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
-
-        StudentDTO s = new StudentDTO("Adam", "Vongrej", "120423-4561");
-
-        SecondVoteDTO secondVote = new SecondVoteDTO(e1, e2, e3, e4, s);
-
-        assertEquals(0, dbm.getSecondRoundVote().size());
-        assertTrue(dbm.addSecondRndStudentChoice(secondVote));
-        assertEquals(1, dbm.getSecondRoundVote().size());
+//
+//        ElectiveDTO e1 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+//        ElectiveDTO e2 = new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1");
+//        ElectiveDTO e3 = new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "1");
+//        ElectiveDTO e4 = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
+//
+//        StudentDTO s = new StudentDTO("Adam", "Vongrej", "120423-4561");
+//
+//        SecondVoteDTO secondVote = new SecondVoteDTO(e1, e2, e3, e4, s);
+//
+//        int size = dbm.getSecondRoundVote().size();
+//        assertTrue(dbm.addSecondRndStudentChoice(secondVote));
+//        assertEquals(size + 1, dbm.getSecondRoundVote().size());
 
 //        Mockery context = new JUnit4Mockery();
 ////        //final IDataController dataController = context.mock(IDataController.class);
@@ -500,11 +532,6 @@ public class TestManager {
     }
 
     @Test
-    public void testSecondRoundVote() {
-        Collection<SecondVoteDTO> secondRound = dbm.getSecondRoundVote();
-    }
-
-    @Test
     public void updateTaught() {
 
         int[] electiveTaughtIds = new int[]{54, 55, 53};
@@ -544,27 +571,37 @@ public class TestManager {
     @Test
     public void getSuggestedElectives() {
 
-        ArrayList<ElectiveDTO> electives = (ArrayList<ElectiveDTO>) dbm.getSuggestedElectives();
+        ArrayList<ElectiveDTO> static_firstRoundElective = new ArrayList<>();
+        static_firstRoundElective.add(new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(58, "Modern Func languages", "Here you learn recursions etc..", "0"));
+        static_firstRoundElective.add(new ElectiveDTO(53, "Android", "Here you learn how to develop mobile apps.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(54, "SW Design", "Here you learn the beauty of code.", "1"));
+        static_firstRoundElective.add(new ElectiveDTO(52, "Python", "Here you learn the basics of Python.", "0"));
+        static_firstRoundElective.add(new ElectiveDTO(56, "Databases", "Here you learn how to persistently store bulks of data.", "0"));
+        static_firstRoundElective.add(new ElectiveDTO(51, "C#", "Torban learning C#", "0"));
+        static_firstRoundElective.add(new ElectiveDTO(57, "Test drived development", "Tests first guys!", "0"));
+        static_firstRoundElective.add(new ElectiveDTO(999, "Math", "Algorythms and stuff", "1"));
 
-        ElectiveDTO expectedFirst = new ElectiveDTO(55, "Games", "Here you learn how to write/use basic game engines.", "1");
-        ElectiveDTO expectedLast = new ElectiveDTO(57, "Test drived development", "Tests first guys!", "1");
 
-        assertEquals(8, electives.size());
-        assertEquals(expectedFirst.getElectiveID(), electives.get(0).getElectiveID());
-        assertEquals(expectedFirst.getTitle(), electives.get(0).getTitle());
-        assertEquals(expectedFirst.getDescription(), electives.get(0).getDescription());
-
-        assertEquals(expectedLast.getElectiveID(), electives.get(electives.size() - 1).getElectiveID());
-        assertEquals(expectedLast.getTitle(), electives.get(electives.size() - 1).getTitle());
-        assertEquals(expectedLast.getDescription(), electives.get(electives.size() - 1).getDescription());
+        ArrayList<ElectiveDTO> retrieved_firstRoundElective = (ArrayList<ElectiveDTO>)dbm.getSuggestedElectives();
+        assertEquals(static_firstRoundElective.size(), retrieved_firstRoundElective.size());
+        
+        for (int i = 0; i < static_firstRoundElective.size(); i++) {
+            assertEquals(static_firstRoundElective.get(i).getElectiveID(), retrieved_firstRoundElective.get(i).getElectiveID());
+            assertEquals(static_firstRoundElective.get(i).getTitle(), retrieved_firstRoundElective.get(i).getTitle());
+            assertEquals(static_firstRoundElective.get(i).getDescription(), retrieved_firstRoundElective.get(i).getDescription());
+            assertEquals(static_firstRoundElective.get(i).getProposed(), retrieved_firstRoundElective.get(i).getProposed());
+        }
     }
 
     @Test
     public void approveElective() {
-
+        
+        assertTrue(dbm.disapproveElective(new int[] {51, 52, 53, 54, 55, 56, 57, 58}));
+        
         int[] electiveApprovedIds = new int[]{54, 55, 53};
         int[] electiveNotApprovedIds = new int[]{51, 52, 56, 57, 58};
-        int electiveNotExistId = 40;
+        int[] electiveNotExistId = new int[] {40};
 
         assertTrue(dbm.approveElective(electiveApprovedIds));
 
@@ -576,9 +613,11 @@ public class TestManager {
         for (int id : electiveNotApprovedIds) {
             assertTrue(dbm.isElective(id));
             assertFalse(dbm.isApproved(id));
-
         }
-        assertFalse(dbm.isElective(electiveNotExistId));
+        
+        
+        assertFalse(dbm.isElective(electiveNotExistId[0]));
+        assertFalse(dbm.approveElective(electiveNotExistId));
     }
 
     private DBManagerRemote lookupDBManagerRemote() {

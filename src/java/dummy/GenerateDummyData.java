@@ -11,9 +11,13 @@ import dto.ElectiveSecondDTO;
 import dto.FirstVoteDTO;
 import dto.SecondVoteDTO;
 import dto.StudentDTO;
+import entities.Skill;
+import entities.Teacher;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -48,6 +52,39 @@ public class GenerateDummyData {
 
         return students;
     }
+    
+    public static ArrayList<Teacher> generateTeachers(){
+        
+        ArrayList<Teacher> teachers = new ArrayList<>();
+        
+//        Skill skill1 = new Skill(BigDecimal.valueOf(1), "C#");
+//        Skill skill2 =new Skill(BigDecimal.valueOf(2), "BackEnd");
+//        Skill skill3 =new Skill(BigDecimal.valueOf(3), "FrontEnd");
+//        Skill skill4 =new Skill(BigDecimal.valueOf(4), "Software Development");
+        
+        Teacher t1 = new Teacher("123412-2343", "Jack", "Black");
+        Teacher t2 = new Teacher("123412-2003", "Jack", "Really");
+        Teacher t3 = new Teacher("123412-2133", "Corleone", "Elsalvador");
+        
+        teachers.add(t1);
+        teachers.add(t2);
+        teachers.add(t3);
+ 
+        return teachers;
+    }
+    
+    public static ArrayList<Skill> generateSkills(){
+        ArrayList<Skill> skills = new ArrayList<>();
+        skills.add(new Skill(BigDecimal.valueOf(1), "C#"));
+        skills.add(new Skill(BigDecimal.valueOf(2), "BackEnd"));
+        skills.add(new Skill(BigDecimal.valueOf(3), "FrontEnd"));
+        skills.add(new Skill(BigDecimal.valueOf(4), "Software Development"));
+        return skills;
+    }
+    
+  
+    
+
 
     public static ArrayList<FirstVoteDTO> generateFirstRoundList(ArrayList<StudentDTO> students, ArrayList<ElectiveDTO> electives) {
         ArrayList<FirstVoteDTO> firstVotes = new ArrayList<>();

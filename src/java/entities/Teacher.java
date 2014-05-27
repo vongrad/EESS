@@ -7,6 +7,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Teacher.findAll", query = "SELECT t FROM Teacher t"),
     @NamedQuery(name = "Teacher.findByCpr", query = "SELECT t FROM Teacher t WHERE t.cpr = :cpr"),
     @NamedQuery(name = "Teacher.findByFirstName", query = "SELECT t FROM Teacher t WHERE t.firstName = :firstName"),
+    @NamedQuery(name = "Teacher.deleteAll", query = "DELETE FROM Teacher"),
     @NamedQuery(name = "Teacher.findByLastName", query = "SELECT t FROM Teacher t WHERE t.lastName = :lastName")})
 public class Teacher implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -106,6 +108,13 @@ public class Teacher implements Serializable {
 
     public void setSkillCollection(Collection<Skill> skillCollection) {
         this.skillCollection = skillCollection;
+    }
+    
+    public void addSkill(Skill skill){
+        if (skillCollection == null){
+            skillCollection = new ArrayList<>();
+        }
+        skillCollection.add(skill);
     }
 
     @XmlTransient
